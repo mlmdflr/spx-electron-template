@@ -1,0 +1,101 @@
+{
+  "compression": "maximum",
+  "productName": "xps-electron-ts-vue3-template",
+  "appId": "org.xps-electron-ts-vue3-template",
+  "copyright": "MIT",
+  "asar": true,
+  "directories": {
+    "output": "out"
+  },
+  "files": [
+    "dist/",
+    {
+      "from": "resources/inside",
+      "to": "inside/",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ],
+  "extraFiles": [
+    {
+      "from": "resources/root",
+      "to": "./"
+    }
+  ],
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowElevation": true,
+    "allowToChangeInstallationDirectory": true,
+    "installerIcon": "build/icons/icon.ico",
+    "uninstallerIcon": "build/icons/unicon.ico",
+    "installerHeaderIcon": "build/icons/icon.ico",
+    "installerSidebar": "build/icons/modern-wizard.bmp",
+    "uninstallerSidebar": "build/icons/modern-wizard.bmp",
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "xps-electron-ts-vue3-template",
+    "include": "build/cfg/installer.nsh",
+    "menuCategory": false,
+    "displayLanguageSelector": false
+  },
+  "dmg": {
+    "contents": [
+      {
+        "x": 410,
+        "y": 150,
+        "type": "link",
+        "path": "/Applications"
+      },
+      {
+        "x": 130,
+        "y": 150,
+        "type": "file"
+      }
+    ]
+  },
+  "mac": {
+    "icon": "build/icons/icon.icns"
+  },
+  "win": {
+    "icon": "build/icons/icon.ico",
+    "requestedExecutionLevel": "asInvoker",
+    "target": [
+      {
+        "target": "nsis",
+        "arch": [
+          "ia32"
+        ]
+      }
+    ]
+  },
+  "linux": {
+    "icon": "build/icons",
+    "target": "AppImage",
+    "executableName": "xps-electron-ts-vue3-template"
+  },
+  "npmRebuild": true,
+  "publish": [
+    {
+      "provider": "generic",
+      "url": "http://127.0.0.1/public"
+    }
+  ],
+  "extraResources": [
+    {
+      "from": "resources/extern",
+      "to": "extern/",
+      "filter": [
+        "**/*"
+      ]
+    },
+    {
+      "from": "resources/platform/win32",
+      "to": "platform/win32",
+      "filter": [
+        "**/*"
+      ]
+    }
+  ]
+}
