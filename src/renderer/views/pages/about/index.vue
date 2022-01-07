@@ -3,10 +3,10 @@
     <Head />
     <div class="about-info">
       <ElImage
-        src="https://portrait.gitee.com/uploads/avatars/user/2624/7874260_liaozhi_5_1625049015.png"
+        src="https://avatars.githubusercontent.com/u/93173537?v=4"
         style="width: 68px; height: 68px"
         alt="@沒禮貌的芬蘭人"
-        :preview-src-list="['https://portrait.gitee.com/uploads/avatars/user/2624/7874260_liaozhi_5_1625049015.png']"
+        :preview-src-list="['https://avatars.githubusercontent.com/u/93173537?v=4']"
       ></ElImage>
       <div @click="open" class="name">没礼貌的芬兰人</div>
       <ElButton @click="toHome">首页</ElButton>
@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { windowCreate, windowShow } from '@/renderer/common/window';
+import { windowShow } from '@/renderer/common/window';
 import { openUrl } from '@/renderer/common';
 import { ElImage, ElButton } from 'element-plus'
 import Router from '@/renderer/router';
@@ -29,7 +29,7 @@ onMounted(() => {
 
 
 function open() {
-  openUrl('https://gitee.com/liaozhi_5');
+  openUrl('https://github.com/mlmdflr');
 }
 
 function toHome() {

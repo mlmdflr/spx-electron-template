@@ -1,6 +1,6 @@
 import { join } from 'path';
 import type { BrowserWindowConstructorOptions, LoadFileOptions, LoadURLOptions } from 'electron';
-import { app, screen, ipcMain, BrowserWindow } from 'electron';
+import { app, screen, ipcMain, BrowserWindow, session } from 'electron';
 import { snowflake } from "@/util/snowflake";
 import { isNull } from '@/util';
 import Global from '@/main/modular/general/global'
@@ -83,6 +83,13 @@ export function browserWindowInit(
    * @date 2021-09-25 11:54:59
    */
   if (!isNull(customize.id) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
+
+  /**
+   * session 设置
+   */
+  // opt.webPreferences.partition = 'session'
+  // console.log(opt);
+  
 
   const win = new BrowserWindow(opt);
 
