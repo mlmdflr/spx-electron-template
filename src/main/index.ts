@@ -29,11 +29,6 @@ await App.use([
 ]);
 
 // 窗口
-// Window.create({
-//   url:'https://151.207.240.78:80/bin/gate.exe?f=login&p_lang=english&p_d=trmk',
-//   loadingAnimation:true,
-// }, opt);
-
 Window.create(customize, opt);
 
 // 托盘

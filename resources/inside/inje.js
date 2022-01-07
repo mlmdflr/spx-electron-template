@@ -184,7 +184,7 @@ function net(url, param) {
             if (!url?.startsWith('http://') && !url?.startsWith('https://'))
                 url = 'https://' + url;
             abort = null;
-            if (!param.signal) abort = timeOutAbort(param.timeout);
+            if (!param.signal) abort = timeOutAbort(param.timeout ?? 3000);
             sendData = {
                 isHeaders: param.isHeaders,
                 isStringify: param.isStringify,
@@ -226,7 +226,7 @@ function net(url, param) {
  * @param value
  * @returns
  */
- function sleep(duration, value) {
+function sleep(duration, value) {
     var durationInMilliseconds;
     if (!isFinite(duration) ||
         Math.floor(duration) !== duration ||
@@ -248,7 +248,7 @@ function net(url, param) {
  * @author 没礼貌的芬兰人
  * @date 2021-10-06 17:13:16
  */
- var snowflake = /** @class */ (function () {
+var snowflake = /** @class */ (function () {
     function snowflake(workerId, dataCenterId) {
         this.twepoch = 1548988646430n;
         this.workerIdBits = 5n; // 标识ID

@@ -4,7 +4,7 @@
     <div :ref="elDom" class="home-info">
       <div>hello {{ version }}</div>
       <ElButton type="info" @click="toAbout">关于</ElButton>
-      <ElButton type="info" @click="toElectron">打开Electron</ElButton>
+      <ElButton type="info" @click="toRepositories">打开仓库</ElButton>
       <ElButton type="info" @click="test">弹个框</ElButton>
       <ElButton type="info" @click="generate_snowflake">生成雪花算法id</ElButton>
       <ElButton type="info" @click="updateTest">检查更新</ElButton>
@@ -143,10 +143,11 @@ function toAbout() {
   Router.push('/about');
 }
 
-function toElectron() {
+function toRepositories() {
   windowCreate({
     id: 0,
-    url: 'https://github.com/mlmdflr',
+    url: 'https://github.com/mlmdflr/xps-electron-vue-template',
+    isOpenMultiWindow:true,
     loadingAnimation: true
   }, {
     width: 800,
