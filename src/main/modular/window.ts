@@ -114,6 +114,7 @@ export function browserWindowInit(
     id: new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId(),
     ...customize
   };
+
   if (!win.customize.argv) win.customize.argv = process.argv;
   return win;
 }

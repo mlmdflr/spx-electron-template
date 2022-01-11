@@ -9,6 +9,7 @@ const Webpack = require('Webpack');
 module.exports = (env) => {
   return {
     experiments: base.experiments,
+    externals: base.externals,
     node: {
       ...base.node
     },

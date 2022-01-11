@@ -170,15 +170,15 @@ async function launchSwitch(params: any) {
 }
 
 async function platformPath() {
-  ElNotification.success(await getPlatformPath('t.txt'));
+  ElNotification.success(await getPlatformPath());
 }
 
 async function externPath() {
-  ElNotification.success(await getExternPath('t.txt'));
+  ElNotification.success(await getExternPath());
 }
 
 async function insidePath() {
-  ElNotification.success(await getInsidePath('t.txt'));
+  ElNotification.success(await getInsidePath());
 }
 
 async function rootPath() {

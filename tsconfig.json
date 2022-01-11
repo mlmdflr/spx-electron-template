@@ -24,8 +24,17 @@
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@/*": ["src/*"]
-    }
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "typeRoots": [
+      "node_modules/@types"
+    ]
   },
-  "include": ["src/**/*.d.ts", "src/**/*.vue", "src/**/*.ts"]
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.vue",
+    "src/**/*.ts"
+  ]
 }
