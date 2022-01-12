@@ -1,6 +1,6 @@
 import SerialPort from 'serialport';
 import { ipcMain } from 'electron';
-import Window from '../window';
+import Window from '../../window';
 import Byt from './byt';
 import Str from './str';
 

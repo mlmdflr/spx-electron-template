@@ -1,14 +1,16 @@
 <template>
   <div class="container">
-    <Head/>
+    <Head :eventShow="false" />
     <div class="message-info">
       <div class="text">
         <div>创建传参: {{ data.text }}</div>
         <div>app启动参数: {{ argv }}</div>
       </div>
-      <ElButton @click="test">测试通讯</ElButton>
-      <ElButton @click="test1">测试获取路由id</ElButton>
-      <ElButton class="close" @click="close">确定</ElButton>
+      <n-space>
+        <n-button @click="test">测试通讯</n-button>
+        <n-button @click="test1">测试获取路由id</n-button>
+      </n-space>
+        <n-button class="close" @click="close">确定</n-button>
     </div>
   </div>
 </template>
@@ -16,7 +18,7 @@
 
 <script setup lang="ts" >
 import type { IpcRendererEvent } from 'electron';
-import {  onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import customize from '@/renderer/store/customize';
 import {
   windowClose,
@@ -28,7 +30,7 @@ import {
   windowMessageRemove,
   windowBlurFocusOn
 } from '@/renderer/common/window';
-import { ElButton } from 'element-plus';
+import { NButton, NSpace } from 'naive-ui'
 import { snowflake } from '@/util/snowflake';
 
 windowSetSize([400, 200], false, customize.get().currentMaximized);

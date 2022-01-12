@@ -106,7 +106,11 @@ function core(arch) {
   fs.writeFileSync('./build/cfg/build.json', JSON.stringify(config, null, 2));//写入配置
   deleteFolderRecursive(path.resolve('dist')); //清除dist
   webpack([{ ...main('production') }, { ...renderer('production') }], (err, stats) => {
-    if (err || stats.hasErrors()) throw err;
+    if (err || stats.hasErrors()) {
+      console.log(stats);
+      console.log(err);
+      throw err;
+    }
     console.log(`electron-builder -c build/cfg/build.json --${archTag}`);
     const s = setInterval(() => {
       console.log('building...');
@@ -119,7 +123,7 @@ function core(arch) {
       (error, stdout, stderr) => {
         if (error) {
           console.error(error);
-          return;
+          // return;
         }
         console.log(stdout);
         console.log(stderr);

@@ -4,9 +4,6 @@ const base = require('./webpack.base.config');
 module.exports = (env) => {
   return {
     ...base,
-    externals:{
-      util: 'require("util")'
-    },
     mode: env,
     devtool: env === 'production' ? undefined : base.devtool,
     target: 'electron-main',

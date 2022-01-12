@@ -22,7 +22,7 @@ import { windowClose, windowMaxMin, windowMin } from '@/renderer/common/window';
 import customize from '@/renderer/store/customize';
 
 const props = defineProps({
-    eventShow: {
+  eventShow: {
     type: Boolean,
     default: true
   }
@@ -31,7 +31,7 @@ const props = defineProps({
 const isMacintosh = window.environment.platform === 'darwin';
 
 
-let title = customize.get().title
+let title = (customize.get() as Customize_Route).title
 
 function min() {
   windowMin();

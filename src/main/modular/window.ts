@@ -84,13 +84,6 @@ export function browserWindowInit(
    */
   if (!isNull(customize.id) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
 
-  /**
-   * session 设置
-   */
-  // opt.webPreferences.partition = 'session'
-  // console.log(opt);
-  
-
   const win = new BrowserWindow(opt);
 
   //子窗体关闭父窗体获焦 https://github.com/electron/electron/issues/10616
@@ -138,8 +131,12 @@ async function load(win: BrowserWindow) {
     if ('route' in win.customize) win.webContents.send(`window-load`, win.customize)
     else {
       //注入自定义js
-      readFile(Global.getResourcesPath('inside', 'inje.js'), { encoding: 'utf8' }).then(code => {
+      readFile(Global.getResourcesPath('inside', 'inje/inje.js'), { encoding: 'utf8' }).then(code => {
         win.webContents.executeJavaScript(code as string).catch(logError);
+      })
+      //注入自定义css
+      readFile(Global.getResourcesPath('inside', 'inje/inje.css'), { encoding: 'utf8' }).then(code => {
+        win.webContents.insertCSS(code as string).catch(logError);
       })
     }
   });
@@ -153,7 +150,7 @@ async function load(win: BrowserWindow) {
   // 聚焦失焦监听 
   win.on('blur', () => win.webContents.send(`window-blur-focus-${win.customize.id}`, 'blur'));
   win.on('focus', () => win.webContents.send(`window-blur-focus-${win.customize.id}`, 'focus'));
-
+  //页面加载
   if ('route' in win.customize && win.customize.baseUrl) {
     if (win.customize.baseUrl.startsWith('https://') || win.customize.baseUrl.startsWith('http://')) {
       win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions);
@@ -490,6 +487,20 @@ export class Window {
       return this.getAll()
         .filter((win) => (win.customize && ('route' in win.customize)))
         .filter((win) => (args ? (win.customize as Customize_Route).route === args : true))
+        .map(win => win.customize?.id)
+    });
+    /**
+     * 查询当前会话的窗体id
+     */
+    ipcMain.handle('window-id-sender', (event, args) => {
+      return BrowserWindow.fromWebContents(event.sender)?.customize.id
+    });
+    /**
+     * 查询所有窗体id(过滤掉route窗体)
+     */
+    ipcMain.handle('window-id-all', (event, args) => {
+      return this.getAll()
+        .filter((win) => (win.customize && ('url' in win.customize)))
         .map(win => win.customize?.id)
     });
   }

@@ -53,14 +53,14 @@ interface Customize_Url {
   // 自定义参数
   data?: any;
 }
+type Customize = Customize_Route | Customize_Url
+
 
 interface AppInfo {
   isPackaged:boolean;
   name: string;
   version: string;
 }
-
-type Customize = Customize_Route | Customize_Url
 
 declare namespace Electron {
   interface BrowserWindow {

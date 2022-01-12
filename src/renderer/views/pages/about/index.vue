@@ -2,26 +2,35 @@
   <div class="container">
     <Head />
     <div class="about-info">
-      <ElImage
+      <n-image
         src="https://avatars.githubusercontent.com/u/93173537?v=4"
-        style="width: 68px; height: 68px"
+        width="128"
+        height="128"
         alt="@沒禮貌的芬蘭人"
-        :preview-src-list="['https://avatars.githubusercontent.com/u/93173537?v=4']"
-      ></ElImage>
+      ></n-image>
+      <div @click="openLicense" class="name">MIT License</div>
+      <n-modal v-model:show="licenseShow">
+        <n-card style="width: 600px;" :bordered="true" size="huge" role="dialog" aria-modal="true">
+          <div>{{ license }}</div>
+        </n-card>
+      </n-modal>
       <div @click="open" class="name">没礼貌的芬兰人</div>
-      <ElButton @click="toHome">首页</ElButton>
+      <n-button @click="toHome">首页</n-button>
     </div>
   </div>
 </template>
 
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { windowShow } from '@/renderer/common/window';
-import { openUrl } from '@/renderer/common';
-import { ElImage, ElButton } from 'element-plus'
+import { getExternPath, openUrl } from '@/renderer/common';
+import { NImage, NButton, NModal,NCard } from 'naive-ui'
 import Router from '@/renderer/router';
+import { readFile } from '@/renderer/common/general/file';
 
+let licenseShow = ref(false);
+let license = ref('');
 
 onMounted(() => {
   windowShow();
@@ -30,6 +39,12 @@ onMounted(() => {
 
 function open() {
   openUrl('https://github.com/mlmdflr');
+}
+async function openLicense() {
+  readFile(await getExternPath('LICENSE'), { encoding: 'utf8' }).then((str) => {
+    license.value = str
+    licenseShow.value = true;
+  })
 }
 
 function toHome() {

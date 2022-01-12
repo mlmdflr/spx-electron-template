@@ -23,16 +23,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.mjs/,
-        type: "javascript/auto",
-      },
-      {
-        test: /\.mjs/,
-        resolve: {
-          fullySpecified: false,
-        },
-      },
-      {
         test: /\.(ts|js)$/,
         exclude: /(node_modules|bower_components)/,
         use: {

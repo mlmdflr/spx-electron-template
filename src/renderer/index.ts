@@ -4,7 +4,6 @@ import { windowLoad } from '@/renderer/common/window';
 import App from '@/renderer/views/app.vue';
 import router from '@/renderer/router';
 import Head from "@/renderer/views/components/head/index.vue";
-import 'element-plus/dist/index.css'
 
 windowLoad(async (_, args) => {
   router.addRoute({
