@@ -34,12 +34,12 @@ export function browserWindowInit(
   args.height = args.height || windowCfg.opt.height;
   // darwin下modal会造成整个窗口关闭(?)
   if (process.platform === 'darwin') delete args.modal;
-  const isLocal = !('route' in customize);
+  const isLocal = 'route' in customize
   let opt: BrowserWindowConstructorOptions = Object.assign(args, {
     autoHideMenuBar: true,
-    titleBarStyle: 'route' in customize ? 'hidden' : 'default',
-    frame: isLocal,
-    show: isLocal,
+    titleBarStyle: isLocal ? 'hidden' : 'default',
+    frame: args.frame ?? !isLocal,
+    show: args.show ?? !isLocal,
     webPreferences: {
       preload: join(__dirname, './preload.js'),
       contextIsolation: true,
@@ -121,11 +121,6 @@ async function load(win: BrowserWindow) {
   * @author 没礼貌的芬兰人
   * @date 2021-09-25 16:27:27
   */
-  //给url模式插入一个加载动画 loadingAnimation
-  if ('url' in win.customize && win.customize.loadingAnimation) {
-    win.loadFile(Global.getResourcesPath('root', 'state-page/load.html'))
-    await sleep(200);
-  }
   // 注入初始化代码
   win.webContents.on('did-finish-load', () => {
     if ('route' in win.customize) win.webContents.send(`window-load`, win.customize)
