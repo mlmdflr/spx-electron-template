@@ -33,7 +33,7 @@ interface Customize_Url {
   // 指定网页
   url: string;
   // 参数数据
-  loadOptions?: Electron.LoadURLOptions;
+  loadOptions?: Electron.LoadURLOptions | Electron.LoadFileOptions;
   // 父类窗口宽度
   currentWidth?: number;
   // 父类窗口高度
@@ -57,7 +57,7 @@ type Customize = Customize_Route | Customize_Url
 
 
 interface AppInfo {
-  isPackaged:boolean;
+  isPackaged: boolean;
   name: string;
   version: string;
 }
@@ -68,7 +68,7 @@ declare namespace Electron {
   }
 }
 
-type windowAlwaysOnTopOpt =
+type WindowAlwaysOnTopOpt =
   | 'normal'
   | 'floating'
   | 'torn-off-menu'
@@ -78,9 +78,9 @@ type windowAlwaysOnTopOpt =
   | 'pop-up-menu'
   | 'screen-saver';
 
-type windowFuncOpt = 'close' | 'hide' | 'show' | 'minimize' | 'maximize' | 'restore' | 'reload';
+type WindowFuncOpt = 'close' | 'hide' | 'show' | 'minimize' | 'maximize' | 'restore' | 'reload';
 
-type windowStatusOpt =
+type WindowStatusOpt =
   | 'isMaximized'
   | 'isMinimized'
   | 'isFullScreen'

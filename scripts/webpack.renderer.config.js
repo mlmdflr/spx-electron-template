@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const { name } = require('../../package.json');
+const { name } = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
@@ -55,7 +55,7 @@ module.exports = (env) => {
       }),
       new HtmlWebpackPlugin({
         title: name,
-        template: './build/index.html'
+        template: './resources/build/index.html'
       }),
       new VueLoaderPlugin()
     ],

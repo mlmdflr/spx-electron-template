@@ -1,13 +1,11 @@
 import { join } from 'path';
 import type { BrowserWindowConstructorOptions, LoadFileOptions, LoadURLOptions } from 'electron';
-import { app, screen, ipcMain, BrowserWindow, session } from 'electron';
+import { app, screen, ipcMain, BrowserWindow } from 'electron';
 import { snowflake } from "@/util/snowflake";
 import { isNull } from '@/util';
 import Global from '@/main/modular/general/global'
-
 import windowCfg from '@/cfg/window.json'
 import { workerId, dataCenterId } from '@/cfg/snowflake.json'
-import sleep from '@/util/sleep';
 import { readFile } from './general/file';
 import { logError } from './general/log';
 
@@ -52,7 +50,9 @@ export function browserWindowInit(
     opt.backgroundColor = windowCfg.opt.backgroundColor;
   const isParentId = !isNull(customize.parentId);
   let parenWin: BrowserWindow | null = null;
-  if (isParentId) parenWin = Window.getInstance().get(customize.parentId as number);
+  if (isParentId && (typeof customize.parentId === 'number' || typeof customize.parentId === 'bigint')) {
+    parenWin = Window.getInstance().get(customize.parentId);
+  }
   if (isParentId && parenWin) {
     opt.parent = parenWin;
     const currentWH = opt.parent.getBounds();
@@ -68,13 +68,6 @@ export function browserWindowInit(
       opt.x = (currentPosition[0] + (currentWH.width - (opt.width || customize.currentWidth)) / 2) | 0;
       opt.y = (currentPosition[1] + (currentWH.height - (opt.height || customize.currentHeight)) / 2) | 0;
     }
-  } else {
-    if (main) {
-      const mainPosition = main.getPosition();
-      const mainBounds = main.getBounds();
-      opt.x = (mainPosition[0] + (mainBounds.width - (opt.width as number)) / 2) | 0;
-      opt.y = (mainPosition[1] + (mainBounds.height - (opt.height as number)) / 2) | 0;
-    }
   }
 
   /**
@@ -85,7 +78,6 @@ export function browserWindowInit(
   if (!isNull(customize.id) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
 
   const win = new BrowserWindow(opt);
-
   //子窗体关闭父窗体获焦 https://github.com/electron/electron/issues/10616
   if (isParentId && parenWin) {
     win.once('closed', () => {
@@ -154,10 +146,10 @@ async function load(win: BrowserWindow) {
     win.loadFile(win.customize.baseUrl, win.customize.loadOptions as LoadFileOptions);
   } else if ('url' in win.customize && win.customize.url) {
     if (win.customize.url.startsWith('https://') || win.customize.url.startsWith('http://')) {
-      win.loadURL(win.customize.url, win.customize.loadOptions);
+      win.loadURL(win.customize.url, win.customize.loadOptions as LoadURLOptions);
       return;
     }
-    win.loadURL(`https://${win.customize.url}`, win.customize.loadOptions);
+    win.loadURL(`file:///${win.customize.url}`, win.customize.loadOptions as LoadURLOptions);
   }
 }
 
@@ -265,7 +257,7 @@ export class Window {
   /**
    * 窗口关闭、隐藏、显示等常用方法
    */
-  func(type: windowFuncOpt, id?: number | bigint) {
+  func(type: WindowFuncOpt, id?: number | bigint) {
     let win: BrowserWindow | null = null;
     if (!isNull(id)) {
       win = this.get(id as number | bigint);
@@ -292,7 +284,7 @@ export class Window {
   /**
    * 窗口状态
    */
-  getStatus(type: windowStatusOpt, id: number | bigint) {
+  getStatus(type: WindowStatusOpt, id: number | bigint) {
     const win = this.get(id);
     if (!win) {
       console.error('Invalid id, the id can not be a empty');
@@ -368,7 +360,7 @@ export class Window {
   /**
    * 设置窗口是否置顶
    */
-  setAlwaysOnTop(args: { id: number | bigint; is: boolean; type?: windowAlwaysOnTopOpt }) {
+  setAlwaysOnTop(args: { id: number | bigint; is: boolean; type?: WindowAlwaysOnTopOpt }) {
     const win = this.get(args.id);
     if (!win) {
       console.error('Invalid id, the id can not be a empty');

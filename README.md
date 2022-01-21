@@ -14,11 +14,10 @@ youliso传送门: https://github.com/youliso/electron-template
 ```
 ├── dist 编译后存放
 ├── out 打包后存放
-├── build 打包所需的文件
-│   ├── cfg 打包配置
-│   ├── icons 图片
-│   └── script 打包的方法 、本地调试等
 ├── resources 打包依赖文件夹
+│   ├── build 打包所需的文件
+│   │   ├── cfg 打包配置
+│   │   └── icons 图片
 │   ├── platform 对应系统依赖
 │   │   ├── win32
 │   │   ├── darwin
@@ -26,6 +25,7 @@ youliso传送门: https://github.com/youliso/electron-template
 │   ├── extern 外部依赖(打包后位于resources下)
 │   ├── inside 内部依赖(如果开启asar打包 会位于asar下)
 │   └── root 顶层依赖(位于安装根目录下)
+├── scripts 打包的方法 、本地调试等
 ├── src 主目录
 │   ├── cfg 本地配置 和 请求配置之类
 │   ├── assets 静态资源
@@ -40,7 +40,7 @@ youliso传送门: https://github.com/youliso/electron-template
 │   └── renderer 渲染进程
 │       └── common 渲染进程模块(同主进程 modular)
 ├── .port 调试端口
-└── tsconfig ts配置
+└── tsconfig.json ts配置
 ```
 
 ## 安装中的网络问题
