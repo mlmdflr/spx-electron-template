@@ -1,7 +1,6 @@
 import type { ClientRequestArgs, IncomingMessage, OutgoingHttpHeaders } from 'http';
 import { request as httpRequest } from 'http';
 import { request as httpsRequest } from 'https';
-import { queryParams } from '@/util';
 import { basename, extname } from 'path';
 import { createReadStream, statSync } from 'fs';
 
@@ -20,7 +19,31 @@ export interface RequestUploadOpt extends RequestInit {
 }
 
 export interface RequestDownloadOpt extends RequestInit {
-  onDownload?: (chunk?: Buffer, length?: number) => void;
+  // 是否stringify参数（非GET请求使用）
+  isStringify?: boolean;
+  onDown?: (chunk?: Buffer, allLength?: number) => void;
+}
+
+/**
+ * 对象转参数
+ * @param data
+ */
+export function queryParams(data: any): string {
+  let _result = [];
+  for (let key in data) {
+    let value = data[key];
+    if (['', undefined, null].includes(value)) {
+      continue;
+    }
+    if (value.constructor === Array) {
+      value.forEach((_value) => {
+        _result.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(_value));
+      });
+    } else {
+      _result.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+    }
+  }
+  return _result.length ? _result.join('&') : '';
 }
 
 interface RequestInit {
@@ -90,12 +113,6 @@ export function upload(url: string, params: RequestUploadOpt) {
     request.write(
       `--${boundary}\r\nContent-Disposition: form-data; name="file"; filename="${params.fileName}"\r\n\r\n`
     );
-    request.on('abort', () => {
-      reject(new Error('abort'));
-    });
-    request.on('error', (err) => {
-      reject(err);
-    });
     request.on('destroyed', () => {
       reject(new Error('destroy'));
     });
@@ -129,7 +146,7 @@ export function upload(url: string, params: RequestUploadOpt) {
  * @param sendData
  * @param params
  */
-function download(url: string, params: RequestDownloadOpt = {}) {
+export function download(url: string, params: RequestDownloadOpt = {}) {
   return new Promise((resolve, reject) => {
     params.method = params.method || 'GET';
     params.args = params.args || { method: params.method };
@@ -139,9 +156,10 @@ function download(url: string, params: RequestDownloadOpt = {}) {
     let chunks: Buffer[] = [];
     let size: number = 0;
     function ing(response: IncomingMessage) {
+      const allLength = Number(response.headers['content-length'] || 0);
       response.on('data', (chunk) => {
-        if (params.onDownload) {
-          params.onDownload(chunk, Number(response.headers['content-length'] || 0));
+        if (params.onDown) {
+          params.onDown(chunk, allLength);
           return;
         }
         chunks.push(chunk);
@@ -149,18 +167,16 @@ function download(url: string, params: RequestDownloadOpt = {}) {
       });
       response.on('end', () => {
         if (response.statusCode && response.statusCode >= 400) {
-          reject(new Error('error'));
+          reject(new Error(response.statusCode + ''));
           return;
         }
         let result: unknown;
-        if (params.onDownload) {
+        if (params.onDown) {
           result = {
             msg: 'downloaded',
-            length: Number(response.headers['content-length'] || 0)
+            allLength
           };
-        } else {
-          result = Buffer.concat(chunks, size);
-        }
+        } else result = Buffer.concat(chunks, size);
         if (params.isHeaders) resolve({ data: result, headers: response.headers });
         else resolve(result);
       });
@@ -169,6 +185,12 @@ function download(url: string, params: RequestDownloadOpt = {}) {
     request.on('destroyed', () => reject(new Error('destroy')));
     request.on('error', (err) => reject(err));
     for (const header in headers) request.setHeader(header, headers[header] as string);
+    if (params.data && params.method !== 'GET') {
+      if (typeof params.data !== 'string') {
+        const data = params.isStringify ? queryParams(params.data) : JSON.stringify(params.data);
+        request.write(data);
+      } else request.write(params.data);
+    }
     request.end();
   });
 }

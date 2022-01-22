@@ -8,6 +8,11 @@ import { fileOn } from './modular/general/file';
 import Shortcut from "./modular/enhance/shortcut";
 import { customize, opt } from '@/cfg/window.json';
 
+import Session from './modular/general/session';
+import Dialog from './modular/additional/dialog';
+import Menu from './modular/additional/menu';
+import Update from './/modular/enhance/update';
+import Socket from './modular/enhance/socket';
 
 await App.start();
 // 主要模块
@@ -21,13 +26,7 @@ logOn();//日志模块
 fileOn();//文件模块
 pathOn();//路径模块
 
-await App.use([
-  import('./modular/general/session'),
-  import('./modular/additional/dialog'),
-  import('./modular/additional/menu'),
-  import('./modular/enhance/update'),
-  import('./modular/enhance/socket'),
-]);
+await App.use([Session, Dialog, Menu, Update, Socket]);
 
 // 窗口
 Window.create(customize, opt);

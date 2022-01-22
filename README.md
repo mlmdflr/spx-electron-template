@@ -7,7 +7,7 @@ youliso传送门: https://github.com/youliso/electron-template
 ❗注意 `nodejs => 14.17.6 (推荐当前长期维护版本,其余版本请自测)`
 
 ## electron builder 打包配置
-位于 `build/cfg/build.js` 根据自己需求更改即可   
+位于 `resources/build/cfg/build.js` 根据自己需求更改即可   
 请参考 [electron-builder](https://www.electron.build/) 文档
 
 ## 模块大致文件结构参考
@@ -43,15 +43,23 @@ youliso传送门: https://github.com/youliso/electron-template
 └── tsconfig.json ts配置
 ```
 
-## 安装中的网络问题
+### 安装中的网络问题
 - `electron`:
 ```shell
-yarn config set electron_mirror https://cdn.npm.taobao.org/dist/electron/
+yarn config set electron_mirror https://npmmirror.com/mirrors/electron/
 ```
 
 ## 运行调试
-
 运行命令
 ```shell
 yarn run dev
 ```
+
+## 打包发布
+
+运行命令
+
+```shell
+yarn build win|win32|win64|winp|winp32|winp64|darwin|mac|linux
+```
+

@@ -18,6 +18,24 @@ export class App {
 
   constructor() { }
 
+  private uring(module: any) {
+    this.modular[module.name] = new module();
+    this.modular[module.name].on();
+  }
+
+  /**
+   * 挂载模块
+   * @param mod
+   */
+  async use(mod: any | any[] | Promise<any>[]) {
+    if (!Array.isArray(mod)) {
+      const module = mod.prototype ? mod : (await mod()).default;
+      this.uring(module);
+      return;
+    }
+    (await Promise.all(mod)).forEach((module) => this.uring(module.default || module));
+  }
+
   /**
    * 启动主进程
    */
@@ -33,29 +51,7 @@ export class App {
     this.afterOn();
   }
 
-  /**
-   * 挂载模块
-   * @param mod
-   */
-  async use(mod: Promise<any> | Promise<any>[]) {
-    if (Array.isArray(mod)) {
-      await Promise.all(mod)
-        .then((res) => {
-          for (let i = 0, len = res.length; i < len; i++) {
-            this.modular[res[i].default.name] = new res[i].default();
-            this.modular[res[i].default.name].on();
-          }
-        })
-        .catch(logError);
-    } else {
-      await mod
-        .then((req) => {
-          this.modular[req.default.name] = new req.default();
-          this.modular[req.default.name].on();
-        })
-        .catch(logError);
-    }
-  }
+
 
   /**
    * 监听
