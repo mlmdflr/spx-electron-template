@@ -116,14 +116,14 @@ export function windowCreate(customize: Customize, opt?: BrowserWindowConstructo
 /**
  * 窗口状态
  */
-export async function windowStatus(id: number | bigint = customize.get().id as number | bigint, type: windowStatusOpt) {
+export async function windowStatus(id: number | bigint = customize.get().id as number | bigint, type: WindowStatusOpt) {
   return await window.ipc.invoke('window-status', { type, id });
 }
 
 /**
  * 窗口置顶
  */
-export function windowAlwaysOnTop(id: number | bigint = customize.get().id as number | bigint, is: boolean, type?: windowAlwaysOnTopOpt) {
+export function windowAlwaysOnTop(id: number | bigint = customize.get().id as number | bigint, is: boolean, type?: WindowAlwaysOnTopOpt) {
   window.ipc.send('window-always-top-set', { id, is, type });
 }
 
