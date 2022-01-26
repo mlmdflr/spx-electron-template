@@ -14,7 +14,7 @@ module.exports = {
     __filename: false
   },
   resolve: {
-    extensions: ['.ts', '.js'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       dist: resolve('dist'),
       '@': resolve('src')
@@ -23,7 +23,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)$/,
+        test: /\.(tsx|jsx|ts|js)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'swc-loader',

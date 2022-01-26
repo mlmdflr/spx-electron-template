@@ -17,7 +17,7 @@ import { NNotificationProvider, NMessageProvider, useMessage, useNotification, N
 
 import { snowflake } from '@/util/snowflake';
 
-import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch, getGlobal, getAppInfo } from '@/renderer/common';
+import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch, getGlobal, getAppInfo } from '@/renderer/common/app';
 
 import HotkeyInput from '@/renderer/views/components/hotkeyInput-vue3/index.vue';
 
@@ -100,7 +100,6 @@ function test() {
 }
 
 
-
 function toAbout() {
   Router.push('/about');
 }
@@ -108,7 +107,7 @@ function toAbout() {
 function toRepositories() {
   windowCreate({
     id: 0,
-    url: 'https://www.naiveui.com/en-US/os-theme',
+    url: 'https://mlmdflr.cc',
     isOpenMultiWindow: true,
     loadingAnimation: true
   }, {
@@ -237,7 +236,7 @@ onUnmounted(() => {
           <div>hello {{ version }}</div>
           <n-space>
             <n-button strong secondary type="info" @click="toAbout">关于</n-button>
-            <n-button strong secondary type="info" @click="toRepositories">打开仓库</n-button>
+            <n-button strong secondary type="info" @click="toRepositories">mlmdflr</n-button>
             <n-button strong secondary type="info" @click="test">弹个框</n-button>
             <n-button strong secondary type="info" @click="snowflakeClick">雪花算法生成</n-button>
             <n-button type="warning" @click="rebootApp">重启app</n-button>

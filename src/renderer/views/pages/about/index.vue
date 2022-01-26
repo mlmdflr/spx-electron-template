@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { windowShow } from '@/renderer/common/window';
-import { getExternPath, openUrl } from '@/renderer/common';
+import { getExternPath, openUrl } from '@/renderer/common/app';
 import { NImage, NButton, NModal,NCard } from 'naive-ui'
 import Router from '@/renderer/router';
 import { readFile } from '@/renderer/common/general/file';

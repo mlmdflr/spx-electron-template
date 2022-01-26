@@ -50,14 +50,12 @@ export function browserWindowInit(
     opt.backgroundColor = windowCfg.opt.backgroundColor;
   const isParentId = !isNull(customize.parentId);
   let parenWin: BrowserWindow | null = null;
-  if (isParentId && (typeof customize.parentId === 'number' || typeof customize.parentId === 'bigint')) {
-    parenWin = Window.getInstance().get(customize.parentId);
-  }
+  if (isParentId && (typeof customize.parentId === 'number' || typeof customize.parentId === 'bigint')) parenWin = Window.getInstance().get(customize.parentId);
   if (isParentId && parenWin) {
     opt.parent = parenWin;
     const currentWH = opt.parent.getBounds();
     customize.currentWidth = currentWH.width;
-    customize.currentHeight = currentWH.height;
+    customize.currentHeight = currentWH.height; 
     customize.currentMaximized = opt.parent.isMaximized();
     if (customize.currentMaximized) {
       const displayWorkAreaSize = screen.getPrimaryDisplay().workAreaSize;

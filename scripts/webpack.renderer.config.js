@@ -1,27 +1,24 @@
 const { resolve } = require('path');
-const { name } = require('../package.json');
+const { productName } = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const base = require('./webpack.base.config');
 const Webpack = require('Webpack');
 
 module.exports = (env) => {
-  return {
+  let config = {
     experiments: base.experiments,
-    externals: base.externals,
     node: {
       ...base.node
     },
     mode: env,
-    devtool: env === 'production' ? undefined : base.devtool,
     target: 'web',
     entry: {
       app: './src/renderer/index.ts'
     },
-    output: {
-      filename: './js/[name]v.js',
-      chunkFilename: './js/[id]v.js',
+    output: { 
+      filename: './js/[name].v.js',
+      chunkFilename: './js/[id].v.js',
       path: resolve('dist')
     },
     resolve: base.resolve,
@@ -33,14 +30,14 @@ module.exports = (env) => {
           loader: 'vue-loader'
         },
         {
-          test: /\.(css|scss)$/,
+          test: /\.(sa|sc|c)ss$/i,
+          exclude: /\.lazy\.(sa|sc|c)ss$/i,
+          use: ['style-loader', 'css-loader', 'sass-loader']
+        },
+        {
+          test: /\.lazy\.(sa|sc|c)ss$/i,
           use: [
-            {
-              loader: miniCssExtractPlugin.loader,
-              options: {
-                publicPath: '../'
-              }
-            },
+            { loader: 'style-loader', options: { injectType: 'lazyStyleTag' } },
             'css-loader',
             'sass-loader'
           ]
@@ -48,19 +45,17 @@ module.exports = (env) => {
       ]
     },
     plugins: [
-      new Webpack.DefinePlugin({ __VUE_OPTIONS_API__: true, __VUE_PROD_DEVTOOLS__: false }),
-      new miniCssExtractPlugin({
-        filename: './css/[name].css',
-        chunkFilename: './css/[id].css'
-      }),
+      new Webpack.DefinePlugin({ __VUE_OPTIONS_API__: JSON.stringify(true), __VUE_PROD_DEVTOOLS__: JSON.stringify(false) }),
       new HtmlWebpackPlugin({
-        title: name,
+        title: productName,
         template: './resources/build/index.html'
       }),
       new VueLoaderPlugin()
     ],
     optimization: {
-      minimize: env === 'production',
+      minimize: env === 'production'
     }
   };
+  if (env === 'production') config.devtool = base.devtool;
+  return config;
 };

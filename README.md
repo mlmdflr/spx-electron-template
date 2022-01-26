@@ -1,8 +1,8 @@
 # xps-electron-vue-template
 
-一个基于 `electron` 多窗口模式的模板 使用 ts + vue3 进行开发,
-基于 youliso 大佬的架子上进行拓展
-youliso传送门: https://github.com/youliso/electron-template
+一个基于 `electron` 多窗口模式的模板 使用 ts + vue3 进行开发
+
+[主分支 @youli](https://github.com/youliso/electron-template)
 
 ❗注意 `nodejs => 14.17.6 (推荐当前长期维护版本,其余版本请自测)`
 
