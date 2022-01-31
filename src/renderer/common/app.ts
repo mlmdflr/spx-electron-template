@@ -2,7 +2,7 @@
  * 日志(info)
  * @param args
  */
-export function logInfo(...args: any): void {
+ export function logInfo(...args: any): void {
   window.ipc.send('log-info', args);
 }
 
@@ -87,18 +87,17 @@ export async function getAppInfo(): Promise<AppInfo> {
   return await window.ipc.invoke('app-info-get');
 }
 
+
 /**
  * app常用获取路径
  */
-export async function getAppPath(key: string): Promise<string> {
-  return window.ipc.invoke('app-path-get', { key });
+ export async function getAppPath(key: string): Promise<string> {
+  return await window.ipc.invoke('app-path-get', { key });
 }
 
 /**
  * app打开url
  */
 export async function openUrl(url: string): Promise<void> {
-  return window.ipc.invoke('app-open-url', { url });
+  return await window.ipc.invoke('app-open-url', { url });
 }
-
-
