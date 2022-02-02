@@ -1,5 +1,3 @@
-
-/*综合工具类*/
 /**
  * 判空
  * */
@@ -10,7 +8,7 @@ export function isNull(o: unknown): boolean {
  * 字符串判断是否为空或者空格
  */
 export function isBlank(o: string): boolean {
-  if (!isNull(o)) {
+  if (!(o === '' || o === undefined || o === null)) {
     return new RegExp('^[ ]+$').test(o)
   }
   return true

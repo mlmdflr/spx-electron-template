@@ -4,8 +4,8 @@ import type { ManagerOptions, SocketOptions } from 'socket.io-client';
 /**
  * socket 打开 (注: 只需调用一次,多次调用会造成socket模块多次监听)
  */
-export function socketOpen() {
-  window.ipc.send('socket-open');
+export function socketOpen(url: string) {
+  window.ipc.send('socket-open',url);
 }
 
 /**

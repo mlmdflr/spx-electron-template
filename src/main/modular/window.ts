@@ -2,12 +2,8 @@ import { join } from 'path';
 import type { BrowserWindowConstructorOptions, LoadFileOptions, LoadURLOptions } from 'electron';
 import { app, screen, ipcMain, BrowserWindow } from 'electron';
 import { snowflake } from "@/util/snowflake";
-import { isNull } from '@/util';
-import Global from '@/main/modular/general/global'
 import windowCfg from '@/cfg/window.json'
 import { workerId, dataCenterId } from '@/cfg/snowflake.json'
-import { readFile } from './general/file';
-import { logError } from './general/log';
 
 /**
  * Customize.id 类型限制为number | bigint 
@@ -23,23 +19,27 @@ export function browserWindowInit(
 ): BrowserWindow {
   if (!customize) throw new Error('not customize');
   //重置主窗体
-  if (customize.isMainWin && !isNull(customize.parentId)) customize.isMainWin = false;
+  if (customize.isMainWin && customize.parentId !== undefined && customize.parentId !== null) customize.isMainWin = false;
   const main = Window.getInstance().getMain();
-  if (main && main.customize.isMainWin && customize.isMainWin && isNull(customize.parentId)) main.customize.isMainWin = false;
+  if (main
+    && main.customize.isMainWin
+    && customize.isMainWin
+    && (customize.parentId === undefined || customize.parentId === null)
+  ) main.customize.isMainWin = false;
   args.minWidth = args.minWidth || args.width || windowCfg.opt.width;
   args.minHeight = args.minHeight || args.height || windowCfg.opt.height;
   args.width = args.width || windowCfg.opt.width;
   args.height = args.height || windowCfg.opt.height;
   // darwin下modal会造成整个窗口关闭(?)
   if (process.platform === 'darwin') delete args.modal;
-  const isLocal = 'route' in customize
+  const isLocal = 'route' in customize;
   let opt: BrowserWindowConstructorOptions = Object.assign(args, {
     autoHideMenuBar: true,
     titleBarStyle: isLocal ? 'hidden' : 'default',
     frame: args.frame ?? !isLocal,
     show: args.show ?? !isLocal,
     webPreferences: {
-      preload: join(__dirname, './preload.js'),
+      preload: isLocal ? join(__dirname, './preload.js') : join(__dirname, './preload.url.js'),
       contextIsolation: true,
       nodeIntegration: false,
       devTools: !app.isPackaged,
@@ -48,14 +48,14 @@ export function browserWindowInit(
   });
   if (!opt.backgroundColor && windowCfg.opt.backgroundColor)
     opt.backgroundColor = windowCfg.opt.backgroundColor;
-  const isParentId = !isNull(customize.parentId);
+  const isParentId = customize.parentId !== undefined && customize.parentId !== null;
   let parenWin: BrowserWindow | null = null;
   if (isParentId && (typeof customize.parentId === 'number' || typeof customize.parentId === 'bigint')) parenWin = Window.getInstance().get(customize.parentId);
   if (isParentId && parenWin) {
     opt.parent = parenWin;
     const currentWH = opt.parent.getBounds();
     customize.currentWidth = currentWH.width;
-    customize.currentHeight = currentWH.height; 
+    customize.currentHeight = currentWH.height;
     customize.currentMaximized = opt.parent.isMaximized();
     if (customize.currentMaximized) {
       const displayWorkAreaSize = screen.getPrimaryDisplay().workAreaSize;
@@ -73,7 +73,7 @@ export function browserWindowInit(
    * @author 没礼貌的芬兰人
    * @date 2021-09-25 11:54:59
    */
-  if (!isNull(customize.id) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
+  if ((customize.id !== undefined && customize.id !== null) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
 
   const win = new BrowserWindow(opt);
   //子窗体关闭父窗体获焦 https://github.com/electron/electron/issues/10616
@@ -114,20 +114,6 @@ async function load(win: BrowserWindow) {
   // 注入初始化代码
   win.webContents.on('did-finish-load', () => {
     if ('route' in win.customize) win.webContents.send(`window-load`, win.customize)
-    else {
-      //注入自定义js
-      readFile(Global.getResourcesPath('inside', 'inje/inje.js'), { encoding: 'utf8' }).then(code => {
-        win.webContents.executeJavaScript(code as string).catch(logError);
-      })
-      //注入自定义css
-      readFile(Global.getResourcesPath('inside', 'inje/inje.css'), { encoding: 'utf8' }).then(code => {
-        win.webContents.insertCSS(code as string).catch(logError);
-      })
-    }
-  });
-  // 加载失败处理
-  win.webContents.on('did-fail-load', () => {
-    if ('url' in win.customize) win.loadFile(Global.getResourcesPath('root', 'state-page/error.html'))
   });
   // 窗口最大最小监听
   win.on('maximize', () => win.webContents.send(`window-maximize-${win.customize.id}`, 'maximize'));
@@ -221,12 +207,9 @@ export class Window {
    * 创建窗口
    * */
   create(customize: Customize, opt: BrowserWindowConstructorOptions) {
-    if (!customize.isOpenMultiWindow) {
+    if ('route' in customize && !customize.isOpenMultiWindow) {
       for (const i of this.getAll()) {
-        if (
-          ('route' in customize && 'route' in i.customize && customize.route && customize.route === i.customize.route) ||
-          ('url' in customize && 'url' in i.customize && customize.url && customize.url === i.customize.url)
-        ) {
+        if ('route' in i.customize && customize.route && customize.route === i.customize.route) {
           i.focus();
           return;
         }
@@ -257,7 +240,7 @@ export class Window {
    */
   func(type: WindowFuncOpt, id?: number | bigint) {
     let win: BrowserWindow | null = null;
-    if (!isNull(id)) {
+    if (id !== undefined && id !== null) {
       win = this.get(id as number | bigint);
       if (!win) {
         console.error(`not found win -> ${id}`);
@@ -273,7 +256,7 @@ export class Window {
    * 窗口发送消息
    */
   send(key: string, value: any, id?: number | bigint) {
-    if (!isNull(id)) {
+    if (id !== undefined && id !== null) {
       const win = this.get(id as number | bigint);
       if (win) win.webContents.send(key, value);
     } else for (const i of this.getAll()) i.webContents.send(key, value);
@@ -373,7 +356,7 @@ export class Window {
   on() {
     //窗口数据更新
     ipcMain.on('window-update', (event, args) => {
-      if (args?.id) {
+      if (args.id !== undefined && args.id !== null) {
         const win = this.get(args.id);
         if (!win) {
           console.error('Invalid id, the id can not be a empty');
@@ -384,7 +367,7 @@ export class Window {
     });
     //最大化最小化窗口
     ipcMain.on('window-max-min-size', (event, id) => {
-      if (!isNull(id)) {
+      if (id !== undefined && id !== null) {
         const win = this.get(id);
         if (!win) {
           console.error('Invalid id, the id can not be a empty');
@@ -400,7 +383,7 @@ export class Window {
     ipcMain.on('window-close', (event, args) => {
       let win: BrowserWindow | null = null;
       let main: BrowserWindow = this.getMain() as BrowserWindow;
-      if (!isNull(args)) {
+      if (args !== undefined && args !== null) {
         win = this.get(args as number | bigint);
         if (!win) {
           console.error(`not found win -> ${args}`);

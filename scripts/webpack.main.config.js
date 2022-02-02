@@ -5,12 +5,12 @@ const base = require('./webpack.base.config');
 module.exports = (env) => {
   let config = {
     ...base,
-    externals: {},
     mode: env,
     target: 'electron-main',
     entry: {
       main: './src/main/index.ts',
-      preload: './src/main/preload/index.ts'
+      preload: './src/main/preload/index.ts',
+      'preload.url': './src/main/preload/index.url.ts'
     },
     output: {
       filename: './js/[name].js',

@@ -16,7 +16,7 @@ export class App {
     return App.instance;
   }
 
-  constructor() { }
+  constructor() {}
 
   private uring(module: any) {
     this.modular[module.name] = new module();

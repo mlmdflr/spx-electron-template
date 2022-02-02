@@ -117,7 +117,7 @@ export function windowCreate(customize: Customize, opt?: BrowserWindowConstructo
  * 窗口状态
  */
 export async function windowStatus(id: number | bigint = customize.get().id as number | bigint, type: WindowStatusOpt) {
-  return await window.ipc.invoke('window-status', { type, id });
+  return window.ipc.invoke('window-status', { type, id });
 }
 
 /**
@@ -208,5 +208,5 @@ export function windowMax(id: number | bigint = customize.get().id as number | b
  * 通过路由获取窗口id (不传route查全部)
  */
 export async function windowIdRoute(route?: string): Promise<[]> {
-  return await window.ipc.invoke('window-id-route',  route );
+  return window.ipc.invoke('window-id-route', route);
 }

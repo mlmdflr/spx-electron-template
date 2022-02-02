@@ -5,8 +5,6 @@ import { io, Socket as SocketIo } from 'socket.io-client';
 import type { ManagerOptions, SocketOptions } from 'socket.io-client';
 import { logError } from '@/main/modular/general/log';
 
-const { appSocket } = require('@/cfg/net.json');
-
 /**
  * Socket模块
  * */
@@ -30,7 +28,7 @@ export default class Socket {
   /**
    * 开启通讯
    */
-  open(callback: Function) {
+  open(url: string, callback: Function) {
     const message: { [key: string]: SocketMessage } = {
       connect: { code: 0, msg: '已连接' },
       disconnect: { code: 1, msg: '已断开' },
@@ -38,7 +36,7 @@ export default class Socket {
       error: { code: 3 },
       value: { code: 4 }
     };
-    this.io = io(appSocket.url, this.opts);
+    this.io = io(url, this.opts);
     this.io.on('connect', () => callback(message.connect));
     this.io.on('disconnect', () => callback(message.disconnect));
     this.io.on('message', (data) => {
@@ -85,9 +83,9 @@ export default class Socket {
     //关闭
     ipcMain.on('socket-close', async () => this.close());
     //打开socket
-    ipcMain.on('socket-open', async () => {
+    ipcMain.on('socket-open', async (event, args) => {
       if (!this.io)
-        this.open((data: { key: string; value: any }) => Window.send('socket-back', data));
+        this.open(args, (data: { key: string; value: any }) => Window.send('socket-back', data));
     });
     //发送消息
     ipcMain.on('socket-send', (event, args) => this.send(args));

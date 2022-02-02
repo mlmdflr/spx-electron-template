@@ -40,10 +40,6 @@ interface Customize_Url {
   currentHeight?: number;
   // 父类窗口是否全屏
   currentMaximized?: boolean;
-  // 放开一路一窗限制
-  isOpenMultiWindow?: boolean;
-  //是否开启加载动画
-  loadingAnimation?: boolean;
   // 是否主窗口(当为true时会替代当前主窗口)
   isMainWin?: boolean;
   // 父窗口id
