@@ -3,7 +3,7 @@ const { productName } = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const base = require('./webpack.base.config');
-const Webpack = require('Webpack');
+const { DefinePlugin } = require('webpack');
 
 module.exports = (env) => {
   let config = {
@@ -16,7 +16,7 @@ module.exports = (env) => {
     entry: {
       app: './src/renderer/index.ts'
     },
-    output: { 
+    output: {
       filename: './js/[name].v.js',
       chunkFilename: './js/[id].v.js',
       path: resolve('dist')
@@ -45,7 +45,10 @@ module.exports = (env) => {
       ]
     },
     plugins: [
-      new Webpack.DefinePlugin({ __VUE_OPTIONS_API__: JSON.stringify(true), __VUE_PROD_DEVTOOLS__: JSON.stringify(false) }),
+      new DefinePlugin({
+        __VUE_OPTIONS_API__: JSON.stringify(true),
+        __VUE_PROD_DEVTOOLS__: JSON.stringify(false)
+      }),
       new HtmlWebpackPlugin({
         title: productName,
         template: './resources/build/index.html'

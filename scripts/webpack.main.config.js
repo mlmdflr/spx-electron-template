@@ -6,6 +6,7 @@ module.exports = (env) => {
   let config = {
     ...base,
     mode: env,
+    externals: {},
     target: 'electron-main',
     entry: {
       main: './src/main/index.ts',
