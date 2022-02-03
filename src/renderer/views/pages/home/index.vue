@@ -107,9 +107,7 @@ function toAbout() {
 function toRepositories() {
   windowCreate({
     id: 0,
-    url: 'https://mlmdflr.cc',
-    isOpenMultiWindow: true,
-    loadingAnimation: true
+    url: 'https://mlmdflr.cc'
   }, {
     width: 800,
     height: 600

@@ -62,7 +62,9 @@ style.innerHTML = `
     background: transparent;
     }
 `
+let index = 0
 const id = setInterval(() => {
+    index++; if (index === 10) clearInterval(id);
     if (window.document.getElementsByTagName('head')[0]) {
         window.document.getElementsByTagName('head')[0].appendChild(style)
         clearInterval(id);
