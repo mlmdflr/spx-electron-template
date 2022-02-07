@@ -72,11 +72,12 @@ export function windowMessageRemove(channel: string) {
  * @param acceptIds 指定窗口id发送(默认为父窗体)
  */
 export function windowMessageSend(
-  channel: string,
-  value: any,
-  isback: boolean = false,
-  acceptIds: any[] = [customize.get().parentId]
+  channel: string, //监听key（保证唯一）
+  value: any, //需要发送的内容
+  isback: boolean = false, //是否给自身反馈
+  acceptIds: (number | bigint | undefined)[] = [] //指定窗口id发送
 ) {
+  if (acceptIds.length === 0 && customize.get().parentId !== undefined) acceptIds = [customize.get().parentId];
   window.ipc.send('window-message-send', {
     channel,
     value,
@@ -140,17 +141,14 @@ export function windowSetSize(
 }
 
 /**
- * 设置窗口最小大小
+ * 设置窗口 最大/最小 大小
  */
-export function windowSetMinSize(id: number | bigint = customize.get().id as number | bigint, size: number[]) {
-  window.ipc.send('window-min-size-set', { id, size });
-}
-
-/**
- * 设置窗口最小大小
- */
-export function windowSetMaxSize(id: number | bigint = customize.get().id as number | bigint, size: number[]) {
-  window.ipc.send('window-max-size-set', { id, size });
+export function windowSetMaxMinSize(
+  type: 'max' | 'min',
+  size: number | undefined[],
+  id: number | bigint = customize.get().id as number | bigint
+) {
+  window.ipc.send(`window-${type}-size-set`, { id, size });
 }
 
 /**
@@ -202,6 +200,17 @@ export function windowMin(id: number | bigint = customize.get().id as number | b
  */
 export function windowMax(id: number | bigint = customize.get().id as number | bigint) {
   window.ipc.send('window-func', { type: 'maximize', id });
+}
+
+/**
+ * window函数
+ */
+ export function windowFunc(
+  type: WindowFuncOpt,
+  data?: any[],
+  id: number | bigint = customize.get().id as number | bigint
+) {
+  window.ipc.send('window-func', { type, data, id });
 }
 
 /**

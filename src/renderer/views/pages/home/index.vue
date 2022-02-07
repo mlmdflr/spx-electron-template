@@ -15,7 +15,7 @@ import { menuShow, menuOn, menuListenersRemove } from '@/renderer/common/additio
 
 import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 
-import { snowflake } from '@/util/snowflake';
+import { Snowflake } from '@/util/snowflake';
 
 import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch, getGlobal, getAppInfo } from '@/renderer/common/app';
 
@@ -117,7 +117,7 @@ function toRepositories() {
 const snowflakeClick = () => {
   notification.success({
     title: '雪花算法',
-    content: new snowflake(1n, 2n).nextId().toString(),
+    content: new Snowflake(1n, 2n).nextId().toString(),
     duration: 3000
   })
 }

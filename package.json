@@ -1,8 +1,8 @@
 {
   "name": "xps-electron-ts-vue3-template",
   "productName": "xps-electron-ts-vue3-template",
-  "version": "7.7.3",
-  "description": "electron  ts+vue3 Templates for rapid development",
+  "version": "7.7.4",
+  "description": "electron  ts+vue3 template",
   "main": "dist/js/main.js",
   "author": {
     "name": "没礼貌的芬兰人",
@@ -11,18 +11,18 @@
   "license": "MIT",
   "scripts": {
     "dev": "node scripts/cfg.js && node scripts/dev.js",
-    "rebuild": "electron-rebuild -f",
+    "erf": "electron-rebuild -f",
     "updcfg": "node scripts/cfg.js",
     "build": "node scripts/cfg.js && node scripts/build.js",
     "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
-    "naive-ui": "^2.24.7",
-    "@swc/core": "^1.2.135",
+    "naive-ui": "^2.25.1",
+    "@swc/core": "^1.2.136",
     "@vue/compiler-sfc": "^3.2.29",
-    "css-loader": "^6.5.1",
+    "css-loader": "^6.6.0",
     "electron": "17.0.0",
-    "electron-builder": "^22.14.5",
+    "electron-builder": "^22.14.13",
     "electron-rebuild": "^3.2.7",
     "html-webpack-plugin": "^5.5.0",
     "prettier": "^2.5.1",
@@ -31,14 +31,14 @@
     "style-loader": "^3.3.1",
     "swc-loader": "^0.1.15",
     "typescript": "^4.5.5",
-    "vue": "^3.2.28",
+    "vue": "^3.2.29",
     "vue-loader": "^17.0.0",
     "vue-router": "^4.0.12",
-    "webpack": "^5.67.0",
+    "webpack": "^5.68.0",
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
-    "electron-updater": "^4.6.1",
+    "electron-updater": "^4.6.5",
     "socket.io-client": "^4.4.1"
   }
 }

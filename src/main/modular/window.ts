@@ -1,13 +1,9 @@
 import { join } from 'path';
 import type { BrowserWindowConstructorOptions, LoadFileOptions, LoadURLOptions } from 'electron';
 import { app, screen, ipcMain, BrowserWindow } from 'electron';
-import { snowflake } from "@/util/snowflake";
+import { Snowflake } from "@/util/snowflake";
 import windowCfg from '@/cfg/window.json'
 import { workerId, dataCenterId } from '@/cfg/snowflake.json'
-
-/**
- * Customize.id 类型限制为number | bigint 
- */
 
 /**
  * 窗口配置
@@ -69,11 +65,11 @@ export function browserWindowInit(
   }
 
   /**
-   * @description 特别注意 此处是为了保证窗口id的唯一性 设置id时如果已经有了则是默认雪花算法生成
+   * @description 设置id时如果已经有了则是默认雪花算法生成
    * @author 没礼貌的芬兰人
    * @date 2021-09-25 11:54:59
    */
-  if ((customize.id !== undefined && customize.id !== null) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
+  if ((customize.id !== undefined && customize.id !== null) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
 
   const win = new BrowserWindow(opt);
   //子窗体关闭父窗体获焦 https://github.com/electron/electron/issues/10616
@@ -82,19 +78,8 @@ export function browserWindowInit(
       parenWin?.focus()
     })
   }
-  /**
-   * 2021.9.6修改:
-   * 废弃BrowserWindow.id
-   * 使用customize.id来确定窗体id
-   * 默认为雪花算法生成
-   * 
-   * 2021.9.25修改:
-   * 包装customize.id唯一性
-   * 主观设置的id值不一定有效,以实际获取为准
-   * 
-   */
   win.customize = {
-    id: new snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId(),
+    id: new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId(),
     ...customize
   };
 
@@ -106,11 +91,6 @@ export function browserWindowInit(
  * 窗口加载
  */
 async function load(win: BrowserWindow) {
-  /**
-  * @description 监听操作更加细腻,指定到每个窗口
-  * @author 没礼貌的芬兰人
-  * @date 2021-09-25 16:27:27
-  */
   // 注入初始化代码
   win.webContents.on('did-finish-load', () => {
     if ('route' in win.customize) win.webContents.send(`window-load`, win.customize)
@@ -133,7 +113,9 @@ async function load(win: BrowserWindow) {
       win.loadURL(win.customize.url, win.customize.loadOptions as LoadURLOptions);
       return;
     }
-    win.loadURL(`file:///${win.customize.url}`, win.customize.loadOptions as LoadURLOptions);
+    win.loadFile(win.customize.url, win.customize.loadOptions as LoadFileOptions);
+  } else {
+    throw new Error(`url error`)
   }
 }
 
@@ -238,18 +220,20 @@ export class Window {
   /**
    * 窗口关闭、隐藏、显示等常用方法
    */
-  func(type: WindowFuncOpt, id?: number | bigint) {
-    let win: BrowserWindow | null = null;
-    if (id !== undefined && id !== null) {
-      win = this.get(id as number | bigint);
+  func(type: WindowFuncOpt, id?: number | bigint, data?: any[]) {
+    if (id !== null && id !== undefined) {
+      const win = this.get(id as number);
       if (!win) {
         console.error(`not found win -> ${id}`);
         return;
       }
-      win[type]()
+      // @ts-ignore
+      data ? win[type](...data) : win[type]();
       return;
     }
-    for (const i of this.getAll()) i[type]();
+    // @ts-ignore
+    if (data) for (const i of this.getAll()) i[type](...data);
+    else for (const i of this.getAll()) i[type]();
   }
 
   /**
@@ -283,7 +267,10 @@ export class Window {
       console.error('Invalid id, the id can not be a empty');
       return;
     }
-    win.setMinimumSize(args.size[0], args.size[1]);
+    const workAreaSize = args.size[0]
+      ? { width: args.size[0], height: args.size[1] }
+      : screen.getPrimaryDisplay().workAreaSize;
+    win.setMaximumSize(workAreaSize.width, workAreaSize.height);
   }
 
   /**
@@ -378,7 +365,7 @@ export class Window {
       }
     });
     //窗口消息
-    ipcMain.on('window-func', (event, args) => this.func(args.type, args.id));
+    ipcMain.on('window-func', (event, args) => this.func(args.type, args.id, args.data));
     //窗口消息-关闭(内置为主窗体关闭则全部退出)
     ipcMain.on('window-close', (event, args) => {
       let win: BrowserWindow | null = null;

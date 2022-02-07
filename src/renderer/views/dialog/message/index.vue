@@ -31,7 +31,7 @@ import {
   windowBlurFocusOn
 } from '@/renderer/common/window';
 import { NButton, NSpace } from 'naive-ui'
-import { snowflake } from '@/util/snowflake';
+import { Snowflake } from '@/util/snowflake';
 
 windowSetSize([400, 200], false, customize.get().currentMaximized);
 const argv = customize.get().argv ?? ''
@@ -42,7 +42,7 @@ function test() {
   windowMessageSend(
     'communication',
     {
-      value: new snowflake(1n, 2n).nextId()
+      value: new Snowflake(1n, 2n).nextId()
     },
     true
   );

@@ -1,11 +1,10 @@
 import type { IpcRendererEvent } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import { EOL } from 'os';
-import { isSecondInstanceWin } from '@/cfg/window.json'
+import { isSecondInstanceWin } from '@/cfg/app.json'
 import sleep from '@/util/sleep'
-import { snowflake } from '@/util/snowflake'
+import { Snowflake } from '@/util/snowflake'
 import { net, NetOpt } from '@/renderer/common/enhance/net'
-import { readFile } from '@/renderer/common/general/file';
 
 contextBridge.exposeInMainWorld('ipc', {
     send: (channel: string, args?: any) => ipcRenderer.send(channel, args),
@@ -27,10 +26,9 @@ contextBridge.exposeInMainWorld('environment', {
 
 contextBridge.exposeInMainWorld('sleep', (duration: number, value: any) => sleep(duration, value));
 
-contextBridge.exposeInMainWorld('snowflake', (workerId: bigint, dataCenterId: bigint) => new snowflake(workerId, dataCenterId).nextId());
+contextBridge.exposeInMainWorld('Snowflake', (workerId: bigint, dataCenterId: bigint) => new Snowflake(workerId, dataCenterId).nextId());
 
 contextBridge.exposeInMainWorld('net', (url: string, param: NetOpt) => net(url, param));
-
 
 const style = window.document.createElement("style");
 
@@ -45,13 +43,13 @@ style.innerHTML = `
 
     *::-webkit-scrollbar {
     /*滚动条整体样式*/
-    width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
-    height: 5px;
+    width: 6px; /*高宽分别对应横竖滚动条的尺寸*/
+    height: 6px;
     }
 
     *::-webkit-scrollbar-thumb {
     /*滚动条里面小方块*/
-    /*-webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);*/
+    /*-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);*/
     backdrop-filter: blur(10px);
     background: rgba(0, 0, 0, 0.3);
     }

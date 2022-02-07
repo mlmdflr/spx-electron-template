@@ -3,6 +3,9 @@
   "productName": "xps-electron-ts-vue3-template",
   "appId": "org.xps-electron-ts-vue3-template",
   "copyright": "MIT",
+  "electronDownload": {
+    "customDir": "v17.0.0"
+  },
   "asar": true,
   "directories": {
     "output": "out"
