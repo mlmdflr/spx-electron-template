@@ -1,0 +1,69 @@
+Arguments: 
+  D:\nodejs\node.exe D:\nodejs\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  G:\VMware\bin\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;D:\java\java-se-8u41-ri\bin;D:\java\java-se-8u41-ri\jre\bin;F:\apache-tomcat-8.5.65\bin;E:\mysql-5.7.31-winx64\bin;F:\apache-maven-3.8.1\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\bin;D:\xshell\;D:\xftp\;F:\sudo-net-ddns;D:\nvm;D:\nodejs;D:\go\bin;F:\flutter\bin;F:\android user sdk\platform-tools;C:\Program Files\dotnet\;D:\Microsoft VS Code\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Users\Administrator\AppData\Local\pnpm;C:\Users\Administrator\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\Administrator\AppData\Local\Programs\Python\Python37\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;D:\Bandizip\;D:\nvm;D:\nodejs;C:\Users\Administrator\go\bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  14.17.5
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EEXIST: file already exists, mkdir 'F:\xps\xps-electron-ts-vue3-template\node_modules\body-parser\node_modules'
+
+npm manifest: 
+  {
+    "name": "xps-electron-ts-vue3-template",
+    "productName": "xps-electron-ts-vue3-template",
+    "version": "7.7.4",
+    "description": "electron  ts+vue3 template",
+    "main": "dist/js/main.js",
+    "author": {
+      "name": "没礼貌的芬兰人",
+      "email": "liao520ly@gmail.com"
+    },
+    "license": "MIT",
+    "scripts": {
+      "dev": "node scripts/cfg.js && node scripts/dev.js",
+      "erf": "electron-rebuild -f",
+      "updcfg": "node scripts/cfg.js",
+      "build": "node scripts/cfg.js && node scripts/build.js",
+      "postinstall": "electron-builder install-app-deps"
+    },
+    "devDependencies": {
+      "naive-ui": "^2.25.1",
+      "@swc/core": "^1.2.138",
+      "@vue/compiler-sfc": "^3.2.30",
+      "css-loader": "^6.6.0",
+      "electron": "17.0.0",
+      "electron-builder": "^22.14.13",
+      "electron-rebuild": "^3.2.7",
+      "html-webpack-plugin": "^5.5.0",
+      "prettier": "^2.5.1",
+      "sass": "^1.49.7",
+      "sass-loader": "^12.4.0",
+      "style-loader": "^3.3.1",
+      "swc-loader": "^0.1.15",
+      "typescript": "^4.5.5",
+      "vue": "^3.2.30",
+      "vue-loader": "^17.0.0",
+      "vue-router": "^4.0.12",
+      "webpack": "^5.68.0",
+      "webpack-dev-server": "^4.7.4"
+    },
+    "dependencies": {
+      "electron-updater": "^4.6.5",
+      "socket.io-client": "^4.4.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
