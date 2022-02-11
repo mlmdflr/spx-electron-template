@@ -1,13 +1,12 @@
-// import type { AllPublishOptions } from 'builder-util-runtime';
-import type { AppUpdater, } from 'electron-updater';
+import type { AllPublishOptions } from 'builder-util-runtime';
+import type { AppUpdater } from 'electron-updater';
 import { join } from 'path';
-import {  AppImageUpdater, MacUpdater, NsisUpdater } from 'electron-updater';
+import { AppImageUpdater, MacUpdater, NsisUpdater } from 'electron-updater';
 import { delDir } from '@/main/modular/general/file';
 import { ipcMain, app } from 'electron';
 import Window from '@/main/modular/window';
 import { logError } from '@/main/modular/general/log';
-
-const updateCfg = require('@/cfg/update.json');
+import updateCfg from '@/cfg/update.json';
 
 /**
  * 更新模块 https://www.electron.build/auto-update
@@ -16,7 +15,7 @@ export default class Update {
   public autoUpdater: AppUpdater;
 
   constructor() {
-    const options = {
+    const options: AllPublishOptions = {
       provider: updateCfg.provider,
       url: updateCfg.url
     };
@@ -41,7 +40,7 @@ export default class Update {
     );
     try {
       delDir(updatePendingPath);
-    } catch (e) { }
+    } catch (e) {}
   }
 
   /**
