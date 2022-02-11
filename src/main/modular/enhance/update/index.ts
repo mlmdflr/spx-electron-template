@@ -1,6 +1,7 @@
+// import type { AllPublishOptions } from 'builder-util-runtime';
+import type { AppUpdater, } from 'electron-updater';
 import { join } from 'path';
-import { AppUpdater, AppImageUpdater, MacUpdater, NsisUpdater } from 'electron-updater';
-import { AllPublishOptions } from 'builder-util-runtime';
+import {  AppImageUpdater, MacUpdater, NsisUpdater } from 'electron-updater';
 import { delDir } from '@/main/modular/general/file';
 import { ipcMain, app } from 'electron';
 import Window from '@/main/modular/window';
@@ -15,7 +16,7 @@ export default class Update {
   public autoUpdater: AppUpdater;
 
   constructor() {
-    const options: AllPublishOptions = {
+    const options = {
       provider: updateCfg.provider,
       url: updateCfg.url
     };
@@ -24,7 +25,7 @@ export default class Update {
     else this.autoUpdater = new AppImageUpdater(options);
     //本地开发环境，使用调试app-update.yml地址
     if (!app.isPackaged && !(process.platform === 'darwin')) {
-      this.autoUpdater.updateConfigPath = join('build/cfg/app-update.yml');
+      this.autoUpdater.updateConfigPath = join('resources/build/cfg/app-update.yml');
     }
   }
 
@@ -40,7 +41,7 @@ export default class Update {
     );
     try {
       delDir(updatePendingPath);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   /**
