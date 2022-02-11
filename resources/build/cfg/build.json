@@ -97,8 +97,5 @@
         "**/*"
       ]
     }
-  ],
-  "electronDownload": {
-    "customDir": "v17.0.0"
-  }
+  ]
 }
