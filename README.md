@@ -1,7 +1,9 @@
-# xps-electron-vue-template
+# electron-template(vue)
 
-一个基于 `electron` 多窗口模式的模板 
+一个基于 `electron` 多窗口模式的模板,交流`qq`群 `12354891`
 
-[主分支 @youli](https://github.com/youliso/electron-template)
-
+## 文档地址
 [文档地址](https://mlmdflr.cc/doc)
+
+## 主分支地址
+[main @youli](https://github.com/youliso/electron-template)
