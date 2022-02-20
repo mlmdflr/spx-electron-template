@@ -8,6 +8,4 @@
 ## 其他分支地址
 [main @youli](https://github.com/youliso/electron-template)
 
-[main @youli](https://github.com/youliso/electron-template)
-
 [react @TaiAiAc](https://github.com/TaiAiAc/electron-react-template)
