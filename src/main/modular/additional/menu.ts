@@ -6,7 +6,6 @@ import {
   MenuItem,
   MenuItemConstructorOptions
 } from 'electron';
-import { join } from 'path';
 import testIcon from '@/assets/icon/test.png';
 
 export default class Menus {
@@ -20,7 +19,7 @@ export default class Menus {
       const template: Array<MenuItemConstructorOptions | MenuItem> = [
         {
           label: '右键弹框测试',
-          icon: nativeImage.createFromPath(join(__dirname, `../${testIcon}`)),
+          icon: nativeImage.createFromDataURL(testIcon),
           click: () => {
             event.sender.send('menu-back', '邪王真眼是最强的');
           }
