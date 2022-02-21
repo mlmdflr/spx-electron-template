@@ -104,7 +104,7 @@ async function load(win: BrowserWindow) {
   //页面加载
   if ('route' in win.customize && win.customize.baseUrl) {
     if (win.customize.baseUrl.startsWith('https://') || win.customize.baseUrl.startsWith('http://')) {
-      win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions).catch(err => console.log);
+      win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions).catch(console.log);
       return;
     }
     win.loadFile(win.customize.baseUrl, win.customize.loadOptions as LoadFileOptions);

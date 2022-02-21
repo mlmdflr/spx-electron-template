@@ -65,5 +65,15 @@ module.exports = [
     },
     external,
     plugins
+  },
+  {
+    input: resolve('src/main/preload/index.url.ts'),
+    output: {
+      file: resolve('dist/main/preload.url.js'),
+      format: 'cjs',
+      sourcemap: false
+    },
+    external,
+    plugins
   }
 ];

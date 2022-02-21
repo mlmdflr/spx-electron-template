@@ -16,5 +16,7 @@
 import { keepAliveData } from '@/renderer/store';
 </script>
 <style lang="scss">
+@import "./scss/color";
+@import "./scss/index";
 </style>
   
