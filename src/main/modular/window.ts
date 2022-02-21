@@ -104,7 +104,7 @@ async function load(win: BrowserWindow) {
   //页面加载
   if ('route' in win.customize && win.customize.baseUrl) {
     if (win.customize.baseUrl.startsWith('https://') || win.customize.baseUrl.startsWith('http://')) {
-      win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions);
+      win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions).catch(err => console.log);
       return;
     }
     win.loadFile(win.customize.baseUrl, win.customize.loadOptions as LoadFileOptions);
@@ -213,7 +213,7 @@ export class Window {
       }
       return;
     }
-    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../index.html');
+    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../renderer/index.html');
     load(win);
   }
 

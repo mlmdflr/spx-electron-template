@@ -3,8 +3,7 @@ import { deepCopy } from '@/util';
 import { Snowflake } from '@/util/snowflake';
 import Window from '@/main/modular/window';
 import { logError } from "@/main/modular/general/log";
-
-const { workerId, dataCenterId } = require('@/cfg/snowflake.json')
+import { workerId, dataCenterId } from '@/cfg/snowflake.json'
 
 
 

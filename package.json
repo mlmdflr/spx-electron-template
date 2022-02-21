@@ -3,7 +3,7 @@
   "productName": "xps-electron-ts-vue3-template",
   "version": "7.7.4",
   "description": "electron  ts+vue3 template",
-  "main": "dist/js/main.js",
+  "main": "dist/main/index.js",
   "author": {
     "name": "没礼貌的芬兰人",
     "email": "liao520ly@gmail.com"
@@ -17,25 +17,28 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
-    "naive-ui": "^2.25.2",
-    "@swc/core": "^1.2.141",
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-image": "^2.1.1",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@vitejs/plugin-vue": "^2.2.0",
     "@vue/compiler-sfc": "^3.2.31",
-    "css-loader": "^6.6.0",
     "electron": "17.0.1",
     "electron-builder": "^22.14.13",
     "electron-rebuild": "^3.2.7",
-    "html-webpack-plugin": "^5.5.0",
+    "esbuild": "^0.14.23",
+    "javascript-obfuscator": "^4.0.0",
+    "naive-ui": "^2.25.2",
     "prettier": "^2.5.1",
+    "rollup-plugin-esbuild": "^4.8.2",
+    "rollup-plugin-obfuscator": "^0.2.1",
     "sass": "^1.49.8",
-    "sass-loader": "^12.6.0",
-    "style-loader": "^3.3.1",
-    "swc-loader": "^0.1.15",
     "typescript": "^4.5.5",
+    "vite": "^2.8.4",
+    "vite-plugin-html": "^3.0.6",
     "vue": "^3.2.31",
-    "vue-loader": "^17.0.0",
-    "vue-router": "^4.0.12",
-    "webpack": "^5.69.1",
-    "webpack-dev-server": "^4.7.4"
+    "vue-router": "^4.0.12"
   },
   "dependencies": {
     "electron-updater": "^4.6.5",

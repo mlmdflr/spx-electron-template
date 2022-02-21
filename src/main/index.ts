@@ -14,22 +14,22 @@ import Menu from './modular/additional/menu';
 import Update from './/modular/enhance/update';
 import Socket from './modular/enhance/socket';
 
-await App.start();
-// 主要模块
-Global.on();//全局模块
-Window.on();//窗口模块
-Shortcut.on();//快捷键模块
-Tray.on();//托盘模块
-logOn();//日志模块
+App.start().then(async () => {
+    // 主要模块
+    Global.on();//全局模块
+    Window.on();//窗口模块
+    Shortcut.on();//快捷键模块
+    Tray.on();//托盘模块
+    logOn();//日志模块
 
-// 可选模块
-fileOn();//文件模块
-pathOn();//路径模块
+    // 可选模块
+    fileOn();//文件模块
+    pathOn();//路径模块
 
-await App.use([Session, Dialog, Menu, Update, Socket]);
+    await App.use([Session, Dialog, Menu, Update, Socket]);
+    // 窗口
+    Window.create(customize, opt);
 
-// 窗口
-Window.create(customize, opt);
-
-// 托盘
-Tray.create();
+    // 托盘
+    Tray.create();
+})

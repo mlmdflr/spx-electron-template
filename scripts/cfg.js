@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { name,productName } = require('../package.json');
+const { name, productName } = require('../package.json');
 const config = require('../resources/build/cfg/build.json');
 const windowConfig = require('../src/cfg/window.json');
 const updateConfig = require('../src/cfg/update.json');
@@ -22,7 +22,7 @@ config.asar = true; //是否asar打包
 /** 窗口配置 **/
 windowConfig.customize.title = productName;
 
-/** win配置 */
+/** win配置 **/
 config.nsis.displayLanguageSelector = false; //安装包语言提示
 config.nsis.menuCategory = false; //是否创建开始菜单目录
 config.nsis.shortcutName = name; //快捷方式名称(可中文)
@@ -95,7 +95,6 @@ if (config.nsis.allowToChangeInstallationDirectory) {
     '"\n' +
     '!macroend';
 }
-
 
 fs.writeFileSync('./resources/build/cfg/app-update.yml', update);
 fs.writeFileSync('./resources/build/cfg/build.json', JSON.stringify(config, null, 2));
