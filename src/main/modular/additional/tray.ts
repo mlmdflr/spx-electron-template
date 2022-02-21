@@ -1,5 +1,4 @@
 import { app, Menu, Tray, nativeImage } from 'electron';
-import { join } from 'path';
 import Window from '@/main/modular/window';
 import ico from '@/assets/icon/tray.png';
 
@@ -29,7 +28,7 @@ class Trays {
         click: () => app.quit()
       }
     ]);
-    this.main = new Tray(nativeImage.createFromPath(join(__dirname, `../${ico}`)));
+    this.main = new Tray(nativeImage.createFromDataURL(ico));
     this.main.setContextMenu(contextMenu);
     this.main.setToolTip(app.name);
     this.main.on('click', () => Window.func('show'));
@@ -38,7 +37,7 @@ class Trays {
   /**
    * 监听
    */
-  on() { }
+  on() {}
 }
 
 export default Trays.getInstance();
