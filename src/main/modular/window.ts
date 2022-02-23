@@ -42,8 +42,7 @@ export function browserWindowInit(
       webSecurity: false
     }
   });
-  if (!opt.backgroundColor && windowCfg.opt.backgroundColor)
-    opt.backgroundColor = windowCfg.opt.backgroundColor;
+  if (!opt.backgroundColor && windowCfg.opt.backgroundColor)opt.backgroundColor = windowCfg.opt.backgroundColor;
   const isParentId = customize.parentId !== undefined && customize.parentId !== null;
   let parenWin: BrowserWindow | null = null;
   if (isParentId && (typeof customize.parentId === 'number' || typeof customize.parentId === 'bigint')) parenWin = Window.getInstance().get(customize.parentId);
@@ -74,15 +73,12 @@ export function browserWindowInit(
   const win = new BrowserWindow(opt);
   //子窗体关闭父窗体获焦 https://github.com/electron/electron/issues/10616
   if (isParentId && parenWin) {
-    win.once('closed', () => {
-      parenWin?.focus()
-    })
+    win.once('closed', () =>  parenWin?.focus())
   }
   win.customize = {
     id: new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId(),
     ...customize
   };
-
   if (!win.customize.argv) win.customize.argv = process.argv;
   return win;
 }
@@ -114,9 +110,7 @@ async function load(win: BrowserWindow) {
       return;
     }
     win.loadFile(win.customize.url, win.customize.loadOptions as LoadFileOptions);
-  } else {
-    throw new Error(`url error`)
-  }
+  } else throw new Error(`load url error`)
 }
 
 export class Window {
@@ -136,12 +130,8 @@ export class Window {
    */
   get(id: number | bigint) {
     const all = this.getAll()
-    for (let key in all) {
-      if (all[key].customize?.id === id) {
-        return all[key]
-      }
-    }
-    return null
+    for (let key in all) if (all[key].customize?.id === id) return all[key]
+    throw new Error('window not exist')
   }
 
   /**
@@ -176,11 +166,7 @@ export class Window {
    * @param id 
    */
   checkId(id: number | bigint): boolean {
-    for (const wins of this.getAll()) {
-      if (wins.customize?.id === id) {
-        return false
-      }
-    }
+    for (const wins of this.getAll()) if (wins.customize?.id === id) return false
     return true
   }
 
@@ -376,11 +362,8 @@ export class Window {
           console.error(`not found win -> ${args}`);
           return;
         }
-        if (main.customize.isMainWin && main.customize.id === win.customize.id) {
-          this.func('close')
-        } else {
-          win.close()
-        }
+        if (main.customize.isMainWin && main.customize.id === win.customize.id) this.func('close')
+        else win.close()
       }
     });
     //窗口状态
@@ -403,31 +386,23 @@ export class Window {
       if (args.acceptIds && args.acceptIds.length > 0) {
         for (let i of args.acceptIds) {
           let win = this.get(i)
-          if (win) {
-            win.webContents.send(channel, args.value);
-          }
+          if (win) win.webContents.send(channel, args.value);
         }
       }
       if (args.isback) {
         let win = this.get(args.id)
-        if (win) {
-          win.webContents.send(channel, args.value);
-        }
+        if (win) win.webContents.send(channel, args.value);
       }
     });
     //窗口消息(全部发送)
     ipcMain.on('window-message-send-all', (event, args) => {
       let channel = `window-message-${args.channel}-back`;
       for (let i of this.getAll()) {
-        if (i.customize.id !== args.id) {
-          i.webContents.send(channel, args.value);
-        }
+        if (i.customize.id !== args.id) i.webContents.send(channel, args.value);
       }
       if (args.isback) {
         let win = this.get(args.id)
-        if (win) {
-          win.webContents.send(channel, args.value);
-        }
+        if (win) win.webContents.send(channel, args.value);
       }
     });
 
