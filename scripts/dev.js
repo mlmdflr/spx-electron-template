@@ -75,9 +75,11 @@ function startElectron() {
 }
 
 async function init() {
+  console.time('dev');
   await startRenderer();
   await startMain();
   startElectron();
+  console.timeEnd('dev');
 }
 
 init().then();
