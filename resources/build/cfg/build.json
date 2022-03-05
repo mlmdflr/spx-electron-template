@@ -4,6 +4,7 @@
   "appId": "org.xps-electron-ts-vue3-template",
   "copyright": "MIT",
   "asar": true,
+  "afterPack": "scripts/buildAfterPack.js",
   "directories": {
     "output": "out"
   },
