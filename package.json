@@ -17,8 +17,8 @@
     "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
-    "naive-ui": "^2.25.8",
-    "@swc/core": "^1.2.146",
+    "naive-ui": "^2.26.0",
+    "@swc/core": "^1.2.148",
     "@vue/compiler-sfc": "^3.2.31",
     "css-loader": "^6.6.0",
     "electron": "17.1.0",
@@ -34,7 +34,7 @@
     "vue": "^3.2.31",
     "vue-loader": "^17.0.0",
     "vue-router": "^4.0.13",
-    "webpack": "^5.69.1",
+    "webpack": "^5.70.0",
     "webpack-dev-server": "^4.7.4"
   },
   "dependencies": {
