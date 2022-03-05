@@ -20,6 +20,7 @@
     "naive-ui": "^2.26.0",
     "@swc/core": "^1.2.148",
     "@vue/compiler-sfc": "^3.2.31",
+    "asarmor": "^2.0.0",
     "css-loader": "^6.6.0",
     "electron": "17.1.0",
     "electron-builder": "^22.14.13",

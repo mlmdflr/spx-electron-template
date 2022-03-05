@@ -78,12 +78,19 @@ export function browserWindowInit(
       parenWin?.focus()
     })
   }
+  
+  if (!customize.argv) customize.argv = process.argv;
   win.customize = {
     id: new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId(),
     ...customize
   };
 
-  if (!win.customize.argv) win.customize.argv = process.argv;
+  // 窗口内创建
+  // win.webContents.setWindowOpenHandler((_) => ({
+  //   action: 'allow',
+  //   overrideBrowserWindowOptions: opt
+  // }));
+  
   return win;
 }
 
