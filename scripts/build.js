@@ -6,9 +6,10 @@ const builder = require('electron-builder');
 const buildConfig = require('../resources/build/cfg/build.json');
 const main = require('./webpack.main.config'); //主进程
 const renderer = require('./webpack.renderer.config'); //子进程
-let [, , arch] = process.argv;
+let [, , arch, _notP] = process.argv;
 
 const optional = ['win', 'win32', 'win64', 'winp', 'winp32', 'winp64', 'darwin', 'mac', 'linux'];
+const notP_optional = '-notp'
 
 const r = readline.createInterface({
   input: process.stdin,
@@ -32,6 +33,8 @@ function deleteFolderRecursive(url) {
   }
 }
 
+buildConfig.afterPack = 'scripts/buildAfterPack.js';
+
 buildConfig.extraResources = [
   {
     from: 'resources/extern',
@@ -42,7 +45,7 @@ buildConfig.extraResources = [
 
 function checkInput(str) {
   if (optional.indexOf(str) === -1) {
-    console.log('illegal input');
+    console.log(`\x1B[31mIllegal input , Please check input \x1B[0m`);
     r.close();
     return false;
   }
@@ -103,6 +106,7 @@ function core(arch) {
   } catch (err) {}
   fs.writeFileSync('./resources/build/cfg/build.json', JSON.stringify(buildConfig, null, 2)); //写入配置
   deleteFolderRecursive(path.resolve('dist')); //清除dist
+  console.log('\x1B[34m[build start]\x1B[0m');
   webpack([{ ...main('production') }, { ...renderer('production') }], (err, stats) => {
     if (err || stats.hasErrors()) throw err;
     builder
@@ -111,28 +115,30 @@ function core(arch) {
         config: buildConfig
       })
       .then((result) => {
-        console.log('[build success]');
+        console.log('\x1B[32m[build success] \x1B[0m');
       })
       .catch((error) => {
         console.error(error);
       })
-      .finally(() => r.close());
   });
 }
 
 if (!arch) {
-  console.log('Which platform is you want to build?');
-  console.log(`optional：${optional}    q exit`);
+  console.log('\x1B[36mWhich platform is you want to build?\x1B[0m');
+  console.log(`optional：\x1B[33m${optional}\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m  \x1B[2m|\x1B[0m  [\x1B[36m${notP_optional}\x1B[0m]  `);
   r.on('line', (str) => {
-    if (str === 'q') {
-      console.log('exit success');
+    let strs = str.split(" ").filter(s => s !== '')
+    if (strs[0] === 'q') {
+      console.log(`\x1B[32mExit success\x1B[0m`);
       r.close();
       return;
     }
-    if (!checkInput(str)) return;
-    r.pause();
-    core(str);
+    if (strs[1] && strs[1] === notP_optional) delete buildConfig.afterPack
+    if (!checkInput(strs[0])) return;
+    r.close();
+    core(strs[0]);
   });
 } else {
+  if (_notP) delete buildConfig.afterPack
   if (checkInput(arch)) core(arch);
 }
