@@ -35,7 +35,7 @@ export function browserWindowInit(
     frame: args.frame ?? !isLocal,
     show: args.show ?? !isLocal,
     webPreferences: {
-      preload: isLocal ? join(__dirname, './preload.js') : join(__dirname, './preload.url.js'),
+      preload: isLocal ? join(__dirname, './preload.route.js') : join(__dirname, './preload.url.js'),
       contextIsolation: true,
       nodeIntegration: false,
       devTools: !app.isPackaged,

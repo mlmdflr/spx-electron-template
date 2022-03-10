@@ -23,6 +23,13 @@ module.exports = defineConfig({
       '@': resolve('src')
     }
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        charset: false
+      }
+    }
+  },
   plugins: [
     vue(),
     macrosPlugin(),

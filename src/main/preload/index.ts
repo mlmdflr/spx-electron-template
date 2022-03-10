@@ -1,22 +1,13 @@
-import type { IpcRendererEvent } from 'electron';
-import { contextBridge, ipcRenderer } from 'electron';
-import { EOL } from 'os';
-import { isSecondInstanceWin } from '@/cfg/app.json'
+import { /* BrowserWindow,*/  ipcMain } from "electron";
 
-contextBridge.exposeInMainWorld('ipc', {
-  send: (channel: string, args?: any) => ipcRenderer.send(channel, args),
-  sendSync: (channel: string, args?: any) => ipcRenderer.sendSync(channel, args),
-  on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) =>
-    ipcRenderer.on(channel, listener),
-  once: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) =>
-    ipcRenderer.once(channel, listener),
-  invoke: (channel: string, args: any) => ipcRenderer.invoke(channel, args),
-  removeAllListeners: (channel: string) => ipcRenderer.removeAllListeners(channel)
-});
+/** 预加载脚本监听 **/
 
-contextBridge.exposeInMainWorld('environment', {
-  EOL,
-  systemVersion: process.getSystemVersion(),
-  platform: process.platform,
-  isSecondInstanceWin
-});
+ipcMain.on('preload:route', (event) => {
+    // console.log('from route id:'+BrowserWindow.fromWebContents(event.sender)?.customize.id);
+})
+
+
+//注意: 加载一些连接如果有跳转重定向操作会重置预加载 即监听两次
+ipcMain.on('preload:url', (event) => {
+    // console.log('from url id:'+BrowserWindow.fromWebContents(event.sender)?.customize.id);
+})

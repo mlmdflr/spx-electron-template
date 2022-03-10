@@ -224,6 +224,7 @@ onUnmounted(() => {
 <style lang='scss' scoped>
 @import "./scss/index";
 </style>
+
 <template>
   <div class="container">
     <Head />

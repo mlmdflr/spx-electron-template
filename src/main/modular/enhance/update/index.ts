@@ -16,6 +16,7 @@ export default class Update {
 
   constructor() {
     const options: AllPublishOptions = {
+      // @ts-ignore
       provider: updateCfg.provider,
       url: updateCfg.url
     };
@@ -40,7 +41,7 @@ export default class Update {
     );
     try {
       delDir(updatePendingPath);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   /**

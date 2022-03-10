@@ -14,6 +14,8 @@ import Menu from './modular/additional/menu';
 import Update from './/modular/enhance/update';
 import Socket from './modular/enhance/socket';
 
+import './preload'
+
 App.start().then(async () => {
     // 主要模块
     Global.on();//全局模块

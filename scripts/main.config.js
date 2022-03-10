@@ -57,9 +57,9 @@ module.exports = [
     plugins
   },
   {
-    input: resolve('src/main/preload/index.ts'),
+    input: resolve('src/main/preload/route/index.ts'),
     output: {
-      file: resolve('dist/main/preload.js'),
+      file: resolve('dist/main/preload.route.js'),
       format: 'cjs',
       sourcemap: false
     },
@@ -67,7 +67,7 @@ module.exports = [
     plugins
   },
   {
-    input: resolve('src/main/preload/index.url.ts'),
+    input: resolve('src/main/preload/url/index.ts'),
     output: {
       file: resolve('dist/main/preload.url.js'),
       format: 'cjs',

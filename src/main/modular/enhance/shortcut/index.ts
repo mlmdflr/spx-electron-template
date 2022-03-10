@@ -121,14 +121,10 @@ class Shortcut {
   check(key: string): number | bigint {
     for (let i = 0, len = this.data.length; i < len; i++) {
       const accelerator = this.data[i];
-      if (typeof accelerator.key === 'string' && accelerator.key === key) {
-        return accelerator.id as number | bigint
-      }
+      if (typeof accelerator.key === 'string' && accelerator.key === key)return accelerator.id as number | bigint
       if (Array.isArray(accelerator.key)) {
         const index = accelerator.key.indexOf(key);
-        if (index > ACCELERATOR_CONST.NOT_ID) {
-          return accelerator.id as number | bigint
-        }
+        if (index > ACCELERATOR_CONST.NOT_ID) return accelerator.id as number | bigint
       }
     }
     return ACCELERATOR_CONST.NOT_ID
