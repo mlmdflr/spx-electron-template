@@ -33,7 +33,7 @@
 </template>
 
 
-<script lang="ts">
+<script  lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 
 function isBlank(o: string): boolean {

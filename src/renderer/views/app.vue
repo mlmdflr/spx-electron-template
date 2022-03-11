@@ -1,4 +1,5 @@
 <template>
+  <n-config-provider :theme="darkTheme">
     <router-view v-slot="{ Component, route }">
       <transition :name="route.meta.transition || 'fade'" mode="out-in">
         <keep-alive
@@ -11,9 +12,11 @@
         </keep-alive>
       </transition>
     </router-view>
+  </n-config-provider>
 </template>
 <script setup lang="ts">
 import { keepAliveData } from '@/renderer/store';
+import { NConfigProvider,darkTheme } from "naive-ui";
 </script>
 <style lang="scss">
 @import "./scss/color";

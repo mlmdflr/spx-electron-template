@@ -1,4 +1,4 @@
-import { app, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, shell } from 'electron';
 import { resolve } from 'path';
 import { logError } from '@/main/modular/general/log';
 import Window from '@/main/modular/window';
@@ -89,6 +89,7 @@ export class App {
     app.on('render-process-gone', (event, webContents, details) =>
       logError(
         '[render-process-gone]',
+        BrowserWindow.fromWebContents(webContents)?.id,
         webContents.getTitle(),
         webContents.getURL(),
         JSON.stringify(details)
@@ -114,7 +115,6 @@ export class App {
     });
     // 获得焦点时发出
     app.on('browser-window-focus', () => {
-      // 注册窗体重新加载,方便调试,不需要可将其关闭
       // Shortcut.register_id({
       //   id: 0,
       //   key: 'CommandOrControl+R',

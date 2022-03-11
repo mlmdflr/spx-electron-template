@@ -148,7 +148,7 @@ const insidePathClick = async () => {
 }
 const rootPathClick = async () => {
   notification.success({
-    title: 'inside路径',
+    title: 'root路径',
     content: await getRootPath(),
     duration: 3000
   })
@@ -263,7 +263,7 @@ onUnmounted(() => {
               <n-button tertiary type="info" @click="insidePathClick">inside路径</n-button>
             </n-gi>
             <n-gi>
-              <n-button tertiary type="info" @click="rootPathClick">inside路径</n-button>
+              <n-button tertiary type="info" @click="rootPathClick">root路径</n-button>
             </n-gi>
           </n-grid>
           <n-grid x-gap="12" :cols="1">
