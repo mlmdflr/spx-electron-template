@@ -90,11 +90,10 @@ function test() {
       title: '弹框测试',
       route: '/message',
       data: { text: 'wdnmd' },
-      parentId: customize.get().id,
-      isMainWin: true
+      parentId: customize.get().id
     },
     {
-      modal: true
+      modal: false
     }
   );
 }
@@ -238,7 +237,7 @@ onUnmounted(() => {
             <n-button strong secondary type="info" @click="toRepositories">mlmdflr</n-button>
             <n-button strong secondary type="info" @click="test">弹个框</n-button>
             <n-button strong secondary type="info" @click="snowflakeClick">雪花算法生成</n-button>
-            <n-button type="warning" @click="rebootApp">重启app</n-button>
+            <n-button strong secondary type="warning" @click="rebootApp">重启app</n-button>
           </n-space>
           <n-grid x-gap="12" :cols="1">
             <n-gi>开机自启:</n-gi>
@@ -266,15 +265,14 @@ onUnmounted(() => {
               <n-button tertiary type="info" @click="rootPathClick">root路径</n-button>
             </n-gi>
           </n-grid>
-          <n-grid x-gap="12" :cols="1">
+          <!-- <n-grid x-gap="12" :cols="1">
             <n-gi>快捷键:</n-gi>
-          </n-grid>
-          <n-grid x-gap="12" :cols="1">
+          </n-grid> -->
+          <!-- <n-grid x-gap="12" :cols="1">
             <n-gi>
-              <!-- <HotkeyInput v-model="shortcutStr"></HotkeyInput> -->
               <HotkeyInput :multiple="true" :max="4" v-model="shortcutStr"></HotkeyInput>
             </n-gi>
-          </n-grid>
+          </n-grid> -->
         </div>
       </n-message-provider>
     </n-notification-provider>
