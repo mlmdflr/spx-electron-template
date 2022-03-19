@@ -1,7 +1,7 @@
 import type { IpcRendererEvent } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import { EOL } from 'os';
-import { isSecondInstanceWin } from '@/cfg/app.json'
+import { isSecondInstanceWin } from '@/cfg/app.cfg'
 import sleep from '@/util/sleep'
 import { Snowflake } from '@/util/snowflake'
 import { net, NetOpt } from '@/renderer/common/enhance/net'

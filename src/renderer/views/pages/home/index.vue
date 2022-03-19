@@ -93,7 +93,7 @@ function test() {
       parentId: customize.get().id
     },
     {
-      modal: false
+      modal: true
     }
   );
 }

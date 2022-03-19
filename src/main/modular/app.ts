@@ -1,11 +1,11 @@
-import { app, BrowserWindow, ipcMain, shell } from 'electron';
+import { app, BrowserWindow, ipcMain, session, shell } from 'electron';
 import { resolve } from 'path';
 import { logError } from '@/main/modular/general/log';
 import Window from '@/main/modular/window';
 import { isNull } from '@/util';
 
-import { isDisableHardwareAcceleration, isSecondInstanceWin } from '@/cfg/app.json';
-import { customize, opt } from '@/cfg/window.json';
+import { isDisableHardwareAcceleration, isSecondInstanceWin, enableVueDevtools } from '@/cfg/app.cfg';
+import { customize, opt } from '@/cfg/window.cfg';
 
 export class App {
   private static instance: App;
@@ -48,7 +48,15 @@ export class App {
     argv.push('--');
     if (!app.isDefaultProtocolClient(app.name, process.execPath, argv))
       app.setAsDefaultProtocolClient(app.name, process.execPath, argv);
-    await app.whenReady().catch(logError);
+    await app.whenReady().then(() => {
+      if (!app.isPackaged && enableVueDevtools) {
+        const { VUEJS3_DEVTOOLS } = require("electron-devtools-vendor");
+        session.defaultSession.loadExtension(VUEJS3_DEVTOOLS, {
+          allowFileAccess: true,
+        });
+        console.log('\x1B[32minstalled vue-devtools\x1B[0m');
+      }
+    }).catch(logError);
     this.afterOn();
   }
 

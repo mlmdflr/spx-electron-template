@@ -6,7 +6,7 @@ import { logOn } from './modular/general/log';
 import { pathOn } from './modular/general/path';
 import { fileOn } from './modular/general/file';
 import Shortcut from "./modular/enhance/shortcut";
-import { customize, opt } from '@/cfg/window.json';
+import { customize, opt } from '@/cfg/window.cfg';
 
 import Session from './modular/general/session';
 import Dialog from './modular/additional/dialog';

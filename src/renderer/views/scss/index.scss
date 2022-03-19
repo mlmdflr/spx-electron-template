@@ -33,6 +33,34 @@
   -webkit-app-region: no-drag;
 }
 
+html,
+body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  user-select: none;
+}
+
 #app{
+  width: 100%;
+  height: 100%;
   color: var(--white);
+  >.container {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background-color: var(--white);
+    color: var(--black);
+  }
+}
+
+
+
+.win32,
+.linux {
+  >#app >.container {
+    border: 1px solid var(--platform-theme-color);
+  }
 }

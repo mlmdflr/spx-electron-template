@@ -6,7 +6,7 @@ import { delDir } from '@/main/modular/general/file';
 import { ipcMain, app } from 'electron';
 import Window from '@/main/modular/window';
 import { logError } from '@/main/modular/general/log';
-import updateCfg from '@/cfg/update.json';
+import updateCfg from '@/cfg/update.cfg';
 
 /**
  * 更新模块 https://www.electron.build/auto-update

@@ -1,0 +1,24 @@
+import { BrowserWindowConstructorOptions } from "electron";
+
+import { productName } from '../../package.json';
+
+export const opt: BrowserWindowConstructorOptions = {
+    width: 800,
+    height: 600,
+    backgroundColor: "#222"
+};
+
+export const customize: Customize = {
+    title: productName,
+    route: "/home",
+    isMainWin: true
+};
+
+// 模态框的父窗体模糊半径
+export const modalWindowParentBlu = '5px'
+
+export default {
+    opt,
+    customize,
+    modalWindowParentBlu
+}

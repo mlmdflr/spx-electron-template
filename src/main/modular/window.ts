@@ -2,14 +2,14 @@ import { join } from 'path';
 import type { BrowserWindowConstructorOptions, LoadFileOptions, LoadURLOptions } from 'electron';
 import { app, screen, ipcMain, BrowserWindow } from 'electron';
 import { Snowflake } from "@/util/snowflake";
-import windowCfg from '@/cfg/window.json'
-import { workerId, dataCenterId } from '@/cfg/snowflake.json'
+import windowCfg from '@/cfg/window.cfg'
+import { workerId, dataCenterId } from '@/cfg/snowflake.cfg'
 
 /**
  * 窗口配置
  * @param args
  */
-export function browserWindowInit(
+function browserWindowInit(
   customize: Customize,
   args: BrowserWindowConstructorOptions = {}
 ): BrowserWindow {
@@ -42,10 +42,10 @@ export function browserWindowInit(
       webSecurity: false
     }
   });
-  if (!opt.backgroundColor && windowCfg.opt.backgroundColor)opt.backgroundColor = windowCfg.opt.backgroundColor;
+  if (!opt.backgroundColor && windowCfg.opt.backgroundColor) opt.backgroundColor = windowCfg.opt.backgroundColor;
   const isParentId = customize.parentId !== undefined && customize.parentId !== null;
   let parenWin: BrowserWindow | null = null;
-  if (isParentId && (typeof customize.parentId === 'number' || typeof customize.parentId === 'bigint')) parenWin = Window.getInstance().get(customize.parentId);
+  if (isParentId && customize.parentId !== undefined) parenWin = Window.getInstance().get(customize.parentId);
   if (isParentId && parenWin) {
     opt.parent = parenWin;
     const currentWH = opt.parent.getBounds();
@@ -68,17 +68,23 @@ export function browserWindowInit(
    * @author 没礼貌的芬兰人
    * @date 2021-09-25 11:54:59
    */
-  if ((customize.id !== undefined && customize.id !== null) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId()
+  if ((customize.id !== undefined && customize.id !== null) && !Window.getInstance().checkId(customize.id as number | bigint)) customize.id = new Snowflake(workerId, dataCenterId).nextId()
 
   const win = new BrowserWindow(opt);
+
+  //win平台 取消原生窗口右键事件
+  process.platform === 'win32' && win.hookWindowMessage(278, () => {
+    win.setEnabled(false)
+    win.setEnabled(true)
+  })
+
   //子窗体关闭父窗体获焦 https://github.com/electron/electron/issues/10616
-  if (isParentId && parenWin) {
-    win.once('closed', () =>  parenWin?.focus())
-  }
+  if (isParentId) win.once('close', () => parenWin?.focus())
 
   if (!customize.argv) customize.argv = process.argv;
+
   win.customize = {
-    id: new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId(),
+    id: new Snowflake(workerId, dataCenterId).nextId(),
     ...customize
   };
 
@@ -105,31 +111,30 @@ async function load(win: BrowserWindow) {
   // 聚焦失焦监听 
   win.on('blur', () => win.webContents.send(`window-blur-focus-${win.customize.id}`, 'blur'));
   win.on('focus', () => win.webContents.send(`window-blur-focus-${win.customize.id}`, 'focus'));
+
   //页面加载
   if ('route' in win.customize && win.customize.baseUrl) {
-    if (win.customize.baseUrl.startsWith('https://') || win.customize.baseUrl.startsWith('http://')) {
-      win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions).catch(console.log);
-      return;
-    }
-    win.loadFile(win.customize.baseUrl, win.customize.loadOptions as LoadFileOptions);
+    if (win.customize.baseUrl.startsWith('https://') || win.customize.baseUrl.startsWith('http://'))
+      return win.loadURL(win.customize.baseUrl, win.customize.loadOptions as LoadURLOptions);
+    return win.loadFile(win.customize.baseUrl, win.customize.loadOptions as LoadFileOptions);
   } else if ('url' in win.customize && win.customize.url) {
-    if (win.customize.url.startsWith('https://') || win.customize.url.startsWith('http://')) {
-      win.loadURL(win.customize.url, win.customize.loadOptions as LoadURLOptions);
-      return;
-    }
-    win.loadFile(win.customize.url, win.customize.loadOptions as LoadFileOptions);
+    if (win.customize.url.startsWith('https://') || win.customize.url.startsWith('http://'))
+      return win.loadURL(win.customize.url, win.customize.loadOptions as LoadURLOptions);
+    return win.loadFile(win.customize.url, win.customize.loadOptions as LoadFileOptions);
   } else throw new Error(`load url error`)
 }
 
-export class Window {
+class Window {
   private static instance: Window;
+
+  public winId_insertCSS: Map<string, string>
 
   static getInstance() {
     if (!Window.instance) Window.instance = new Window();
     return Window.instance;
   }
 
-  constructor() { }
+  constructor() { this.winId_insertCSS = new Map() }
 
   /**
    * 获取窗口
@@ -139,7 +144,7 @@ export class Window {
   get(id: number | bigint) {
     const all = this.getAll()
     for (let key in all) if (all[key].customize?.id === id) return all[key]
-    throw new Error('window not exist')
+    return null
   }
 
   /**
@@ -192,6 +197,10 @@ export class Window {
       }
     }
     const win = browserWindowInit(customize, opt);
+
+    // 模态框弹出父窗体模糊
+    if (win.isModal() && win.customize.parentId) this.get(win.customize.parentId)?.webContents.insertCSS(`body{filter:blur(${windowCfg.modalWindowParentBlu});}`).then((key) => Window.getInstance().winId_insertCSS.set((opt.parent?.customize?.id ?? 'default').toString(), key))
+
     // 路由 > html文件 > 网页
     if (!app.isPackaged) {
       //调试模式
@@ -207,7 +216,7 @@ export class Window {
       }
       return;
     }
-    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../renderer/index.html');
+    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../index.html');
     load(win);
   }
 
@@ -316,7 +325,7 @@ export class Window {
       console.error('Invalid id, the id can not be a empty');
       return;
     }
-    win.setBackgroundColor(args.color || windowCfg.opt.backgroundColor);
+    win.setBackgroundColor(args.color);
   }
 
   /**
@@ -369,6 +378,13 @@ export class Window {
         if (!win) {
           console.error(`not found win -> ${args}`);
           return;
+        }
+        //模态框关闭父窗体恢复
+        if (win.isModal() && win.customize.parentId) {
+          let
+            parentWin = this.get(win.customize.parentId),
+            mapValue = Window.getInstance().winId_insertCSS.get((parentWin?.customize?.id ?? 'default').toString())
+          if (parentWin && mapValue) parentWin.webContents.removeInsertedCSS(mapValue)
         }
         if (main.customize.isMainWin && main.customize.id === win.customize.id) this.func('close')
         else win.close()

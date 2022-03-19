@@ -4,5 +4,6 @@
 /dist/
 /logs/
 /.idea/
-/.swc/
-
+/pnpm-lock.yaml
+/yarn-error.log
+/yarn.lock

@@ -3,7 +3,7 @@ import { deepCopy } from '@/util';
 import { Snowflake } from '@/util/snowflake';
 import Window from '@/main/modular/window';
 import { logError } from "@/main/modular/general/log";
-import { workerId, dataCenterId } from '@/cfg/snowflake.json'
+import { workerId, dataCenterId } from '@/cfg/snowflake.cfg'
 
 
 
@@ -189,7 +189,7 @@ class Shortcut {
   on() {
     ipcMain.handle('shortcut-register', (event, args: { id?: number | bigint; key: string | string[] }) => {
       const accelerator: Accelerator = {
-        id: !args.id ? new Snowflake(BigInt(workerId), BigInt(dataCenterId)).nextId() : args.id,
+        id: !args.id ? new Snowflake(workerId, dataCenterId).nextId() : args.id,
         key: args.key,
         callback: () => Window.send(`shortcut-${accelerator.id}-back`, args.key)
       };

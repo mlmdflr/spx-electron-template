@@ -1,7 +1,6 @@
 import { app, ipcMain } from 'electron';
 import { accessSync, constants } from 'fs';
 import { resolve, normalize, join } from 'path';
-import { EOL } from 'os';
 import { logError } from '@/main/modular/general/log';
 import { readFile } from './file';
 

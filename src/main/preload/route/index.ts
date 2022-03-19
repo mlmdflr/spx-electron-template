@@ -1,7 +1,7 @@
 import type { IpcRendererEvent } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import { EOL } from 'os';
-import { isSecondInstanceWin } from '@/cfg/app.json'
+import { isSecondInstanceWin } from '@/cfg/app.cfg'
 
 contextBridge.exposeInMainWorld('ipc', {
   send: (channel: string, args?: any) => ipcRenderer.send(channel, args),

@@ -13,9 +13,7 @@ export default function sleep<T>(duration: number, value?: T): Promise<T> {
         !isFinite(duration) ||
         Math.floor(duration) !== duration ||
         duration < 0
-    ) {
-        return Promise.reject('duration 必须为非负整数');
-    }
+    ) return Promise.reject('duration 必须为非负整数');
     durationInMilliseconds = duration;
     return new Promise((resolve): any =>
         setTimeout(() => {

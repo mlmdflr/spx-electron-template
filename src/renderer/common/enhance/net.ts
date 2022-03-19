@@ -12,7 +12,7 @@ export interface NetOpt extends RequestInit {
 
 export interface TimeOutAbort {
   signal: AbortSignal;
-  id: NodeJS.Timeout;
+  id: ReturnType<typeof setTimeout>;
 }
 
 /**
