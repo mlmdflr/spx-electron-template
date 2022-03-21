@@ -72,8 +72,9 @@ function browserWindowInit(
 
   const win = new BrowserWindow(opt);
 
-  //win平台 取消原生窗口右键事件
-  process.platform === 'win32' && win.hookWindowMessage(278, () => {
+
+  //win平台 取消无边框窗口右键原生事件
+  process.platform === 'win32' && !opt.frame && win.hookWindowMessage(278, () => {
     win.setEnabled(false)
     win.setEnabled(true)
   })

@@ -13,13 +13,13 @@ import {
 
 import { menuShow, menuOn, menuListenersRemove } from '@/renderer/common/additional/menu';
 
-import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
+import { NNotificationProvider, NMessageProvider, NInput,useMessage, useNotification, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 
 import { Snowflake } from '@/util/snowflake';
 
-import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch, getGlobal, getAppInfo } from '@/renderer/common/app';
+import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch, getAppInfo } from '@/renderer/common/app';
 
-import HotkeyInput from '@/renderer/views/components/hotkeyInput-vue3/index.vue';
+import HotkeyInput from '@/renderer/views/components/hotkeyInput-vue3/index.setup.vue';
 
 import {
   shortcutOn,
@@ -44,7 +44,7 @@ const nInit = defineComponent({
     notification = useNotification()
     nmessage = useMessage()
   },
-  render: () => {}
+  render: () => { }
 })
 
 
@@ -265,14 +265,14 @@ onUnmounted(() => {
               <n-button tertiary type="info" @click="rootPathClick">root路径</n-button>
             </n-gi>
           </n-grid>
-          <!-- <n-grid x-gap="12" :cols="1">
+          <n-grid x-gap="12" :cols="1">
             <n-gi>快捷键:</n-gi>
-          </n-grid> -->
-          <!-- <n-grid x-gap="12" :cols="1">
-            <n-gi>
-              <HotkeyInput :multiple="true" :max="4" v-model="shortcutStr"></HotkeyInput>
+          </n-grid>
+          <n-grid x-gap="12" :cols="2">
+            <n-gi >
+              <hotkey-input :multiple="true" :max="4" v-model="shortcutStr"></hotkey-input>
             </n-gi>
-          </n-grid> -->
+          </n-grid>
         </div>
       </n-message-provider>
     </n-notification-provider>

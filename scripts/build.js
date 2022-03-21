@@ -146,6 +146,9 @@ async function core(arch) {
     .catch((error) => {
       console.error(error);
     })
+    .finally(() => {
+      process.exit();
+    });
 }
 
 if (!arch) {

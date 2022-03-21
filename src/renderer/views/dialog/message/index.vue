@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Head :eventShow="false" />
+    <Head :minShow="false" :maxShow="false" />
     <div class="message-info">
       <div class="text">
         <div>创建传参: {{ data.text }}</div>
@@ -10,7 +10,6 @@
         <n-button @click="test">测试通讯</n-button>
         <n-button @click="test1">测试获取路由id</n-button>
       </n-space>
-        <n-button class="close" @click="close">确定</n-button>
     </div>
   </div>
 </template>
@@ -33,7 +32,7 @@ import {
 import { NButton, NSpace } from 'naive-ui'
 import { Snowflake } from '@/util/snowflake';
 
-windowSetSize([400, 200], false, customize.get().currentMaximized);
+windowSetSize([400, 150], false, customize.get().currentMaximized);
 const argv = customize.get().argv ?? ''
 const data = customize.get().data ?? ''
 

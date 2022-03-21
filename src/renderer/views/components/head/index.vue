@@ -6,10 +6,10 @@
     </div>
     <div v-else class="content">
       <div class="title">{{ title }}</div>
-      <div v-if="eventShow" class="events">
-        <div @click="min" class="event min no-drag"></div>
-        <div @click="maxMin" class="event max-min no-drag"></div>
-        <div @click="close" class="event close no-drag"></div>
+      <div v-if="minShow || maxShow || closeShow" class="events">
+        <div v-if="minShow" @click="min" class="event min no-drag"></div>
+        <div v-if="maxShow" @click="maxMin" class="event max-min no-drag"></div>
+        <div v-if="closeShow" @click="close" class="event close no-drag"></div>
       </div>
     </div>
   </div>
@@ -22,7 +22,15 @@ import { windowClose, windowMaxMin, windowMin } from '@/renderer/common/window';
 import customize from '@/renderer/store/customize';
 
 const props = defineProps({
-  eventShow: {
+  minShow: {
+    type: Boolean,
+    default: true
+  },
+  maxShow: {
+    type: Boolean,
+    default: true
+  },
+  closeShow: {
     type: Boolean,
     default: true
   }
