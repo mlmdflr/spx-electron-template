@@ -216,7 +216,7 @@ class Window {
       }
       return;
     }
-    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../index.html');
+    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../renderer/index.html');
     load(win);
   }
 
