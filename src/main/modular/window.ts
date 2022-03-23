@@ -144,7 +144,7 @@ class Window {
    */
   get(id: number | bigint) {
     const all = this.getAll()
-    for (let key in all) if (all[key].customize?.id === id) return all[key]
+    for (let key in all) if (all[key].customize.id === id) return all[key]
     return null
   }
 
@@ -180,7 +180,7 @@ class Window {
    * @param id 
    */
   checkId(id: number | bigint): boolean {
-    for (const wins of this.getAll()) if (wins.customize?.id === id) return false
+    for (const wins of this.getAll()) if (wins.customize.id === id) return false
     return true
   }
 
@@ -200,7 +200,7 @@ class Window {
     const win = browserWindowInit(customize, opt);
 
     // 模态框弹出父窗体模糊
-    if (win.isModal() && win.customize.parentId) this.get(win.customize.parentId)?.webContents.insertCSS(`body{filter:blur(${windowCfg.modalWindowParentBlu});}`).then((key) => Window.getInstance().winId_insertCSS.set((opt.parent?.customize?.id ?? 'default').toString(), key))
+    if (win.isModal() && win.customize.parentId) this.get(win.customize.parentId)?.webContents.insertCSS(`body{filter:blur(${windowCfg.modalWindowParentBlu});}`).then((key) => Window.getInstance().winId_insertCSS.set((opt.parent?.customize.id ?? 'default').toString(), key))
 
     // 路由 > html文件 > 网页
     if (!app.isPackaged) {
@@ -384,7 +384,7 @@ class Window {
         if (win.isModal() && win.customize.parentId) {
           let
             parentWin = this.get(win.customize.parentId),
-            mapValue = Window.getInstance().winId_insertCSS.get((parentWin?.customize?.id ?? 'default').toString())
+            mapValue = Window.getInstance().winId_insertCSS.get((parentWin?.customize.id ?? 'default').toString())
           if (parentWin && mapValue) parentWin.webContents.removeInsertedCSS(mapValue)
         }
         if (main.customize.isMainWin && main.customize.id === win.customize.id) this.func('close')
@@ -442,7 +442,7 @@ class Window {
       return this.getAll()
         .filter((win) => (win.customize && ('route' in win.customize)))
         .filter((win) => (args ? (win.customize as Customize_Route).route === args : true))
-        .map(win => win.customize?.id)
+        .map(win => win.customize.id)
     });
     /**
      * 查询当前会话的窗体id
@@ -456,7 +456,7 @@ class Window {
     ipcMain.handle('window-id-all', (event, args) => {
       return this.getAll()
         .filter((win) => (win.customize && ('url' in win.customize)))
-        .map(win => win.customize?.id)
+        .map(win => win.customize.id)
     });
   }
 }

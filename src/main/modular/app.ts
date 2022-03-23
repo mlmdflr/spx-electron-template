@@ -48,6 +48,8 @@ export class App {
     argv.push('--');
     if (!app.isDefaultProtocolClient(app.name, process.execPath, argv))
       app.setAsDefaultProtocolClient(app.name, process.execPath, argv);
+    // 9.x cors
+    // app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
     await app.whenReady().then(() => {
       if (!app.isPackaged && enableVueDevtools) {
         const { VUEJS3_DEVTOOLS } = require("electron-devtools-vendor");

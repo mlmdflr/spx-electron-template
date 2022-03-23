@@ -1,7 +1,7 @@
 {
   "name": "xps-electron-ts-vue3-template",
   "productName": "xps-electron-ts-vue3-template",
-  "version": "8.1.0",
+  "version": "8.1.1",
   "description": "electron  ts+vue3 template",
   "main": "dist/main/index.js",
   "author": {

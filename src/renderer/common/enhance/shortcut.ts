@@ -12,7 +12,7 @@ export function shortcutOn(id: number | bigint, listener: (event: IpcRendererEve
 
 /**
  * 注册快捷键 (重复注册将覆盖)
- * @param name
+ * @param id
  * @param key
  */
 export async function shortcut(key: string | string[], id?: number | bigint): Promise<number | bigint> {
@@ -21,7 +21,7 @@ export async function shortcut(key: string | string[], id?: number | bigint): Pr
 
 /**
  * 清除快捷键
- * @param key
+ * @param id
  */
 export async function unShortcut(id: number | bigint): Promise<void> {
   return window.ipc.invoke('shortcut-unregister', id);
@@ -37,7 +37,7 @@ export async function unShortcutAll(): Promise<void> {
 
 /**
  * 根据id获取已注册快捷键
- * @param key
+ * @param id
  */
 export async function shortcutGetById(id: number | bigint): Promise<Accelerator> {
   return window.ipc.invoke('shortcut-get-id', id);
@@ -45,8 +45,8 @@ export async function shortcutGetById(id: number | bigint): Promise<Accelerator>
 
 /**
  * 根据key获取已注册快捷键
- * @param id 
- * @returns 
+ * @param key
+ * @returns
  */
 export async function shortcutGetByKey(key: string): Promise<Accelerator> {
   return window.ipc.invoke('shortcut-get-key', key);

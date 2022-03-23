@@ -1,5 +1,3 @@
-import { isNull } from '@/util'
-
 /**
  * 限制首页页码 0 或 1
  */
@@ -73,14 +71,8 @@ export default class PageUtil {
      * @return 开始位置
      */
     public static getStart(pageNo: number, pageSize: number): number {
-        if (pageNo < PageUtil.firstPageNo) {
-            pageNo = PageUtil.firstPageNo;
-        }
-
-        if (pageSize < 1) {
-            pageSize = 0;
-        }
-
+        if (pageNo < PageUtil.firstPageNo) pageNo = PageUtil.firstPageNo;
+        if (pageSize < 1) pageSize = 0;
         return (pageNo - PageUtil.firstPageNo) * pageSize;
     }
 
@@ -147,9 +139,7 @@ export default class PageUtil {
      * @return 总页数
      */
     public static totalPage(totalCount: number, pageSize: number): number {
-        if (pageSize == 0) {
-            return 0;
-        }
+        if (pageSize == 0) return 0;
         return totalCount % pageSize == 0 ? Math.floor(totalCount / pageSize) : (Math.floor(totalCount / pageSize) + 1);
     }
 
@@ -163,9 +153,7 @@ export default class PageUtil {
      * @return 结束位置
      */
     private static getEndByStart(start: number, pageSize: number): number {
-        if (pageSize < 1) {
-            pageSize = 0;
-        }
+        if (pageSize < 1) pageSize = 0;
         return start + pageSize;
     }
 
@@ -177,7 +165,7 @@ export default class PageUtil {
      * @date 2020-6-06 17:10:59
      * @param currentPage 当前页
      * @param pageCount 总页数
-     * @param displayCount 每屏展示的页数
+     * @param displayCount? 每屏展示的页数
      * @returns 分页条
      * 
      * 实例:
@@ -186,49 +174,27 @@ export default class PageUtil {
      * 页面效果: 上一页 3 4 [5] 6 7 8 下一页
      */
     public static rainbow(currentPage: number, pageCount: number, displayCount?: number): Promise<number[]> {
-        displayCount = !isNull(displayCount) ? displayCount : 10
+        return new Promise<number[]>((resolve, reject) => {
+            displayCount = displayCount !== undefined ? displayCount : 10
+            if (currentPage < 0) reject(`param error, currentPage : ${currentPage}`);
+            if (pageCount < 0) reject(`param error, pageCount : ${pageCount}`);
+            if (displayCount < 0) reject(`param error, displayCount : ${displayCount}`);
+            const isEven: boolean = displayCount % 2 === 0;
+            const left: number = Math.floor(displayCount / 2);
+            let right: number = Math.floor(displayCount / 2);
+            let length: number = displayCount;
 
-        if (currentPage < 0) {
-            return Promise.reject(`参数异常,请检查 currentPage : ${currentPage}`);
-        }
+            if (isEven) right++;
+            if (pageCount < displayCount) length = pageCount;
+            let result: number[] = new Array(length);
 
-        if (pageCount < 0) {
-            return Promise.reject(`参数异常,请检查 pageCount : ${pageCount}`);
-        }
+            if (pageCount >= displayCount) {
+                if (currentPage <= left) for (let i: number = 0; i < result.length; i++)result[i] = i + 1;
+                else if (currentPage > pageCount - right) for (let i: number = 0; i < result.length; i++)  result[i] = i + pageCount - displayCount + 1;
+                else for (let i: number = 0; i < result.length; i++)  result[i] = i + currentPage - left + (isEven ? 1 : 0);
+            } else for (let i: number = 0; i < result.length; i++)  result[i] = i + 1;
 
-        if (displayCount as number < 0) {
-            return Promise.reject(`参数异常,请检查 displayCount : ${displayCount}`);
-        }
-        const isEven: boolean = displayCount as number % 2 === 0;
-        const left: number = Math.floor(displayCount as number / 2);
-        let right: number = Math.floor(displayCount as number / 2);
-        let length: number = displayCount as number;
-        if (isEven) {
-            right++;
-        }
-        if (pageCount < (displayCount as number)) {
-            length = pageCount;
-        }
-        let result: number[] = new Array(length);
-        if (pageCount >= (displayCount as number)) {
-            if (currentPage <= left) {
-                for (let i: number = 0; i < result.length; i++) {
-                    result[i] = i + 1;
-                }
-            } else if (currentPage > pageCount - right) {
-                for (let i: number = 0; i < result.length; i++) {
-                    result[i] = i + pageCount - (displayCount as number) + 1;
-                }
-            } else {
-                for (let i: number = 0; i < result.length; i++) {
-                    result[i] = i + currentPage - left + (isEven ? 1 : 0);
-                }
-            }
-        } else {
-            for (let i: number = 0; i < result.length; i++) {
-                result[i] = i + 1;
-            }
-        }
-        return Promise.resolve(result)
+            resolve(result)
+        })
     }
 }

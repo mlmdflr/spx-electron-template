@@ -17,6 +17,8 @@ import Socket from './modular/enhance/socket';
 import './preload'
 
 App.start().then(async () => {
+
+
     // 主要模块
     Global.on();//全局模块
     Window.on();//窗口模块
@@ -28,9 +30,11 @@ App.start().then(async () => {
     fileOn();//文件模块
     pathOn();//路径模块
 
-    await App.use([Session, Dialog, Menu, Update, Socket]);
+    App.use([Session, Dialog, Menu, Update, Socket]);
+
     // 窗口
     Window.create(customize, opt);
+
 
     // 托盘
     Tray.create();

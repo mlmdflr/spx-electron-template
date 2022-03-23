@@ -1,23 +1,23 @@
-export type treatedBytes = { bytes: number, unit: string }
+export type treatedBytes = { bytes: number, unit: unit }
+
+export type unit = 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB' | 'BB' | 'NB' | 'DB'
+
+export const units: unit[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB']
 
 export default class {
 
     constructor() { }
     /**
-     * @description 判斷ip地址是否為內網ip/包含localhost
+     * @description 判斷ipv4地址是否為內網 ipv4/包含localhost
      * @author 没礼貌的芬兰人
      * @date 2021-10-06 17:10:36
-     * @param ip 
+     * @param ipv4
      * @returns 
      */
-    public static isInnerIP = (ip: string): boolean => {
-        if (ip.toLowerCase() === 'localhost') {
-            return true
-        }
-        if ((ip.split('.')).length != 4) {
-            return false
-        }
-        let ips: string[] = ip.split('.')
+    public static isInnerIP = (ipv4: string): boolean => {
+        if (ipv4.toLowerCase() === 'localhost') return true
+        if ((ipv4.split('.')).length != 4) return false
+        let ips: string[] = ipv4.split('.')
         let _ip: number = 0
         _ip += parseInt(ips[0]) << 24
         _ip += parseInt(ips[1]) << 16
@@ -34,12 +34,11 @@ export default class {
      * @returns treatedBytes {bytes, unit}
      */
     public static bytesToSize(bytes: number): treatedBytes {
-        const sizes: string[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-        if (bytes === 0) return { bytes: 0, unit: sizes[0] };
+        if (bytes === 0) return { bytes: 0, unit: units[0] };
         let
             k: number = 1024,
             i = Math.floor(Math.log(bytes) / Math.log(k));
-        return { bytes: Math.round((bytes / Math.pow(k, i)) * Math.pow(10, 1)) / Math.pow(10, 1), unit: sizes[i] }
+        return { bytes: Math.round((bytes / Math.pow(k, i)) * Math.pow(10, 1)) / Math.pow(10, 1), unit: units[i] }
     }
 }
 

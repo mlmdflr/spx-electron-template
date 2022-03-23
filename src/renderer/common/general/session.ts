@@ -1,4 +1,5 @@
 import type { CookiesGetFilter, CookiesSetDetails } from 'electron';
+import type { treatedBytes } from "@/util/net";
 
 /**
  * 设置http/https指定域名请求头
@@ -31,4 +32,18 @@ export function sessionCookiesSet(args: CookiesSetDetails) {
  */
 export function sessionCookiesRemove(url: string, name: string) {
   return window.ipc.invoke('session-cookies-remove', { url, name });
+}
+
+/**
+ * 获取缓存大小
+ */
+export function sessionCacheSize(): Promise<treatedBytes> {
+  return window.ipc.invoke('session-cache-size');
+}
+
+/**
+ * 清除缓存 
+ */
+export function sessionCacheClear() {
+  window.ipc.invoke('session-cache-clear');
 }

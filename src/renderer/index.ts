@@ -5,12 +5,12 @@ import App from '@/renderer/views/app.vue';
 import router from '@/renderer/router';
 import Head from "@/renderer/views/components/head/index.vue";
 
-windowLoad(async (_, args) => {
+windowLoad((_, args) => {
   router.addRoute({
     path: '/',
     redirect: args.route
   });
   customize.set(args);
   document.body.setAttribute('platform', window.environment.platform);
-  createApp(App).component("Head", Head).use(router).mount('#app');
+  createApp(App).component('Head', Head).use(router).mount('#app');
 }); 

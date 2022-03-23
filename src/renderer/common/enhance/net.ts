@@ -50,34 +50,34 @@ function fetchPromise<T>(url: string, sendData: NetOpt): Promise<T> {
         case 'TEXT':
           return sendData.isHeaders
             ? {
-              headers: await res.headers,
+              headers: res.headers,
               data: await res.text()
             }
             : await res.text();
         case 'JSON':
           return sendData.isHeaders
             ? {
-              headers: await res.headers,
+              headers: res.headers,
               data: await res.json()
             }
             : await res.json();
         case 'BUFFER':
           return sendData.isHeaders
             ? {
-              headers: await res.headers,
+              headers: res.headers,
               data: await res.arrayBuffer()
             }
             : await res.arrayBuffer();
         case 'BLOB':
           return sendData.isHeaders
             ? {
-              headers: await res.headers,
+              headers: res.headers,
               data: await res.blob()
             }
             : await res.blob();
       }
     })
-    .catch((err) => ({ code: 400, msg: err.message })) as Promise<T>;
+    .catch((err) => ({ code: 400, msg: err.message }));
 }
 
 /**

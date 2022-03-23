@@ -1,4 +1,6 @@
 import { ipcMain, session, CookiesGetFilter, CookiesSetDetails } from 'electron';
+import netUt from "@/util/net";
+
 
 /**
  * 监听
@@ -10,7 +12,7 @@ export default class Session {
    */
   public urlHeaders: { [key: string]: { [key: string]: string } } = {};
 
-  constructor() {}
+  constructor() { }
 
   /**
    * 拦截指定http/https请求并更换、增加headers
@@ -69,6 +71,21 @@ export default class Session {
   }
 
   /**
+   * 获取缓存大小
+   * @returns treatedBytes {bytes, unit}
+   */
+  async getCacheSize() {
+    return netUt.bytesToSize(await session.defaultSession.getCacheSize())
+  }
+
+  /**
+   * 清除缓存
+   */
+  async clearCache() {
+    session.defaultSession.clearCache()
+  }
+
+  /**
    * 开启监听
    */
   on() {
@@ -85,5 +102,9 @@ export default class Session {
     ipcMain.handle('session-cookies-remove', async (event, args) =>
       this.removeCookies(args.url, args.name)
     );
+    //获取缓存大小
+    ipcMain.handle('session-cache-size', async () => this.getCacheSize());
+    //清除缓存
+    ipcMain.handle('session-cache-clear', async () => this.clearCache());
   }
 }
