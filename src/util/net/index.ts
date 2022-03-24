@@ -1,8 +1,8 @@
 export type treatedBytes = { bytes: number, unit: unit }
 
-export type unit = 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'PB' | 'EB' | 'ZB' | 'YB' | 'BB' | 'NB' | 'DB'
+const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB'] as const
 
-export const units: unit[] = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB']
+type unit = typeof units[number];
 
 export default class {
 

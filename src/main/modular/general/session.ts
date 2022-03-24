@@ -10,7 +10,11 @@ export default class Session {
    * 头部 headers
    * 键值对 => 域名: Headers
    */
-  public urlHeaders: { [key: string]: { [key: string]: string } } = {};
+  public urlHeaders: { [key: string]: { [key: string]: string } } = {
+    "mlmdflr.cc": {
+      'token': 'testToken'
+    }
+  };
 
   constructor() { }
 
@@ -23,13 +27,8 @@ export default class Session {
         urls: ['http://*/*', 'https://*/*']
       },
       (details, callback) => {
-        const urls = Object.keys(this.urlHeaders);
-        const keys = urls.filter((key: string) => details.url.indexOf(key) === 0);
-        for (const key of keys) {
-          for (const v in this.urlHeaders[key]) {
-            details.requestHeaders[v] = this.urlHeaders[key][v];
-          }
-        }
+        const keys = Object.keys(this.urlHeaders).filter((key: string) => [0, 7, 8].includes(details.url.indexOf(key)));
+        for (const key of keys) for (const v in this.urlHeaders[key]) details.requestHeaders[v] = this.urlHeaders[key][v];
         callback({ requestHeaders: details.requestHeaders });
       }
     );
