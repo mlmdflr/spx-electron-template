@@ -1,6 +1,6 @@
 export type treatedBytes = { bytes: number, unit: unit }
 
-const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB'] as const
+const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB', 'BB', 'NB', 'DB']
 
 type unit = typeof units[number];
 

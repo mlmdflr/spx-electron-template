@@ -12,7 +12,6 @@ import Session from './modular/general/session';
 import Dialog from './modular/additional/dialog';
 import Menu from './modular/additional/menu';
 import Update from './/modular/enhance/update';
-import Socket from './modular/enhance/socket';
 
 import './preload'
 
@@ -29,7 +28,7 @@ App.start().then(async () => {
     fileOn();//文件模块
     pathOn();//路径模块
 
-    App.use([Session, Dialog, Menu, Update, Socket]);
+    App.use([Session, Dialog, Menu, Update]);
 
     // 窗口
     Window.create(customize, opt);
