@@ -1,5 +1,5 @@
 <template>
-  <n-config-provider :theme="darkTheme">
+  <n-config-provider :theme="darkTheme" :locale="(i18n.global.messages as AnyObject)[i18n.global.locale].nv">
     <router-view v-slot="{ Component, route }">
       <transition :name="route.meta.transition || 'fade'" mode="out-in">
         <keep-alive
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 import { keepAliveData } from '@/renderer/store';
 import { NConfigProvider,darkTheme } from "naive-ui";
+import { i18n } from "@/renderer/i18n";
 </script>
 <style lang="scss">
 @import "./scss/color";

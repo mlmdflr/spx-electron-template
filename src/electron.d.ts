@@ -99,3 +99,7 @@ interface SocketMessage {
   msg?: string;
   value?: any;
 }
+
+interface AnyObject {
+  [key: string]: any
+}

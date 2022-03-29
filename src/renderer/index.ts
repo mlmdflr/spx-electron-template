@@ -4,6 +4,7 @@ import { windowLoad } from '@/renderer/common/window';
 import App from '@/renderer/views/app.vue';
 import router from '@/renderer/router';
 import Head from "@/renderer/views/components/head/index.vue";
+import { i18n } from './i18n'
 
 windowLoad((_, args) => {
   router.addRoute({
@@ -12,5 +13,5 @@ windowLoad((_, args) => {
   });
   customize.set(args);
   document.body.setAttribute('platform', window.environment.platform);
-  createApp(App).component('Head', Head).use(router).mount('#app');
+  createApp(App).component('Head', Head).use(i18n).use(router).mount('#app');
 }); 

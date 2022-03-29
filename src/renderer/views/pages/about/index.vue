@@ -6,7 +6,7 @@
         src="https://avatars.githubusercontent.com/u/93173537?v=4"
         width="128"
         height="128"
-        alt="@沒禮貌的芬蘭人"
+        :alt="'@'+i18nt('name')"
       ></n-image>
       <div @click="openLicense" class="name">MIT License</div>
       <n-modal v-model:show="licenseShow">
@@ -14,8 +14,8 @@
           <div>{{ license }}</div>
         </n-card>
       </n-modal>
-      <div @click="open" class="name">没礼貌的芬兰人</div>
-      <n-button @click="toHome">首页</n-button>
+      <div @click="open" class="name">{{ $t('name') }}</div>
+      <n-button @click="toHome">{{ $t('btn.home') }}</n-button>
     </div>
   </div>
 </template>
@@ -25,9 +25,10 @@
 import { onMounted, ref } from 'vue';
 import { windowShow } from '@/renderer/common/window';
 import { getExternPath, openUrl } from '@/renderer/common/app';
-import { NImage, NButton, NModal,NCard } from 'naive-ui'
+import { NImage, NButton, NModal, NCard } from 'naive-ui'
 import Router from '@/renderer/router';
 import { readFile } from '@/renderer/common/general/file';
+import { i18nt } from '@/renderer/i18n'
 
 let licenseShow = ref(false);
 let license = ref('');

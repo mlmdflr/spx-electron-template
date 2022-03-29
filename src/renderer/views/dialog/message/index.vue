@@ -3,12 +3,12 @@
     <Head :minShow="false" :maxShow="false" />
     <div class="message-info">
       <div class="text">
-        <div>创建传参: {{ data.text }}</div>
-        <div>app启动参数: {{ argv }}</div>
+        <div>{{$t('text.createParam')}}: {{ data.text }}</div>
+        <div>{{$t('text.appStartParam')}}: {{ argv }}</div>
       </div>
       <n-space>
-        <n-button @click="test">测试通讯</n-button>
-        <n-button @click="test1">测试获取路由id</n-button>
+        <n-button @click="test">{{$t('btn.testIpc')}}</n-button>
+        <n-button @click="test1">{{$t('btn.testGet')}}</n-button>
       </n-space>
     </div>
   </div>
@@ -31,8 +31,14 @@ import {
 } from '@/renderer/common/window';
 import { NButton, NSpace } from 'naive-ui'
 import { Snowflake } from '@/util/snowflake';
+import { i18nLocale } from "@/renderer/i18n";
 
-windowSetSize([400, 150], false, customize.get().currentMaximized);
+console.log();
+
+
+i18nLocale() === 'en' && windowSetSize([400, 170], false, customize.get().currentMaximized);
+i18nLocale() !== 'en' && windowSetSize([400, 150], false, customize.get().currentMaximized);
+
 const argv = customize.get().argv ?? ''
 const data = customize.get().data ?? ''
 

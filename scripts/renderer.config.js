@@ -7,6 +7,9 @@ const root = resolve('src/renderer');
 const outDir = resolve('dist/renderer');
 
 
+let alias = {}
+if (process.env['rendererMode'] === 'development') alias['vue-i18n'] = 'vue-i18n/dist/vue-i18n.cjs.js'
+
 // https://vitejs.dev/config/
 module.exports = defineConfig({
   mode: process.env['rendererMode'] || 'production',
@@ -20,7 +23,8 @@ module.exports = defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve('src')
+      ...alias,
+      '@': resolve('src'),
     }
   },
   css: {
