@@ -1,7 +1,7 @@
 {
   "name": "xps-electron-ts-vue3-template",
   "productName": "xps-electron-ts-vue3-template",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "description": "electron  ts+vue3 template",
   "main": "dist/main/index.js",
   "author": {
@@ -25,7 +25,7 @@
     "@vitejs/plugin-vue": "^2.2.4",
     "@vue/compiler-sfc": "^3.2.31",
     "asarmor": "^2.0.0",
-    "electron": "17.3.0",
+    "electron": "18.0.0",
     "electron-builder": "^22.14.13",
     "electron-devtools-vendor": "^1.0.5",
     "electron-rebuild": "^3.2.7",

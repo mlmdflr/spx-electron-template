@@ -26,7 +26,7 @@ export const i18n = createI18n({
     locale: 'zh-cn',
     fallbackLocale: 'zh-cn',
     messages: loadLanguages()
-})
+}) as AnyObject
 
 export function setLanguage(locale: string) {
     i18n.global.locale = locale

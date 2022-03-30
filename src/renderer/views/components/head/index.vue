@@ -39,7 +39,7 @@ const props = defineProps({
 const isMacintosh = window.environment.platform === 'darwin';
 
 
-let title = (customize.get() as Customize_Route).title
+let title = customize.get().title
 
 function min() {
   windowMin();
