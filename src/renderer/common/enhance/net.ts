@@ -9,7 +9,6 @@ export interface NetOpt extends RequestInit {
   type?: 'TEXT' | 'JSON' | 'BUFFER' | 'BLOB'; //返回数据类型
 }
 
-
 export interface TimeOutAbort {
   signal: AbortSignal;
   id: ReturnType<typeof setTimeout>;
@@ -39,7 +38,7 @@ function timeOutAbort(outTime: number): TimeOutAbort {
  * @param url
  * @param sendData
  */
-function fetchPromise<T>(url: string, sendData: NetOpt): Promise<T> {
+async function fetchPromise<T>(url: string, sendData: NetOpt): Promise<T> {
   return fetch(url, sendData)
     .then((res) => {
       if (res.status >= 200 && res.status < 300) return res;

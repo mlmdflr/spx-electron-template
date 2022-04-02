@@ -2,7 +2,6 @@
 import type { IpcRendererEvent } from 'electron';
 import { onMounted, onUnmounted, Ref, ref, unref, computed, watch, defineComponent } from 'vue';
 import type { ComponentPublicInstance } from 'vue';
-import customize from '@/renderer/store/customize';
 import {
   windowCreate,
   windowShow,
@@ -93,7 +92,7 @@ menuOn((_event, args) => {
   windowCreate({
     title: i18nt('text.testRightkey'),
     route: '/message',
-    parentId: customize.get().id,
+    parentId: window.customize.id,
     data: { text: args }
   }, {
     modal: true
@@ -113,7 +112,7 @@ function test() {
       title: i18nt('text.testPpw'),
       route: '/message',
       data: { text: 'wdnmd' },
-      parentId: customize.get().id
+      parentId: window.customize.id
     },
     {
       modal: true

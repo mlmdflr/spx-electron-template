@@ -13,7 +13,6 @@ interface Environment {
   EOL: string;
   systemVersion: string;
   platform: string;
-  isPackaged:boolean;
   isSecondInstanceWin: boolean;
 }
 

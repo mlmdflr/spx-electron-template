@@ -29,7 +29,6 @@ App.start().then(async () => {
     pathOn();//路径模块
 
     App.use([Session, Dialog, Menu, Update]);
-
     // 窗口
     Window.create(customize, opt);
 

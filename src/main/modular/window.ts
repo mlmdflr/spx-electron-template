@@ -104,7 +104,8 @@ function browserWindowInit(
 async function load(win: BrowserWindow) {
   // 注入初始化代码
   win.webContents.on('did-finish-load', () => {
-    if ('route' in win.customize) win.webContents.send(`window-load`, win.customize)
+    if ('route' in win.customize) win.webContents.send(`window-load-route`, win.customize)
+    else win.webContents.send(`window-load-url`, win.customize)
   });
   // 窗口最大最小监听
   win.on('maximize', () => win.webContents.send(`window-maximize-${win.customize.id}`, 'maximize'));

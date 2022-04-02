@@ -1,7 +1,7 @@
 {
   "name": "xps-electron-ts-vue3-template",
   "productName": "xps-electron-ts-vue3-template",
-  "version": "8.2.1",
+  "version": "8.3.0",
   "description": "electron  ts+vue3 template",
   "main": "dist/main/index.js",
   "author": {
@@ -25,7 +25,7 @@
     "@vitejs/plugin-vue": "^2.2.4",
     "@vue/compiler-sfc": "^3.2.31",
     "asarmor": "^2.0.0",
-    "electron": "18.0.0",
+    "electron": "18.0.1",
     "electron-builder": "^22.14.13",
     "electron-devtools-vendor": "^1.0.5",
     "electron-rebuild": "^3.2.7",
@@ -36,7 +36,7 @@
     "rollup": "^2.70.1",
     "rollup-plugin-esbuild": "^4.8.2",
     "rollup-plugin-obfuscator": "^0.2.1",
-    "sass": "^1.49.9",
+    "sass": "^1.49.11",
     "typescript": "^4.6.3",
     "vite": "^2.8.6",
     "vite-plugin-babel-macros": "^1.0.6",

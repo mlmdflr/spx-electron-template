@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import customize from '@/renderer/store/customize';
 import { windowUpdate } from '@/renderer/common/window';
 
 import pageRoute from '@/renderer/router/modular/page';
@@ -11,9 +10,9 @@ const Router = createRouter({
 });
 
 Router.beforeEach((to, from) => {
-  if (to.path !== customize.get().route) {
+  if (to.path !== window.customize.route) {
     //更新窗口路由
-    customize.get().route = to.path;
+    window.customize.route = to.path;
     windowUpdate();
   }
 });

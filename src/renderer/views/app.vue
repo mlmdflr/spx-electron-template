@@ -16,10 +16,10 @@
 </template>
 <script setup lang="ts">
 import { keepAliveData } from '@/renderer/store';
-import { NConfigProvider,darkTheme } from "naive-ui";
+import { NConfigProvider, darkTheme } from "naive-ui";
 import { i18n } from "@/renderer/i18n";
 import { computed } from 'vue';
-const i18nt = computed(() => i18n.global.messages[i18n.global.locale].el);
+const i18nt = computed(() => (i18n.global.messages as AnyObject)[i18n.global.locale].el);
 </script>
 <style lang="scss">
 @import "./scss/color";

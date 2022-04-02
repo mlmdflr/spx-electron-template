@@ -19,7 +19,6 @@
 
 <script setup lang='ts' >
 import { windowClose, windowMaxMin, windowMin } from '@/renderer/common/window';
-import customize from '@/renderer/store/customize';
 
 const props = defineProps({
   minShow: {
@@ -39,7 +38,7 @@ const props = defineProps({
 const isMacintosh = window.environment.platform === 'darwin';
 
 
-let title = customize.get().title
+let title = window.customize.title
 
 function min() {
   windowMin();

@@ -1,5 +1,4 @@
 import { createApp } from 'vue';
-import customize from '@/renderer/store/customize';
 import { windowLoad } from '@/renderer/common/window';
 import App from '@/renderer/views/app.vue';
 import router from '@/renderer/router';
@@ -11,7 +10,8 @@ windowLoad((_, args) => {
     path: '/',
     redirect: args.route
   });
-  customize.set(args);
+  // 挂载至window
+  window.customize = args
   document.body.setAttribute('platform', window.environment.platform);
   createApp(App).component('Head', Head).use(i18n).use(router).mount('#app');
-}); 
+});

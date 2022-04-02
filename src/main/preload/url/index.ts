@@ -7,6 +7,12 @@ import { Snowflake } from '@/util/snowflake'
 import { net, NetOpt } from '@/renderer/common/enhance/net'
 import css from "./css";
 
+ipcRenderer.on('window-load-url', (_, args) => {
+    // 挂载至window
+    contextBridge.exposeInMainWorld('customize', args)
+    document.body.setAttribute('platform', process.platform);
+})
+
 contextBridge.exposeInMainWorld('ipc', {
     send: (channel: string, args?: any) => ipcRenderer.send(channel, args),
     sendSync: (channel: string, args?: any) => ipcRenderer.sendSync(channel, args),
@@ -33,7 +39,7 @@ contextBridge.exposeInMainWorld('net', (url: string, param: NetOpt) => net(url, 
 
 //注入css
 const style = window.document.createElement("style");
-style.setAttribute("from","preload.url")
+style.setAttribute("from", "preload.url")
 style.innerHTML = css
 let index = 0
 const id = setInterval(() => {

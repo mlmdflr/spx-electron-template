@@ -1,32 +1,31 @@
 import type { IpcRendererEvent, BrowserWindowConstructorOptions } from 'electron';
-import customize from '@/renderer/store/customize';
 
 /**
  * 窗口初始化 (i)
  * */
 export function windowLoad(listener: (event: IpcRendererEvent, args: Customize_Route) => void) {
-  window.ipc.once(`window-load`, listener);
+  window.ipc.on(`window-load-route`, listener);
 }
 
 /**
  * 窗口数据更新
  */
 export function windowUpdate() {
-  window.ipc.send('window-update', customize.get());
+  window.ipc.send('window-update', window.customize);
 }
 
 /**
  * 窗口聚焦失焦监听
  */
 export function windowBlurFocusOn(listener: (event: IpcRendererEvent, args: 'blur' | 'focus') => void) {
-  window.ipc.on(`window-blur-focus-${customize.get().id}`, listener);
+  window.ipc.on(`window-blur-focus-${window.customize.id}`, listener);
 }
 
 /**
  * 关闭窗口聚焦失焦监听
  */
 export function windowBlurFocusRemove() {
-  window.ipc.removeAllListeners(`window-blur-focus-${customize.get().id}`);
+  window.ipc.removeAllListeners(`window-blur-focus-${window.customize.id}`);
 }
 
 /**
@@ -35,14 +34,14 @@ export function windowBlurFocusRemove() {
 export function windowMaximizeOn(
   listener: (event: IpcRendererEvent, args: 'maximize' | 'unmaximize') => void
 ) {
-  window.ipc.on(`window-maximize-status-${customize.get().id}`, listener);
+  window.ipc.on(`window-maximize-status-${window.customize.id}`, listener);
 }
 
 /**
  * 关闭窗口大小化监听
  */
 export function windowMaximizeRemove() {
-  window.ipc.removeAllListeners(`window-maximize-status-${customize.get().id}`);
+  window.ipc.removeAllListeners(`window-maximize-status-${window.customize.id}`);
 }
 
 /**
@@ -77,13 +76,13 @@ export function windowMessageSend(
   isback: boolean = false, //是否给自身反馈
   acceptIds: (number | bigint | undefined)[] = [] //指定窗口id发送
 ) {
-  if (acceptIds.length === 0 && customize.get().parentId !== undefined) acceptIds = [customize.get().parentId];
+  if (acceptIds.length === 0 && window.customize.parentId !== undefined) acceptIds = [window.customize.parentId];
   window.ipc.send('window-message-send', {
     channel,
     value,
     isback,
     acceptIds,
-    id: customize.get().id
+    id: window.customize.id
   });
 }
 
@@ -102,7 +101,7 @@ export function windowMessageSendAll(
     channel,
     value,
     isback,
-    id: customize.get().id
+    id: window.customize.id
   });
 }
 
@@ -117,14 +116,14 @@ export function windowCreate(customize: Customize, opt?: BrowserWindowConstructo
 /**
  * 窗口状态
  */
-export async function windowStatus(id: number | bigint = customize.get().id as number | bigint, type: WindowStatusOpt) {
+export async function windowStatus(id: number | bigint = window.customize.id as number | bigint, type: WindowStatusOpt) {
   return window.ipc.invoke('window-status', { type, id });
 }
 
 /**
  * 窗口置顶
  */
-export function windowAlwaysOnTop(id: number | bigint = customize.get().id as number | bigint, is: boolean, type?: WindowAlwaysOnTopOpt) {
+export function windowAlwaysOnTop(id: number | bigint = window.customize.id as number | bigint, is: boolean, type?: WindowAlwaysOnTopOpt) {
   window.ipc.send('window-always-top-set', { id, is, type });
 }
 
@@ -135,7 +134,7 @@ export function windowSetSize(
   size: number[],
   resizable: boolean = true,
   center: boolean = false,
-  id: number | bigint = customize.get().id as number | bigint
+  id: number | bigint = window.customize.id as number | bigint
 ) {
   window.ipc.send('window-size-set', { id, size, resizable, center });
 }
@@ -146,7 +145,7 @@ export function windowSetSize(
 export function windowSetMaxMinSize(
   type: 'max' | 'min',
   size: number | undefined[],
-  id: number | bigint = customize.get().id as number | bigint
+  id: number | bigint = window.customize.id as number | bigint
 ) {
   window.ipc.send(`window-${type}-size-set`, { id, size });
 }
@@ -154,21 +153,21 @@ export function windowSetMaxMinSize(
 /**
  * 设置窗口背景颜色
  */
-export function windowSetBackgroundColor(id: number | bigint = customize.get().id as number | bigint, color?: string) {
+export function windowSetBackgroundColor(id: number | bigint = window.customize.id as number | bigint, color?: string) {
   window.ipc.send('window-bg-color-set', { id, color });
 }
 
 /**
  * 最大化&最小化当前窗口
  */
-export function windowMaxMin(id: number | bigint = customize.get().id as number | bigint) {
+export function windowMaxMin(id: number | bigint = window.customize.id as number | bigint) {
   window.ipc.send('window-max-min-size', id);
 }
 
 /**
  * 关闭窗口
  */
-export function windowClose(id: number | bigint = customize.get().id as number | bigint) {
+export function windowClose(id: number | bigint = window.customize.id as number | bigint) {
   window.ipc.send('window-close', id);
 }
 
@@ -177,38 +176,38 @@ export function windowClose(id: number | bigint = customize.get().id as number |
  * @param id 窗口id
  * @param time 延迟显示时间
  */
-export function windowShow(id: number | bigint = customize.get().id as number | bigint, time: number = 0) {
+export function windowShow(id: number | bigint = window.customize.id as number | bigint, time: number = 0) {
   setTimeout(() => window.ipc.send('window-func', { type: 'show', id }), time);
 }
 
 /**
  * 窗口隐藏
  */
-export function windowHide(id: number | bigint = customize.get().id as number | bigint) {
+export function windowHide(id: number | bigint = window.customize.id as number | bigint) {
   window.ipc.send('window-func', { type: 'hide', id });
 }
 
 /**
  * 最小化窗口 
  */
-export function windowMin(id: number | bigint = customize.get().id as number | bigint) {
+export function windowMin(id: number | bigint = window.customize.id as number | bigint) {
   window.ipc.send('window-func', { type: 'minimize', id });
 }
 
 /**
  * 最大化窗口
  */
-export function windowMax(id: number | bigint = customize.get().id as number | bigint) {
+export function windowMax(id: number | bigint = window.customize.id as number | bigint) {
   window.ipc.send('window-func', { type: 'maximize', id });
 }
 
 /**
  * window函数
  */
- export function windowFunc(
+export function windowFunc(
   type: WindowFuncOpt,
   data?: any[],
-  id: number | bigint = customize.get().id as number | bigint
+  id: number | bigint = window.customize.id as number | bigint
 ) {
   window.ipc.send('window-func', { type, data, id });
 }

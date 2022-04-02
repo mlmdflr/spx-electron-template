@@ -18,7 +18,6 @@
 <script setup lang="ts" >
 import type { IpcRendererEvent } from 'electron';
 import { onMounted, onUnmounted } from 'vue';
-import customize from '@/renderer/store/customize';
 import {
   windowClose,
   windowSetSize,
@@ -36,11 +35,11 @@ import { i18nLocale } from "@/renderer/i18n";
 console.log();
 
 
-i18nLocale() === 'en' && windowSetSize([400, 170], false, customize.get().currentMaximized);
-i18nLocale() !== 'en' && windowSetSize([400, 150], false, customize.get().currentMaximized);
+i18nLocale() === 'en' && windowSetSize([400, 170], false, window.customize.currentMaximized);
+i18nLocale() !== 'en' && windowSetSize([400, 150], false, window.customize.currentMaximized);
 
-const argv = customize.get().argv ?? ''
-const data = customize.get().data ?? ''
+const argv = window.customize.argv ?? ''
+const data = window.customize.data ?? ''
 
 function test() {
   //测试发送窗口发送消息+给自身反馈
