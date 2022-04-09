@@ -34,4 +34,5 @@ App.start().then(async () => {
 
     // 托盘
     Tray.create();
+
 })
