@@ -110,7 +110,8 @@ export function windowMessageSendAll(
  * 创建窗口
  */
 export function windowCreate(customize: Customize, opt?: BrowserWindowConstructorOptions) {
-  window.ipc.send('window-new', { customize, opt });
+  if ('route' in customize) window.ipc.send('window-new', { customize: { ...customize, locale: window.customize.locale }, opt });
+  else window.ipc.send('window-new', { customize, opt });
 }
 
 /**

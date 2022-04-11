@@ -21,6 +21,8 @@ interface Customize_Route {
   isMainWin?: boolean;
   // 父窗口id
   parentId?: number | bigint;
+  // 語言
+  locale?: string
   // 进程参数
   argv?: any;
   // 自定义参数

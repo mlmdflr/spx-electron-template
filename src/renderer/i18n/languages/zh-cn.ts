@@ -5,7 +5,7 @@ export const lang = {
         ppw: "弹个框",
         generate: '雪花算法',
         relaunch: '重启app',
-        path: '路径',
+        path: ' 路径',
         home: '首页',
         testGet: '测试获取路由id',
         testIpc: '测试通讯'

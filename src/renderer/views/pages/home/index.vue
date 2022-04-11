@@ -29,7 +29,7 @@ import {
 } from '@/renderer/common/enhance/shortcut';
 import Router from '@/renderer/router';
 
-import { i18nt, setLanguage, i18nLocale } from "@/renderer/i18n";
+import { i18nt, setLanguageAll, i18nLocale } from "@/renderer/i18n";
 
 const version = window.environment.systemVersion
 
@@ -45,7 +45,7 @@ const nInit = defineComponent({
     notification = useNotification()
     nmessage = useMessage()
   },
-  render: () => { }
+  render: () => {}
 })
 
 
@@ -72,7 +72,7 @@ let lang = ref(i18nLocale())
 
 function SwitchLang(value: string) {
   lang.value = value
-  setLanguage(value);
+  setLanguageAll(value);
 }
 
 /**
@@ -248,6 +248,7 @@ onUnmounted(() => {
 
 <template>
   <div class="container">
+
     <Head />
     <n-notification-provider :placement="placement" :max="3">
       <n-message-provider :placement="msgPlacement" :max="3">
@@ -301,6 +302,5 @@ onUnmounted(() => {
           </n-grid>
         </div>
       </n-message-provider>
-    </n-notification-provider>
-  </div>
+    </n-notification-provider>  </div>
 </template>
