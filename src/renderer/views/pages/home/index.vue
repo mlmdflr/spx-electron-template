@@ -7,7 +7,8 @@ import {
   windowShow,
   windowMessageOn,
   windowMessageRemove,
-  windowBlurFocusOn
+  windowBlurFocusOn,
+  windowViewIdAll
 } from '@/renderer/common/window';
 
 import { menuShow, menuOn, menuListenersRemove } from '@/renderer/common/additional/menu';
@@ -27,11 +28,16 @@ import {
   unShortcut,
   shortcutGetByKey
 } from '@/renderer/common/enhance/shortcut';
-import Router from '@/renderer/router';
 
-import { i18nt, setLanguageAll, i18nLocale } from "@/renderer/i18n";
+import { i18nt, setLanguage, i18nLocale } from "@/renderer/i18n";
+
+import countStore from "@/renderer/store/count";
+import { viewBind, viewCreateBind, viewSetAutoResize, viewSetBounds, viewUnBind } from '@/renderer/common/view';
+
+
 
 const version = window.environment.systemVersion
+
 
 //NotificationApi  MessageApi 初始化
 type placementType = "top-left" | "top-right" | "bottom-left" | "bottom-right"
@@ -45,10 +51,14 @@ const nInit = defineComponent({
     notification = useNotification()
     nmessage = useMessage()
   },
-  render: () => {}
+  render: () => { }
 })
 
 
+
+countStore.subscribe(({ count }) => {
+  nmessage.success(`State change! ${count}`)
+})
 
 let auto = ref(false);
 
@@ -72,7 +82,7 @@ let lang = ref(i18nLocale())
 
 function SwitchLang(value: string) {
   lang.value = value
-  setLanguageAll(value);
+  setLanguage(value);
 }
 
 /**
@@ -93,6 +103,7 @@ menuOn((_event, args) => {
     title: i18nt('text.testRightkey'),
     route: '/message',
     parentId: window.customize.id,
+    viewType: 'None',
     data: { text: args }
   }, {
     modal: true
@@ -112,7 +123,8 @@ function test() {
       title: i18nt('text.testPpw'),
       route: '/message',
       data: { text: 'wdnmd' },
-      parentId: window.customize.id
+      parentId: window.customize.id,
+      viewType: 'None'
     },
     {
       modal: true
@@ -122,17 +134,60 @@ function test() {
 
 
 function toAbout() {
-  Router.push('/about');
+  windowCreate({
+    route: '/aboutView',
+    viewType: 'Single',
+    parentId: window.customize.id
+  }, {
+    backgroundColor: '#222',
+    width: 600,
+    height: 400
+  }).then((wid) => {
+    windowViewIdAll().then(vids => {
+      vids.length === 1 && viewUnBind(window.customize.id as number | bigint, vids[0]).then(() => {
+        viewBind(wid, vids[0]).then(() => {
+          viewSetBounds(vids[0], {
+            x: 0,
+            y: 32,
+            width: 600,
+            height: 368,
+          })
+          viewSetAutoResize(vids[0], {
+            height: true,
+            width: true,
+            horizontal: true
+          })
+        })
+      })
+    })
+  })
 }
 
 function toRepositories() {
   windowCreate({
-    id: 0,
-    url: 'https://mlmdflr.cc'
-  }, {
-    width: 800,
-    height: 600
-  });
+    route: '/webview',
+    viewType: 'Single',
+    title:'文档'
+  }, { backgroundColor: '#fff' }).then(wid => {
+    wid !== undefined && viewCreateBind(wid, {
+      url: 'https://mlmdflr.cc/doc',
+      session: {
+        key: 'mlmdflr',
+      }
+    }, {
+      x: 0,
+      y: 32,
+      width: 800,
+      height: 568,
+    }).then(vid => {
+      viewSetAutoResize(vid, {
+        height: true,
+        width: true,
+        horizontal: true
+      })
+    })
+  })
+
 }
 
 const snowflakeClick = () => {
@@ -257,7 +312,7 @@ onUnmounted(() => {
           <div>hello {{ version }}</div>
           <n-space>
             <n-button strong secondary type="info" @click="toAbout">{{ $t('btn.about') }}</n-button>
-            <n-button strong secondary type="info" @click="toRepositories">{{ $t('name') }}</n-button>
+            <n-button strong secondary type="info" @click="toRepositories">{{ $t('btn.doc') }}</n-button>
             <n-button strong secondary type="info" @click="test">{{ $t('btn.ppw') }}</n-button>
             <n-button strong secondary type="info" @click="snowflakeClick">{{ $t('btn.generate') }}</n-button>
             <n-button strong secondary type="warning" @click="rebootApp">{{ $t('btn.relaunch') }}</n-button>
@@ -297,10 +352,11 @@ onUnmounted(() => {
               <hotkey-input :multiple="true" :max="4" v-model="shortcutStr"></hotkey-input>
             </n-gi>
             <n-gi>
-              <n-select :value="lang" @update-value="SwitchLang" :options="langOp" />
+              <n-select placement="top-start" :value="lang" @update-value="SwitchLang" :options="langOp" />
             </n-gi>
           </n-grid>
         </div>
       </n-message-provider>
-    </n-notification-provider>  </div>
+    </n-notification-provider>
+  </div>
 </template>

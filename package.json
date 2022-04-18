@@ -1,7 +1,7 @@
 {
   "name": "xps-electron-ts-vue3-template",
   "productName": "xps-electron-ts-vue3-template",
-  "version": "8.3.0",
+  "version": "8.4.0",
   "description": "electron  ts+vue3 template",
   "main": "dist/main/index.js",
   "author": {
@@ -18,34 +18,34 @@
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.9",
-    "@rollup/plugin-commonjs": "^21.0.3",
+    "@rollup/plugin-commonjs": "^21.1.0",
     "@rollup/plugin-image": "^2.1.1",
     "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-node-resolve": "^13.2.1",
     "@vitejs/plugin-vue": "^2.2.4",
-    "@vue/compiler-sfc": "^3.2.31",
+    "@vue/compiler-sfc": "^3.2.33",
     "asarmor": "^2.0.0",
-    "electron": "18.0.1",
-    "electron-builder": "^22.14.13",
+    "electron": "18.0.4",
+    "electron-builder": "^23.0.3",
     "electron-devtools-vendor": "^1.0.5",
     "electron-rebuild": "^3.2.7",
-    "esbuild": "^0.14.28",
+    "esbuild": "^0.14.36",
     "javascript-obfuscator": "^4.0.0",
     "naive-ui": "^2.27.0",
     "prettier": "^2.6.1",
-    "rollup": "^2.70.1",
+    "rollup": "^2.70.2",
     "rollup-plugin-esbuild": "^4.8.2",
     "rollup-plugin-obfuscator": "^0.2.1",
     "sass": "^1.49.11",
     "typescript": "^4.6.3",
-    "vite": "^2.8.6",
+    "vite": "^2.9.5",
     "vite-plugin-babel-macros": "^1.0.6",
     "vite-plugin-html": "^3.2.0",
-    "vue": "^3.2.31",
+    "vue": "^3.2.33",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.14"
   },
   "dependencies": {
-    "electron-updater": "^4.6.5"
+    "electron-updater": "^5.0.1"
   }
 }

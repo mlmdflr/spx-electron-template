@@ -1,5 +1,6 @@
 import { createI18n } from "vue-i18n"
 import { windowMessageSendAll } from "../common/window";
+import { viewMessageSendAll } from "../common/view";
 
 export function loadLanguages() {
     //@ts-ignore
@@ -35,11 +36,4 @@ export const i18n = createI18n({
 export function setLanguage(locale: string) {
     i18n.global.locale = locale
     window.customize.locale = locale
-}
-
-//修改所有vue實例的語言
-export function setLanguageAll(locale: string) {
-    i18n.global.locale = locale
-    window.customize.locale = locale
-    windowMessageSendAll('renderer-i18n-language-change', locale)
 }

@@ -1,13 +1,8 @@
 <template>
   <div class="container">
-    <Head />
     <div class="about-info">
-      <n-image
-        src="https://avatars.githubusercontent.com/u/93173537?v=4"
-        width="128"
-        height="128"
-        :alt="'@'+i18nt('name')"
-      ></n-image>
+      <n-image src="https://avatars.githubusercontent.com/u/93173537?v=4" width="128" height="128"
+        :alt="'@' + i18nt('name')"></n-image>
       <div @click="openLicense" class="name">MIT License</div>
       <n-modal v-model:show="licenseShow">
         <n-card style="width: 600px;" :bordered="true" size="huge" role="dialog" aria-modal="true">
@@ -15,27 +10,22 @@
         </n-card>
       </n-modal>
       <div @click="open" class="name">{{ $t('name') }}</div>
-      <n-button @click="toHome">{{ $t('btn.home') }}</n-button>
     </div>
   </div>
 </template>
 
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { windowShow } from '@/renderer/common/window';
+import { ref } from 'vue';
 import { getExternPath, openUrl } from '@/renderer/common/app';
-import { NImage, NButton, NModal, NCard } from 'naive-ui'
-import Router from '@/renderer/router';
+import { NImage, NModal, NCard } from 'naive-ui'
 import { readFile } from '@/renderer/common/general/file';
 import { i18nt } from '@/renderer/i18n'
 
+
+
 let licenseShow = ref(false);
 let license = ref('');
-
-onMounted(() => {
-  windowShow();
-});
 
 
 function open() {
@@ -48,9 +38,6 @@ async function openLicense() {
   })
 }
 
-function toHome() {
-  Router.push('/home')
-}
 </script>
 
 <style lang='scss' scoped>

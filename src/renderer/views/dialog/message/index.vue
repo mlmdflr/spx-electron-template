@@ -1,14 +1,15 @@
 <template>
   <div class="container">
+
     <Head :minShow="false" :maxShow="false" />
     <div class="message-info">
       <div class="text">
-        <div>{{$t('text.createParam')}}: {{ data.text }}</div>
-        <div>{{$t('text.appStartParam')}}: {{ argv }}</div>
+        <div>{{ $t('text.createParam') }}: {{ data.text }}</div>
+        <div>{{ $t('text.appStartParam') }}: {{ argv }}</div>
       </div>
-      <n-space>
-        <n-button @click="test">{{$t('btn.testIpc')}}</n-button>
-        <n-button @click="test1">{{$t('btn.testGet')}}</n-button>
+      <n-space v-if="isShow">
+        <n-button @click="test">{{ $t('btn.testIpc') }}</n-button>
+        <n-button @click="test1">{{ $t('btn.testGet') }}</n-button>
       </n-space>
     </div>
   </div>
@@ -17,7 +18,7 @@
 
 <script setup lang="ts" >
 import type { IpcRendererEvent } from 'electron';
-import { onMounted, onUnmounted } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import {
   windowClose,
   windowSetSize,
@@ -28,18 +29,23 @@ import {
   windowMessageRemove,
   windowBlurFocusOn
 } from '@/renderer/common/window';
+import { getAppInfo } from "@/renderer/common/app";
 import { NButton, NSpace } from 'naive-ui'
 import { Snowflake } from '@/util/snowflake';
 import { i18nLocale } from "@/renderer/i18n";
 
-console.log();
-
-
 i18nLocale() === 'en' && windowSetSize([400, 170], false, window.customize.currentMaximized);
 i18nLocale() !== 'en' && windowSetSize([400, 150], false, window.customize.currentMaximized);
 
+let isShow = ref(true)
+getAppInfo().then(({ isPackaged }) => {
+  isShow.value = !isPackaged
+  isPackaged &&  windowSetSize([400, 100], false, window.customize.currentMaximized);
+})
+
 const argv = window.customize.argv ?? ''
 const data = window.customize.data ?? ''
+
 
 function test() {
   //测试发送窗口发送消息+给自身反馈

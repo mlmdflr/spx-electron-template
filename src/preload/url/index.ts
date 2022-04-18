@@ -7,7 +7,7 @@ import { Snowflake } from '@/util/snowflake'
 import { net, NetOpt } from '@/renderer/common/enhance/net'
 import css from "./css";
 
-ipcRenderer.on('window-load-url', (_, args) => {
+ipcRenderer.on('load-url', (_, args) => {
     // 挂载至window
     contextBridge.exposeInMainWorld('customize', args)
     document.body.setAttribute('platform', process.platform);
@@ -30,11 +30,11 @@ contextBridge.exposeInMainWorld('environment', {
     platform: process.platform,
     isSecondInstanceWin
 });
-
+//挂载休眠方法
 contextBridge.exposeInMainWorld('sleep', (duration: number, value: any) => sleep(duration, value));
-
+//挂载雪花算法
 contextBridge.exposeInMainWorld('snowflake', (workerId: bigint, dataCenterId: bigint) => new Snowflake(workerId, dataCenterId).nextId());
-
+//挂载封装fetch
 contextBridge.exposeInMainWorld('net', (url: string, param: NetOpt) => net(url, param));
 
 //注入css

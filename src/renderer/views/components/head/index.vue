@@ -20,6 +20,8 @@
 <script setup lang='ts' >
 import { windowClose, windowMaxMin, windowMin } from '@/renderer/common/window';
 
+const emit = defineEmits(['close-before'])
+
 const props = defineProps({
   minShow: {
     type: Boolean,
@@ -49,6 +51,7 @@ function maxMin() {
 }
 
 function close() {
+  emit('close-before')
   windowClose();
 }
 

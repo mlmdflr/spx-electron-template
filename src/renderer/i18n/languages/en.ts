@@ -8,7 +8,8 @@ export const lang = {
         path: ' path',
         home: 'home',
         testGet: 'testGetRouteId',
-        testIpc: 'testIpc'
+        testIpc: 'testIpc',
+        doc: 'documentation'
     },
     text: {
         start: 'autoStart',

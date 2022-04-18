@@ -11,6 +11,7 @@ export const opt: BrowserWindowConstructorOptions = {
 export const customize: Customize = {
     title: productName,
     route: "/home",
+    viewType:'Single',
     isMainWin: true
 };
 

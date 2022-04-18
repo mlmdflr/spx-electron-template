@@ -1,11 +1,13 @@
 import { createApp } from 'vue';
-import { windowLoad, windowMessageOn } from '@/renderer/common/window';
+import { windowMessageOn } from '@/renderer/common/window';
+import { LoadRoute } from '@/renderer/common/base';
 import App from '@/renderer/views/app.vue';
 import router from '@/renderer/router';
 import Head from "@/renderer/views/components/head/index.vue";
 import { i18n, setLanguage } from './i18n'
+import { viewMessageOn } from './common/view';
 
-windowLoad((_, args) => {
+LoadRoute((_, args) => {
   router.addRoute({
     path: '/',
     redirect: args.route
@@ -16,8 +18,3 @@ windowLoad((_, args) => {
   document.body.setAttribute('platform', window.environment.platform);
   createApp(App).component('Head', Head).use(i18n).use(router).mount('#app');
 });
-
-windowMessageOn('renderer-i18n-language-change', (_, args) => {
-  window.customize.locale = args
-  setLanguage(args)
-})

@@ -1,18 +1,5 @@
 import type { IpcRendererEvent, BrowserWindowConstructorOptions } from 'electron';
 
-/**
- * 窗口初始化 (i)
- * */
-export function windowLoad(listener: (event: IpcRendererEvent, args: Customize_Route) => void) {
-  window.ipc.on(`window-load-route`, listener);
-}
-
-/**
- * 窗口数据更新
- */
-export function windowUpdate() {
-  window.ipc.send('window-update', window.customize);
-}
 
 /**
  * 窗口聚焦失焦监听
@@ -76,7 +63,7 @@ export function windowMessageSend(
   isback: boolean = false, //是否给自身反馈
   acceptIds: (number | bigint | undefined)[] = [] //指定窗口id发送
 ) {
-  if (acceptIds.length === 0 && window.customize.parentId !== undefined) acceptIds = [window.customize.parentId];
+  if (acceptIds.length === 0 && (window.customize as Customize_Route).parentId !== undefined) acceptIds = [(window.customize as Customize_Route).parentId];
   window.ipc.send('window-message-send', {
     channel,
     value,
@@ -110,8 +97,8 @@ export function windowMessageSendAll(
  * 创建窗口
  */
 export function windowCreate(customize: Customize, opt?: BrowserWindowConstructorOptions) {
-  if ('route' in customize) window.ipc.send('window-new', { customize: { ...customize, locale: window.customize.locale }, opt });
-  else window.ipc.send('window-new', { customize, opt });
+  if ('route' in customize) return window.ipc.invoke('window-new', { customize: { ...customize, locale: window.customize.locale }, opt });
+  else return window.ipc.invoke('window-new', { customize, opt });
 }
 
 /**
@@ -151,12 +138,6 @@ export function windowSetMaxMinSize(
   window.ipc.send(`window-${type}-size-set`, { id, size });
 }
 
-/**
- * 设置窗口背景颜色
- */
-export function windowSetBackgroundColor(id: number | bigint = window.customize.id as number | bigint, color?: string) {
-  window.ipc.send('window-bg-color-set', { id, color });
-}
 
 /**
  * 最大化&最小化当前窗口
@@ -218,4 +199,10 @@ export function windowFunc(
  */
 export async function windowIdRoute(route?: string): Promise<[]> {
   return window.ipc.invoke('window-id-route', route);
+}
+
+
+// 查询当前窗体绑定的所有视图
+export async function windowViewIdAll(id: number | bigint = window.customize.id as number | bigint): Promise<number[]> {
+  return window.ipc.invoke('windows-view-id-all',{id});
 }

@@ -8,7 +8,8 @@ export const lang = {
         path: ' 路径',
         home: '首页',
         testGet: '测试获取路由id',
-        testIpc: '测试通讯'
+        testIpc: '测试通讯',
+        doc: '文档'
     },
     text: {
         start: '开机自启',

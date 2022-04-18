@@ -4,6 +4,7 @@ import { app, screen, ipcMain, BrowserWindow } from 'electron';
 import { Snowflake } from "@/util/snowflake";
 import windowCfg from '@/cfg/window.cfg'
 import { workerId, dataCenterId } from '@/cfg/snowflake.cfg'
+import { logError } from './general/log';
 
 /**
  * 窗口配置
@@ -35,11 +36,10 @@ function browserWindowInit(
     frame: args.frame ?? !isLocal,
     show: args.show ?? !isLocal,
     webPreferences: {
-      preload: isLocal ? join(__dirname, './preload.route.js') : join(__dirname, './preload.url.js'),
+      preload: isLocal ? join(__dirname, '../preload/index.route.js') : join(__dirname, '../preload/index.url.js'),
       contextIsolation: true,
       nodeIntegration: false,
       devTools: !app.isPackaged,
-      webSecurity: false
     }
   });
   if (!opt.backgroundColor && windowCfg.opt.backgroundColor) opt.backgroundColor = windowCfg.opt.backgroundColor;
@@ -72,7 +72,6 @@ function browserWindowInit(
 
   const win = new BrowserWindow(opt);
 
-
   //win平台 取消无边框窗口右键原生事件
   process.platform === 'win32' && !opt.frame && win.hookWindowMessage(278, () => {
     win.setEnabled(false)
@@ -94,7 +93,6 @@ function browserWindowInit(
   //   action: 'allow',
   //   overrideBrowserWindowOptions: opt
   // }));
-
   return win;
 }
 
@@ -104,8 +102,8 @@ function browserWindowInit(
 async function load(win: BrowserWindow) {
   // 注入初始化代码
   win.webContents.on('did-finish-load', () => {
-    if ('route' in win.customize) win.webContents.send(`window-load-route`, win.customize)
-    else win.webContents.send(`window-load-url`, win.customize)
+    if ('route' in win.customize) win.webContents.send(`load-route`, win.customize)
+    else win.webContents.send(`load-url`, win.customize)
   });
   // 窗口最大最小监听
   win.on('maximize', () => win.webContents.send(`window-maximize-${win.customize.id}`, 'maximize'));
@@ -200,26 +198,32 @@ class Window {
     }
     const win = browserWindowInit(customize, opt);
 
+    win.customize.isMainWin && win.on('close', () => app.exit(1))
+
     // 模态框弹出父窗体模糊
-    if (win.isModal() && win.customize.parentId) this.get(win.customize.parentId)?.webContents.insertCSS(`body{filter:blur(${windowCfg.modalWindowParentBlu});}`).then((key) => Window.getInstance().winId_insertCSS.set((opt.parent?.customize.id ?? 'default').toString(), key))
+    if (win.isModal() && win.customize.parentId) {
+      let pwin = this.get(win.customize.parentId)
+      if (pwin) {
+        pwin.webContents.insertCSS(`body{filter:blur(${windowCfg.modalWindowParentBlu});}`).then((key) => Window.getInstance().winId_insertCSS.set((opt.parent?.customize.id ?? 'default').toString(), key))
+        for (const bv of pwin.getBrowserViews()) bv.webContents.insertCSS(`body{filter:blur(${windowCfg.modalWindowParentBlu});}`).then((key) => Window.getInstance().winId_insertCSS.set(`v${bv.customize.id}`, key))
+      }
+    }
 
     // 路由 > html文件 > 网页
     if (!app.isPackaged) {
       //调试模式
-      try {
-        import('fs').then(({ readFileSync }) => {
-          const appPort = readFileSync(join('.port'), 'utf8');
-          win.webContents.openDevTools({ mode: 'detach' });
-          if ('route' in win.customize) win.customize.baseUrl = `http://localhost:${appPort}`;
-          load(win);
-        });
-      } catch (e) {
-        throw 'not found .port';
-      }
-      return;
+      import('fs').then(({ readFileSync }) => {
+        win.webContents.openDevTools({ mode: 'detach' });
+        if ('route' in win.customize) win.customize.baseUrl = `http://localhost:${readFileSync(join('.port'), 'utf8')}`;
+        load(win)
+          .catch((error) => console.error(`load error`, error))
+      });
+    } else {
+      if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../renderer/index.html');
+      load(win)
+        .catch((error) => logError(`load error`, error))
     }
-    if ('route' in win.customize) win.customize.baseUrl = join(__dirname, '../renderer/index.html');
-    load(win);
+    return win.customize.id
   }
 
   /**
@@ -374,7 +378,6 @@ class Window {
     //窗口消息-关闭(内置为主窗体关闭则全部退出)
     ipcMain.on('window-close', (event, args) => {
       let win: BrowserWindow | null = null;
-      let main: BrowserWindow = this.getMain() as BrowserWindow;
       if (args !== undefined && args !== null) {
         win = this.get(args as number | bigint);
         if (!win) {
@@ -385,17 +388,20 @@ class Window {
         if (win.isModal() && win.customize.parentId) {
           let
             parentWin = this.get(win.customize.parentId),
-            mapValue = Window.getInstance().winId_insertCSS.get((parentWin?.customize.id ?? 'default').toString())
-          if (parentWin && mapValue) parentWin.webContents.removeInsertedCSS(mapValue)
+            mapValue = Window.getInstance().winId_insertCSS.get((parentWin?.customize.id ?? 'default').toString()),
+            vMapGet = (key: string) => Window.getInstance().winId_insertCSS.get(key === 'vundefined' ? 'default' : key) as string
+          if (parentWin && mapValue) {
+            parentWin.webContents.removeInsertedCSS(mapValue)
+            for (const bv of parentWin.getBrowserViews()) vMapGet(`v${bv.customize.id}`) && bv.webContents.removeInsertedCSS(vMapGet(`v${bv.customize.id}`))
+          }
         }
-        if (main.customize.isMainWin && main.customize.id === win.customize.id) this.func('close')
-        else win.close()
+        win.close()
       }
     });
     //窗口状态
     ipcMain.handle('window-status', (event, args) => this.getStatus(args.type, args.id));
     //创建窗口
-    ipcMain.on('window-new', (event, args) => this.create(args.customize, args.opt));
+    ipcMain.handle('window-new', (event, args) => this.create(args.customize, args.opt));
     //设置窗口是否置顶
     ipcMain.on('window-always-top-set', (event, args) => this.setAlwaysOnTop(args));
     //设置窗口大小
@@ -412,7 +418,7 @@ class Window {
       if (args.acceptIds && args.acceptIds.length > 0) {
         for (let i of args.acceptIds) {
           let win = this.get(i)
-          if (win) win.webContents.send(channel, args.value);
+          if (win && i !== args.id) win.webContents.send(channel, args.value);
         }
       }
       if (args.isback) {
@@ -431,7 +437,6 @@ class Window {
         if (win) win.webContents.send(channel, args.value);
       }
     });
-
     /**
      * @description 通过路由获取窗口id (不传route查全部)
      * @author 没礼貌的芬兰人
@@ -458,6 +463,34 @@ class Window {
       return this.getAll()
         .filter((win) => (win.customize && ('url' in win.customize)))
         .map(win => win.customize.id)
+    });
+    /**
+     * 查询绑定此窗体的所有视图
+     */
+    ipcMain.handle('windows-view-id-all', (_, args) => {
+      if (args.id !== undefined && args.id !== null) {
+        const win = this.get(args.id);
+        if (!win) {
+          console.error('Invalid id, the id can not be a empty');
+          return [];
+        }
+        if (win.customize) switch (win.customize.viewType) {
+          case 'None':
+            return [];
+          case 'Single':
+            let view = win.getBrowserView()
+            if (view && view.customize) {
+              return [view.customize.id]
+            } else {
+              return [];
+            }
+          case 'Multiple':
+            return win.getBrowserViews()
+              .filter(view => (view.customize))
+              .map(view => view.customize.id)
+        }
+      }
+      return []
     });
   }
 }
