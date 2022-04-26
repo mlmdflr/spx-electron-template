@@ -2,9 +2,8 @@ import type { IpcRendererEvent } from 'electron';
 import { contextBridge, ipcRenderer } from 'electron';
 import { EOL } from 'os';
 import { isSecondInstanceWin } from '@/cfg/app.cfg'
-import sleep from '@/util/sleep'
-import { Snowflake } from '@/util/snowflake'
-import { net, NetOpt } from '@/renderer/common/enhance/net'
+// import sleep from '@/util/sleep'
+// import { Snowflake } from '@/util/snowflake'
 import css from "./css";
 
 ipcRenderer.on('load-url', (_, args) => {
@@ -30,12 +29,12 @@ contextBridge.exposeInMainWorld('environment', {
     platform: process.platform,
     isSecondInstanceWin
 });
-//挂载休眠方法
-contextBridge.exposeInMainWorld('sleep', (duration: number, value: any) => sleep(duration, value));
-//挂载雪花算法
-contextBridge.exposeInMainWorld('snowflake', (workerId: bigint, dataCenterId: bigint) => new Snowflake(workerId, dataCenterId).nextId());
-//挂载封装fetch
-contextBridge.exposeInMainWorld('net', (url: string, param: NetOpt) => net(url, param));
+// //挂载休眠方法
+// contextBridge.exposeInMainWorld('sleep', (duration: number, value: any) => sleep(duration, value));
+// //挂载雪花算法
+// contextBridge.exposeInMainWorld('snowflake', (workerId: bigint, dataCenterId: bigint) => new Snowflake(workerId, dataCenterId).nextId());
+// //挂载封装fetch
+// contextBridge.exposeInMainWorld('net', (url: string, param: NetOpt) => net(url, param));
 
 //注入css
 const style = window.document.createElement("style");

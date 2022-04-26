@@ -8,14 +8,13 @@ import {
   windowMessageOn,
   windowMessageRemove,
   windowBlurFocusOn,
-  windowViewIdAll
-} from '@/renderer/common/window';
+  windowViewIdAll,
+} from 'mm-electron/renderer';
 
-import { menuShow, menuOn, menuListenersRemove } from '@/renderer/common/additional/menu';
 
 import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NSelect, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 
-import { Snowflake } from '@/util/snowflake';
+import { Snowflake } from 'mm-electron/utils';
 
 import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch, getAppInfo } from '@/renderer/common/app';
 

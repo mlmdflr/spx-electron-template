@@ -1,47 +1,35 @@
-import App from './modular/app';
-import Window from './modular/window';
-import View from './modular/view';
-import Global from './modular/general/global';
-import Tray from './modular/additional/tray';
-import { logOn } from './modular/general/log';
-import { pathOn } from './modular/general/path';
-import { fileOn } from './modular/general/file';
-import Shortcut from "./modular/enhance/shortcut";
+
 import { customize, opt } from '@/cfg/window.cfg';
 import { customize as viewCustomize } from '@/cfg/view.cfg';
-
-import Session from './modular/general/session';
-import Dialog from './modular/additional/dialog';
-import Menu from './modular/additional/menu';
-import Update from './/modular/enhance/update';
-
+import updateCfg from '@/cfg/update.cfg';
+import { appInstance, windowInstance, viewInstance, shortcutInstance, Tray, Session, Update, logError, logOn } from "mm-electron/main";
+import logo from '@/assets/icon/tray.png';
+import { defaultBounds } from "@/cfg/view.cfg";
 import '../preload'
 
-App.start().then(async () => {
+appInstance
+    .start()
+    .then(async () => {
+        const tary = new Tray();
 
-    // 主要模块
-    Global.on();//全局模块
-    Window.on();//窗口模块
-    View.on();//视图模块
-    Shortcut.on();//快捷键模块
-    Tray.on();//托盘模块
-    logOn();//日志模块
+        const update = new Update(
+            { provider: updateCfg.provider as any, url: updateCfg.url },
+            'resources/build/cfg/app-update.yml',
+            updateCfg.dirname
+        );
+        const session = new Session();
+        tary.on();
+        update.on();
+        session.on();
+        // 窗口
 
-    // 可选模块
-    fileOn();//文件模块
-    pathOn();//路径模块
+        viewInstance.setAutoResize({
+            id:
+                await viewInstance.createBindBV((await windowInstance.create(customize, opt) as number | bigint), viewCustomize, {}, defaultBounds) as number, autoResize: {
+                    height: true,
+                    width: true
+                }
+        })
 
-    App.use([Session, Dialog, Menu, Update]);
-    // 窗口
-
-    View.setAutoResize({
-        id:
-            View.createBindBV((Window.create(customize, opt) as number | bigint), viewCustomize) as number, autoResize: {
-                height: true,
-                width: true
-            }
+        tary.create(logo);
     })
-
-    // 托盘
-    Tray.create();
-})

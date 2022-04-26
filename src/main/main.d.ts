@@ -7,6 +7,8 @@ interface Customize_Base {
   currentWidth?: number;
   // 父类窗口高度
   currentHeight?: number;
+  // 是否已打包环境
+  isPackaged?: boolean;
   // 自定义参数
   data?: any;
 }
