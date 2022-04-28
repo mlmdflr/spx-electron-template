@@ -1,17 +1,27 @@
 import { createApp } from 'vue';
 import { LoadRoute } from 'mm-electron/renderer';
-import App from '@/renderer/views/app.vue';
-import router from '@/renderer/router';
-import Head from "@/renderer/views/components/head/index.vue";
-import { i18n } from './i18n'
-
-LoadRoute((_, args) => {
-  router.addRoute({
-    path: '/',
-    redirect: args.route
-  });
-  // 挂载至window
-  window.customize = args
-  document.body.setAttribute('platform', window.environment.platform);
-  createApp(App).component('Head', Head).use(i18n).use(router).mount('#app');
+import router from '@/renderer/vue/router';
+import { i18n } from '@/renderer/vue/i18n'
+import { Customize_Route, Customize_View_Route } from 'mm-electron/types';
+import { globalComponent } from 'ym-web';
+import './style'
+LoadRoute((_, customize: Customize_Route | Customize_View_Route) => {
+  switch (customize.rendererType) {
+    case 'Native':
+      window.customize = customize;
+      globalComponent.use(import('./native/views/components/head'), 'head');
+      import('@/renderer/native/router').then((router) =>
+        router.default.push(window.customize.route as string)
+      );
+      break;
+    default:
+      router.addRoute({
+        path: '/',
+        redirect: customize.route
+      });
+      window.customize = customize
+      document.body.setAttribute('platform', window.environment.platform);
+      import('@/renderer/vue/views/app.vue').then((app) => createApp(app.default).use(i18n).use(router).mount('#root'))
+      break;
+  }
 });
