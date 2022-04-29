@@ -1,7 +1,6 @@
 import { /* BrowserWindow,*/  ipcMain } from "electron";
 
 /** 预加载脚本监听 **/
-
 ipcMain.on('preload:route', (event) => {
     // console.log('from route id:'+BrowserWindow.fromWebContents(event.sender)?.customize.id);
 })

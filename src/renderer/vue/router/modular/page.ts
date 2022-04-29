@@ -15,11 +15,6 @@ const Route: RouteRecordRaw[] = [
     path: '/aboutView',
     name: 'AboutView',
     component: () => import('@/renderer/vue/views/pages/about/view.vue')
-  },
-  {
-    path: '/webview',
-    name: 'Webview',
-    component: () => import('@/renderer/vue/views/pages/webview/index.vue')
   }
 ];
 
