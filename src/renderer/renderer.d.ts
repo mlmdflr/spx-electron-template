@@ -22,6 +22,7 @@ declare module '*.vue' {
       interface ElementClass {
         $props: {}
       }
+      //@ts-ignore
       interface ElementAttributesProperty {
         $props: {}
       }

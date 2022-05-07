@@ -4,7 +4,7 @@ import style from './style';
 
 export default class {
   onLoad() {
-
+    
   }
   onReady() {
     windowShow();
@@ -16,7 +16,9 @@ export default class {
       headStore.actions.setTitle(webview.getTitle())
     });
     webview.innerText = 'loading..';
-    webview.src = window.customize.data.url as string;
+    if ('toUrl' in window.customize && window.customize['toUrl']) {
+      webview.src = window.customize['toUrl'] as string;
+    } else webview.src = 'https://mlmdflr.cc/404.html'
     return <div class={style}>{webview}</div>;
   }
 }

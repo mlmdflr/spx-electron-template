@@ -11,7 +11,7 @@ import {
   viewBind, viewSetAutoResize, viewSetBounds, viewUnBind,
 } from 'mm-electron/renderer';
 
-import { Snowflake } from "mm-electron/utils"
+import { Snowflake } from "mm-tool"
 
 import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NSelect, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 

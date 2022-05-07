@@ -32,7 +32,7 @@ import {
   windowBlurFocusOn,
 } from 'mm-electron/renderer';
 import { NButton, NSpace } from 'naive-ui'
-import { Snowflake } from 'mm-electron/utils';
+import { Snowflake } from 'mm-tool';
 import { Customize_Route } from 'mm-electron/types';
 import Head from "@/renderer/vue/views/components/head/index.vue";
 window.customize = window.customize as Customize_Route

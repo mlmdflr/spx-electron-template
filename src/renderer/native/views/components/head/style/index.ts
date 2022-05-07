@@ -33,8 +33,8 @@ export default css`
 
       > .event {
         border-radius: 20px;
-        width: 15px;
-        height: 15px;
+        width: 18px;
+        height: 18px;
         margin-left: 5px;
 
         &:hover {
