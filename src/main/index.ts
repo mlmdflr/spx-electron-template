@@ -20,7 +20,6 @@ appInstance
         update.on();
         session.on();
 
-
         // 调试模式
         if (!app.isPackaged) {
             try {
