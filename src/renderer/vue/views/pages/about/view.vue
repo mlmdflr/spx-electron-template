@@ -1,23 +1,18 @@
 <template>
     <div class="container">
+
         <Head v-on:close-before="bClose" />
     </div>
 </template>
 
 
 <script setup lang="ts" >
-import { defineComponent, h, onMounted, resolveComponent } from 'vue';
-import {
-    windowShow, windowViewIdAll,
-    viewBind, viewSetBounds, viewUnBind
-} from 'mm-electron/renderer';
+import { onMounted } from 'vue';
+import { viewBind, viewSetBounds, viewUnBind } from 'mm-electron/renderer/view';
+import { windowShow, windowViewIdAll } from "mm-electron/renderer/window";
 import { defaultBounds } from "@/cfg/view.cfg";
 import { Customize_Route } from 'mm-electron/types/main';
 import Head from '@/renderer/vue/views/components/head/index.vue';
-
-const hd = defineComponent({
-  render: () => h(resolveComponent('Head'))
-})
 
 const customize = window.customize as Customize_Route
 let bClose = () => {

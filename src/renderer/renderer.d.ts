@@ -14,7 +14,7 @@ interface HeadEvent {
 }
 
 declare module '*.vue' {
-  import { defineComponent } from 'vue';
+  import { ComponentPublicInstance, defineComponent, Ref } from 'vue';
   const component: ReturnType<typeof defineComponent>;
   export default component;
   global {
@@ -22,17 +22,26 @@ declare module '*.vue' {
       interface ElementClass {
         $props: {}
       }
-      //@ts-ignore
+      // @ts-ignore
       interface ElementAttributesProperty {
         $props: {}
       }
+
+      // @ts-ignore suppress ts:2374 = Duplicate string index signature.
+      type IntrinsicElements = IntrinsicElementsHTML & IntrinsicElementsSVG & {
+        // allow arbitrary elements
+        [name: string]: any
+      };
+
       interface IntrinsicAttributes extends ReservedProps { }
 
+      //@ts-ignore
       type ReservedProps = {
         key?: string | number | symbol
-        ref?:
-        | string
-        | any
+        ref?: string | Ref | ((ref: Element | ComponentPublicInstance | null, refs: Record<string, any>) => void)
+        ref_for?: boolean
+        ref_key?: string
+        [name: string]: any
       }
     }
   }

@@ -2,7 +2,12 @@
 import { customize, opt } from '@/cfg/window.cfg';
 import { customize as viewCustomize } from '@/cfg/view.cfg';
 import updateCfg from '@/cfg/update.cfg';
-import { appInstance, windowInstance, viewInstance, Tray, Session, Update, Window, logOn } from "mm-electron/main";
+import { appInstance } from "mm-electron/main/app";
+import { windowInstance } from "mm-electron/main/window";
+import { viewInstance } from "mm-electron/main/view";
+import { Tray } from "mm-electron/main/tray";
+import { Update } from "mm-electron/main/update";
+import { Session } from "mm-electron/main/session";
 import logo from '@/assets/icon/tray.png';
 import { defaultBounds } from "@/cfg/view.cfg";
 import '../preload'

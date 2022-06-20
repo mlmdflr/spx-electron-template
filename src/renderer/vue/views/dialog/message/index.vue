@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <Head :minShow="false" :maxShow="false"></Head>
     <div class="message-info">
       <div class="text">
@@ -30,7 +29,7 @@ import {
   windowMessageOn,
   windowMessageRemove,
   windowBlurFocusOn,
-} from 'mm-electron/renderer';
+} from 'mm-electron/renderer/window';
 import { NButton, NSpace } from 'naive-ui'
 import { Snowflake } from 'mm-tool';
 import { Customize_Route } from 'mm-electron/types';

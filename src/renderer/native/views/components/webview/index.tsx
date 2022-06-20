@@ -1,5 +1,5 @@
 import { headStore } from '@/renderer/native/store';
-import { windowShow } from 'mm-electron/renderer';
+import { windowShow } from 'mm-electron/renderer/window';
 import style from './style';
 
 export default class {

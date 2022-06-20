@@ -1,5 +1,6 @@
 import { headStore } from '@/renderer/native/store';
-import { windowClose, windowMaxMin, windowMin } from 'mm-electron/renderer';
+import { cs } from 'date-fns/locale';
+import { windowClose, windowMaxMin, windowMin } from 'mm-electron/renderer/window';
 import style from './style';
 
 export default class Head {

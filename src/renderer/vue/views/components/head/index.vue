@@ -1,6 +1,5 @@
 <script setup lang='ts' >
-import { windowClose, windowMaxMin, windowMin } from 'mm-electron/renderer';
-
+import { windowClose, windowMaxMin, windowMin } from 'mm-electron/renderer/window';
 const emit = defineEmits(['close-before'])
 
 const props = defineProps({
@@ -17,6 +16,7 @@ const props = defineProps({
     default: true
   }
 });
+
 
 const isMacintosh = window.environment.platform === 'darwin';
 
@@ -35,6 +35,7 @@ function close() {
   emit('close-before')
   windowClose();
 }
+
 
 </script>
 

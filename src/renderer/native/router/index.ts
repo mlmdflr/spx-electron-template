@@ -1,6 +1,6 @@
 import pageRoute from '@/renderer/native/router/modular/page';
-import { Router } from 'ym-web';
-import { customizeUpdate } from 'mm-electron/renderer';
+import { Router } from 'ym-web/router';
+import { customizeUpdate } from 'mm-electron/renderer/base';
 
 const router = new Router('inner', [...pageRoute]);
 

@@ -7,9 +7,10 @@ import {
   windowMessageOn,
   windowMessageRemove,
   windowViewIdAll,
-  getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch,
-  viewBind, viewSetAutoResize, viewSetBounds, viewUnBind,
-} from 'mm-electron/renderer';
+} from "mm-electron/renderer/window";
+import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch } from "mm-electron/renderer/app";
+import { viewBind, viewSetAutoResize, viewSetBounds, viewUnBind } from "mm-electron/renderer/view";
+
 
 import { Snowflake } from "mm-tool"
 
