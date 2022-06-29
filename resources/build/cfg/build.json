@@ -65,6 +65,7 @@
       {
         "target": "nsis",
         "arch": [
+          "x64",
           "ia32"
         ]
       }
@@ -91,8 +92,8 @@
       ]
     },
     {
-      "from": "resources/platform/win32",
-      "to": "platform/win32",
+      "from": "resources/platform/linux",
+      "to": "platform/linux",
       "filter": [
         "**/*"
       ]

@@ -10,8 +10,6 @@ LoadRoute((_, customize: Customize_Route | Customize_View_Route) => {
     case 'Native':
       window.customize = customize;
       document.body.setAttribute('platform', window.environment.platform);
-      console.log(123);
-      
       globalComponent.use(import('./native/views/components/head'), 'head');
       import('@/renderer/native/router').then((router) =>
         router.default.push(window.customize.route as string)
