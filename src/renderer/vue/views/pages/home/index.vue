@@ -7,12 +7,12 @@ import {
   windowMessageOn,
   windowMessageRemove,
   windowViewIdAll,
-} from "mm-electron/renderer/window";
-import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch } from "mm-electron/renderer/app";
-import { viewBind, viewSetAutoResize, viewSetBounds, viewUnBind } from "mm-electron/renderer/view";
+} from "@mlmdflr/electron-modules/renderer/window";
+import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch } from "@mlmdflr/electron-modules/renderer/app";
+import { viewBind, viewSetAutoResize, viewSetBounds, viewUnBind } from "@mlmdflr/electron-modules/renderer/view";
 
 
-import { Snowflake } from "mm-tool"
+import { Snowflake } from "@mlmdflr/tools"
 
 import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NSelect, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 
@@ -22,7 +22,7 @@ import HotkeyInput from '@/renderer/vue/views/components/hotkeyInput-vue3/index.
 
 import { i18nt, setLanguage, i18nLocale } from "@/renderer/vue/i18n";
 
-import { Customize_Route } from 'mm-electron/types/main';
+import { Customize_Route } from '@mlmdflr/electron-modules/types/main';
 
 const version = window.environment.systemVersion
 

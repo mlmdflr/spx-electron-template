@@ -1,5 +1,5 @@
 import type { Rectangle } from "electron";
-import { Customize_View_Route } from "mm-electron/types";
+import { Customize_View_Route } from "@mlmdflr/electron-modules/types";
 
 export const customize: Customize_View_Route = {
     route: "/about",

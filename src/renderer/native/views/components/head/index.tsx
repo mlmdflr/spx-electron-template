@@ -1,5 +1,5 @@
 import { headStore } from '@/renderer/native/store';
-import { windowClose, windowMaxMin, windowMin } from 'mm-electron/renderer/window';
+import { windowClose, windowMaxMin, windowMin } from '@mlmdflr/electron-modules/renderer/window';
 import style from './style';
 
 export default class Head {

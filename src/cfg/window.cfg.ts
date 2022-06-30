@@ -1,5 +1,5 @@
 import { BrowserWindowConstructorOptions } from "electron";
-import { Customize } from "mm-electron/types";
+import { Customize } from "@mlmdflr/electron-modules/types";
 
 import { productName } from '../../package.json';
 

@@ -1,7 +1,7 @@
 {
   "compression": "maximum",
-  "productName": "xps-electron-ts-vue3-template",
-  "appId": "org.xps-electron-ts-vue3-template",
+  "productName": "spx-electron-template",
+  "appId": "org.spx-electron-template",
   "copyright": "MIT",
   "asar": true,
   "directories": {
@@ -35,7 +35,7 @@
     "uninstallerSidebar": "resources/build/icons/modern-wizard.bmp",
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "xps-electron-ts-vue3-template",
+    "shortcutName": "spx-electron-template",
     "include": "resources/build/cfg/installer.nsh",
     "menuCategory": false,
     "displayLanguageSelector": false
@@ -74,7 +74,7 @@
   "linux": {
     "icon": "resources/build/icons",
     "target": "AppImage",
-    "executableName": "xps-electron-ts-vue3-template"
+    "executableName": "spx-electron-template"
   },
   "npmRebuild": true,
   "publish": [
@@ -92,8 +92,8 @@
       ]
     },
     {
-      "from": "resources/platform/linux",
-      "to": "platform/linux",
+      "from": "resources/platform/win32",
+      "to": "platform/win32",
       "filter": [
         "**/*"
       ]

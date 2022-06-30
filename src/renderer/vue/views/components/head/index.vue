@@ -1,5 +1,5 @@
 <script setup lang='ts' >
-import { windowClose, windowMaxMin, windowMin } from 'mm-electron/renderer/window';
+import { windowClose, windowMaxMin, windowMin } from '@mlmdflr/electron-modules/renderer/window';
 const emit = defineEmits(['close-before'])
 
 const props = defineProps({

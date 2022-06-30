@@ -3,7 +3,7 @@ interface AnyObject {
 }
 
 interface Window {
-  customize: import('mm-electron/types').Customize_Route | import('mm-electron/types').Customize_View_Route;
+  customize: import('@mlmdflr/electron-modules/types').Customize_Route | import('@mlmdflr/electron-modules/types').Customize_View_Route;
 }
 
 interface HeadEvent {

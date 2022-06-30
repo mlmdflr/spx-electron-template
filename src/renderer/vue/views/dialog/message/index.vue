@@ -29,10 +29,10 @@ import {
   windowMessageOn,
   windowMessageRemove,
   windowBlurFocusOn,
-} from 'mm-electron/renderer/window';
+} from '@mlmdflr/electron-modules/renderer/window';
 import { NButton, NSpace } from 'naive-ui'
-import { Snowflake } from 'mm-tool';
-import { Customize_Route } from 'mm-electron/types';
+import { Snowflake } from '@mlmdflr/tools';
+import { Customize_Route } from '@mlmdflr/electron-modules/types';
 import Head from "@/renderer/vue/views/components/head/index.vue";
 window.customize = window.customize as Customize_Route
 

@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { customizeUpdate } from 'mm-electron/renderer/base';
+import { customizeUpdate } from '@mlmdflr/electron-modules/renderer/base';
 
 import pageRoute from '@/renderer/vue/router/modular/page';
 import dialogRoute from '@/renderer/vue/router/modular/dialog';

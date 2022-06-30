@@ -1,5 +1,5 @@
 import webview from '@/renderer/native/views/components/webview/index';
-import { Route } from 'ym-web/types';
+import { Route } from '@youliso/web-modules/types';
 
 const Router: Route[] = [
   {

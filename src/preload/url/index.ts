@@ -1,4 +1,4 @@
-import { urlPreloadInit } from "mm-electron/preload";
+import { urlPreloadInit } from "@mlmdflr/electron-modules/preload";
 import { contextBridge, ipcRenderer } from 'electron';
 import { isSecondInstanceWin } from '@/cfg/app.cfg'
 

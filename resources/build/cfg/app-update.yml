@@ -1,3 +1,3 @@
 provider: generic
 url: http://127.0.0.1/public
-updaterCacheDirName: xps-electron-ts-vue3-template-updater
+updaterCacheDirName: spx-electron-template-updater

@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
 import { isSecondInstanceWin } from '@/cfg/app.cfg'
-import { preloadInit } from 'mm-electron/preload';
+import { preloadInit } from '@mlmdflr/electron-modules/preload';
 preloadInit({ isSecondInstanceWin })
 ipcRenderer.send('preload:route');

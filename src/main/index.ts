@@ -2,12 +2,12 @@
 import { customize, opt } from '@/cfg/window.cfg';
 import { customize as viewCustomize } from '@/cfg/view.cfg';
 import updateCfg from '@/cfg/update.cfg';
-import { appInstance } from "mm-electron/main/app";
-import { windowInstance } from "mm-electron/main/window";
-import { viewInstance } from "mm-electron/main/view";
-import { Tray } from "mm-electron/main/tray";
-import { Update } from "mm-electron/main/update";
-import { Session } from "mm-electron/main/session";
+import { appInstance } from "@mlmdflr/electron-modules/main/app";
+import { windowInstance } from "@mlmdflr/electron-modules/main/window";
+import { viewInstance } from "@mlmdflr/electron-modules/main/view";
+import { Tray } from "@mlmdflr/electron-modules/main/tray";
+import { Update } from "@mlmdflr/electron-modules/main/update";
+import { Session } from "@mlmdflr/electron-modules/main/session";
 import logo from '@/assets/icon/tray.png';
 import { defaultBounds } from "@/cfg/view.cfg";
 import '../preload'
