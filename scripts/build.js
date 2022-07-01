@@ -178,7 +178,7 @@ async function core(arch) {
   } catch (err) { }
   fs.writeFileSync('./resources/build/cfg/build.json', JSON.stringify(buildConfig, null, 2)); //写入配置
   deleteFolderRecursive(path.resolve('dist')); //清除dist
-  console.log('\x1B[34m[build start]\x1B[0m');
+  console.log(`\x1B[34m[${arch} build start]\x1B[0m`);
   await mainBuild();
   await preloadBuild();
   await rendererBuild();
@@ -201,16 +201,16 @@ async function core(arch) {
 if (!arch) {
   console.log('\x1B[36mWhich platform is you want to build?\x1B[0m');
   console.log(` optional：\x1B[33m${platformOptional()}\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m  \x1B[2m|\x1B[0m  [\x1B[36m${notP_optional}\x1B[0m]  `);
-  r.on('line', (str) => {
+  r.once('line', (str) => {
     let strs = str.split(" ").filter(s => s !== '')
-    if (strs[0] === 'q') {
+    if (strs.includes('q')) {
       console.log(`\x1B[32mExit success\x1B[0m`);
       r.close();
       return;
     }
-    if (strs[1] && strs[1] === notP_optional) delete buildConfig.afterPack
+    if (strs.includes(notP_optional)) delete buildConfig.afterPack
+    strs = strs.filter(x => platformOptional().includes(x))
     if (!checkInput(strs[0])) return;
-    r.pause();
     core(strs[0]);
   });
 } else {
