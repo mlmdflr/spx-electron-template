@@ -11,9 +11,20 @@ const preloadOptions = require('./config/preload');
 const rendererOptions = require('./config/renderer');
 let [, , arch, _notP] = process.argv;
 
-const optional = ['win', 'win32', 'win64', 'winp', 'winp32', 'winp64', 'darwin', 'mac', 'linux'];
+const optional = [
+  'web',
+  'win',
+  'win32',
+  'win64',
+  'winp',
+  'winp32',
+  'winp64',
+  'darwin',
+  'mac',
+  'linux'
+];
 const linuxOptional = ['AppImage', 'snap', 'deb', 'rpm', 'pacman'];
-const notP_optional = '-notp'
+const notP_optional = '-notp';
 let pushLinuxOptional = false;
 
 const r = readline.createInterface({
@@ -21,7 +32,7 @@ const r = readline.createInterface({
   output: process.stdout,
   completer: (line) => {
     let cmds = platformOptional();
-    !pushLinuxOptional && !cmds.includes(notP_optional) && cmds.push(notP_optional)
+    !pushLinuxOptional && !cmds.includes(notP_optional) && cmds.push(notP_optional);
     pushLinuxOptional && (cmds = linuxOptional);
     !cmds.includes('q') && cmds.push('q');
     const hits = cmds.filter((c) => c.toLocaleLowerCase().startsWith(line.toLocaleLowerCase()));
@@ -70,11 +81,11 @@ function checkInput(str) {
 function platformOptional() {
   switch (process.platform) {
     case 'win32':
-      return optional.filter(item => item.startsWith('win'));
+      return ['web',...optional.filter((item) => item.startsWith('win'))];
     case 'linux':
-      return optional.filter((item) => !(item === 'mac' || item === 'darwin'))
+      return ['web',...optional.filter((item) => !(item === 'mac' || item === 'darwin'))];
     default:
-      return optional;
+      return ['web',...optional];
   }
 }
 
@@ -90,16 +101,14 @@ async function mainBuild() {
 }
 
 async function preloadBuild() {
-  for (const opt of preloadOptions) {
-    await rollup
-      .rollup(opt)
-      .then(async (build) => await build.write(opt.output))
-      .catch((error) => {
-        console.log(`\x1B[31mFailed to build preload process !\x1B[0m`);
-        console.error(error);
-        process.exit(1);
-      });
-  }
+  await rollup
+    .rollup(preloadOptions)
+    .then(async (build) => await build.write(preloadOptions.output))
+    .catch((error) => {
+      console.log(`\x1B[31mFailed to build preload process !\x1B[0m`);
+      console.error(error);
+      process.exit(1);
+    });
 }
 
 async function rendererBuild() {
@@ -115,6 +124,9 @@ async function core(arch) {
   let archTag = '';
   let archPath = '';
   switch (arch) {
+    case 'web':
+      await rendererBuild();
+      process.exit(0);
     case 'win':
     case 'win32':
     case 'win64':
@@ -153,7 +165,11 @@ async function core(arch) {
       archTag = builder.Platform.LINUX.createTarget();
       archPath = 'platform/linux';
       pushLinuxOptional = true;
-      let line = await question('\x1B[36mPlease input linux package type:\x1B[0m \n optional：\x1B[33m' + linuxOptional + '\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m\n')
+      let line = await question(
+        '\x1B[36mPlease input linux package type:\x1B[0m \n optional：\x1B[33m' +
+          linuxOptional +
+          '\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m\n'
+      );
       line = line.trim();
       if (line === 'q') {
         r.close();
@@ -161,7 +177,6 @@ async function core(arch) {
       }
       if (linuxOptional.indexOf(line) > -1) {
         buildConfig.linux.target = line;
-        r.close();
       } else {
         console.log(`\x1B[31mIllegal input , Please check input \x1B[0m`);
         process.exit(0);
@@ -175,7 +190,7 @@ async function core(arch) {
       to: archPath,
       filter: ['**/*']
     });
-  } catch (err) { }
+  } catch (err) {}
   fs.writeFileSync('./resources/build/cfg/build.json', JSON.stringify(buildConfig, null, 2)); //写入配置
   deleteFolderRecursive(path.resolve('dist')); //清除dist
   console.log(`\x1B[34m[${arch} build start]\x1B[0m`);
@@ -200,20 +215,22 @@ async function core(arch) {
 
 if (!arch) {
   console.log('\x1B[36mWhich platform is you want to build?\x1B[0m');
-  console.log(` optional：\x1B[33m${platformOptional()}\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m  \x1B[2m|\x1B[0m  [\x1B[36m${notP_optional}\x1B[0m]  `);
-  r.once('line', (str) => {
-    let strs = str.split(" ").filter(s => s !== '')
+  console.log(
+    ` optional：\x1B[33m${platformOptional()}\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m  \x1B[2m|\x1B[0m  [\x1B[36m${notP_optional}\x1B[0m]  `
+  );
+  r.on('line', (str) => {
+    let strs = str.split(' ').filter((s) => s !== '');
     if (strs.includes('q')) {
       console.log(`\x1B[32mExit success\x1B[0m`);
       r.close();
       return;
     }
-    if (strs.includes(notP_optional)) delete buildConfig.afterPack
-    strs = strs.filter(x => platformOptional().includes(x))
+    if (strs.includes(notP_optional)) delete buildConfig.afterPack;
+    strs = strs.filter((x) => platformOptional().includes(x));
     if (!checkInput(strs[0])) return;
     core(strs[0]);
   });
 } else {
-  if (_notP) delete buildConfig.afterPack
+  if (_notP) delete buildConfig.afterPack;
   if (checkInput(arch)) core(arch);
 }
