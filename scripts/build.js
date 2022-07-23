@@ -81,11 +81,11 @@ function checkInput(str) {
 function platformOptional() {
   switch (process.platform) {
     case 'win32':
-      return ['web',...optional.filter((item) => item.startsWith('win'))];
+      return ['web', ...optional.filter((item) => item.startsWith('win'))];
     case 'linux':
-      return ['web',...optional.filter((item) => !(item === 'mac' || item === 'darwin'))];
+      return ['web', ...optional.filter((item) => !(item === 'mac' || item === 'darwin'))];
     default:
-      return ['web',...optional];
+      return ['web', ...optional];
   }
 }
 
@@ -101,14 +101,16 @@ async function mainBuild() {
 }
 
 async function preloadBuild() {
-  await rollup
-    .rollup(preloadOptions)
-    .then(async (build) => await build.write(preloadOptions.output))
-    .catch((error) => {
-      console.log(`\x1B[31mFailed to build preload process !\x1B[0m`);
-      console.error(error);
-      process.exit(1);
-    });
+  for (const opt of preloadOptions) {
+    await rollup
+      .rollup(opt)
+      .then(async (build) => await build.write(opt.output))
+      .catch((error) => {
+        console.log(`\x1B[31mFailed to build preload process !\x1B[0m`);
+        console.error(error);
+        process.exit(1);
+      });
+  }
 }
 
 async function rendererBuild() {
@@ -167,8 +169,8 @@ async function core(arch) {
       pushLinuxOptional = true;
       let line = await question(
         '\x1B[36mPlease input linux package type:\x1B[0m \n optional：\x1B[33m' +
-          linuxOptional +
-          '\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m\n'
+        linuxOptional +
+        '\x1B[0m  \x1B[1mor\x1B[0m  \x1B[33mq\x1B[0m \x1B[1m(exit)\x1B[0m\n'
       );
       line = line.trim();
       if (line === 'q') {
@@ -190,7 +192,7 @@ async function core(arch) {
       to: archPath,
       filter: ['**/*']
     });
-  } catch (err) {}
+  } catch (err) { }
   fs.writeFileSync('./resources/build/cfg/build.json', JSON.stringify(buildConfig, null, 2)); //写入配置
   deleteFolderRecursive(path.resolve('dist')); //清除dist
   console.log(`\x1B[34m[${arch} build start]\x1B[0m`);
