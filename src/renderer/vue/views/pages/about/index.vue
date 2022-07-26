@@ -17,7 +17,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { getExternPath, openUrl } from '@mlmdflr/electron-modules/renderer/app';
+import { openUrl } from '@mlmdflr/electron-modules/renderer/app';
+import { getExternPath } from '@/renderer/common/resources';
 import { readFile } from '@mlmdflr/electron-modules/renderer/file';
 import { NImage, NModal, NCard } from 'naive-ui'
 import { i18nt } from '@/renderer/vue/i18n'

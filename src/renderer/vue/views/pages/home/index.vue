@@ -8,9 +8,11 @@ import {
   windowMessageRemove,
   windowViewIdAll,
 } from "@mlmdflr/electron-modules/renderer/window";
-import { getRootPath, getInsidePath, getExternPath, getPlatformPath, relaunch, launch } from "@mlmdflr/electron-modules/renderer/app";
+import { relaunch, launch } from "@mlmdflr/electron-modules/renderer/app";
+
 import { viewBind, viewSetAutoResize, viewSetBounds, viewUnBind } from "@mlmdflr/electron-modules/renderer/view";
 
+import { getRootPath, getInsidePath, getExternPath, getPlatformPath } from "@/renderer/common/resources";
 
 import { Snowflake } from "@mlmdflr/tools"
 
