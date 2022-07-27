@@ -3,6 +3,7 @@ import { request as httpRequest } from 'http';
 import { request as httpsRequest } from 'https';
 import { basename, extname } from 'path';
 import { createReadStream, statSync } from 'fs';
+import { queryParams } from "@mlmdflr/tools";
 
 export type Response = IncomingMessage;
 export type HeadersInit = OutgoingHttpHeaders;
@@ -24,27 +25,6 @@ export interface RequestDownloadOpt extends RequestInit {
   onDown?: (chunk?: Buffer, allLength?: number) => void;
 }
 
-/**
- * 对象转参数
- * @param data
- */
-export function queryParams(data: any): string {
-  let _result = [];
-  for (let key in data) {
-    let value = data[key];
-    if (['', undefined, null].includes(value)) {
-      continue;
-    }
-    if (value.constructor === Array) {
-      value.forEach((_value) => {
-        _result.push(encodeURIComponent(key) + '[]=' + encodeURIComponent(_value));
-      });
-    } else {
-      _result.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
-    }
-  }
-  return _result.length ? _result.join('&') : '';
-}
 
 interface RequestInit {
   // 是否获取headers

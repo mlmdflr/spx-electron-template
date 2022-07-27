@@ -9,7 +9,7 @@ export const lang = {
         home: 'home',
         testGet: 'testGetRouteId',
         testIpc: 'testIpc',
-        doc: 'documentation'
+        doc: 'storehouse'
     },
     text: {
         start: 'autoStart',

@@ -9,7 +9,7 @@ export const lang = {
         home: '首页',
         testGet: '测试获取路由id',
         testIpc: '测试通讯',
-        doc: '文档'
+        doc: '仓库'
     },
     text: {
         start: '开机自启',

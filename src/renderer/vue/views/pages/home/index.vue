@@ -128,9 +128,9 @@ function toRepositories() {
     route: '/Webview',
     viewType: 'Single',
     rendererType: 'Native',
-    title: '文档',
+    title: '仓库',
     data: {
-      url: 'https://mlmdflr.cc/doc'
+      url: 'https://github.com/mlmdflr'
     }
   }, { backgroundColor: '#fff' })
 

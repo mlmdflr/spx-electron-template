@@ -1,7 +1,7 @@
 # electron-template(vue)
 
-## DOC
-https://mlmdflr.cc/doc
+## Demo
+https://github.com/mlmdflr/spx-translation
 
 ## Framework template
 [main @youli](https://github.com/youliso/electron-template)
