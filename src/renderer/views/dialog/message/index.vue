@@ -33,7 +33,7 @@ import {
 import { NButton, NSpace } from 'naive-ui'
 import { Snowflake } from '@mlmdflr/tools';
 import { Customize_Route } from '@mlmdflr/electron-modules/types';
-import Head from "@/renderer/vue/views/components/head/index.vue";
+import Head from "@/renderer/views/components/head/index.vue";
 window.customize = window.customize as Customize_Route
 
 windowSetSize([400, 180], false, window.customize.currentMaximized);

@@ -18,11 +18,11 @@ import { Snowflake } from "@mlmdflr/tools"
 
 import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NSelect, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 
-import Head from '@/renderer/vue/views/components/head/index.vue';
+import Head from '@/renderer/views/components/head/index.vue';
 
-import HotkeyInput from '@/renderer/vue/views/components/hotkeyInput-vue3/index.setup.vue';
+import HotkeyInput from '@/renderer/views/components/hotkeyInput-vue3/index.setup.vue';
 
-import { i18nt, setLanguage, i18nLocale } from "@/renderer/vue/i18n";
+import { i18nt, setLanguage, i18nLocale } from "@/renderer/i18n";
 
 import { Customize_Route } from '@mlmdflr/electron-modules/types/main';
 
@@ -127,7 +127,6 @@ function toRepositories() {
   windowCreate({
     route: '/Webview',
     viewType: 'Single',
-    rendererType: 'Native',
     title: '仓库',
     data: {
       url: 'https://github.com/mlmdflr'

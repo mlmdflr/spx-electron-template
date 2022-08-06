@@ -21,7 +21,7 @@ import { openUrl } from '@mlmdflr/electron-modules/renderer/app';
 import { getExternPath } from '@/renderer/common/resources';
 import { readFile } from '@mlmdflr/electron-modules/renderer/file';
 import { NImage, NModal, NCard } from 'naive-ui'
-import { i18nt } from '@/renderer/vue/i18n'
+import { i18nt } from '@/renderer/i18n'
 
 let licenseShow = ref(false);
 let license = ref('');

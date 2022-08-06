@@ -49,12 +49,10 @@ injectGlobal`
   background: transparent;
 }
 
-@media (prefers-color-scheme: dark) { 
-  body{background:var(--dark);color:var(--white);}
+body{ 
+  background:#222;color:var(--white);
 }
-@media (prefers-color-scheme: light) {
-  body{background:var(--white);color:var(--dark);}
-}
+
 html,
 body,
 #root,

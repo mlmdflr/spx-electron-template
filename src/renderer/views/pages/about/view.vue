@@ -12,7 +12,7 @@ import { viewBind, viewSetBounds, viewUnBind } from '@mlmdflr/electron-modules/r
 import { windowShow, windowViewIdAll } from "@mlmdflr/electron-modules/renderer/window";
 import { defaultBounds } from "@/cfg/view.cfg";
 import { Customize_Route } from '@mlmdflr/electron-modules/types/main';
-import Head from '@/renderer/vue/views/components/head/index.vue';
+import Head from '@/renderer/views/components/head/index.vue';
 
 const customize = window.customize as Customize_Route
 let bClose = () => {

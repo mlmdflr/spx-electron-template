@@ -4,7 +4,7 @@ const Route: RouteRecordRaw[] = [
   {
     path: '/message',
     name: 'Message',
-    component: () => import('@/renderer/vue/views/dialog/message/index.vue')
+    component: () => import('@/renderer/views/dialog/message/index.vue')
   }
 ];
 

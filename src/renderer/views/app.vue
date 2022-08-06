@@ -11,9 +11,9 @@
   </n-config-provider>
 </template>
 <script setup lang="ts">
-import { keepAliveData } from '@/renderer/vue/store/keepAlive';
+import { keepAliveData } from '@/renderer/store/keepAlive';
 import { NConfigProvider, darkTheme } from "naive-ui";
-import { i18n } from "@/renderer/vue/i18n";
+import { i18n } from "@/renderer/i18n";
 import { computed, defineComponent, h, resolveComponent, } from 'vue';
 const i18nt = computed(() => (i18n.global.messages as AnyObject)[i18n.global.locale].el);
 const routerView = defineComponent({
@@ -27,8 +27,4 @@ const kAlive = defineComponent({
 })
 </script>
 <style lang="scss">
-body {
-  background: var(--dark);
-  color: var(--white);
-}
 </style>
