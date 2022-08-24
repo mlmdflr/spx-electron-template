@@ -11,16 +11,16 @@ module.exports = defineConfig({
   mode: process.env['rendererMode'] || 'production',
   root,
   base: './',
-  esbuild: {
-    jsxInject: `import {h,f} from '@youliso/web-modules'`,
-    jsxFactory: 'h',
-    jsxFragment: 'f'
-  },
   build: {
     outDir,
     emptyOutDir: true,
     target: 'esnext',
     minify: 'esbuild'
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'esnext'
+    }
   },
   resolve: {
     alias: {
