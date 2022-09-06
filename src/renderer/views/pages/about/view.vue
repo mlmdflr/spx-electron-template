@@ -19,7 +19,7 @@ let bClose = () => {
     windowViewIdAll().then(vids => {
         let vid = vids as number
         viewUnBind(customize.id, vid).then(() => {
-            viewBind(customize.parentId, vid).then(() => {
+            viewBind(customize.parentId as number | bigint, vid).then(() => {
                 viewSetBounds(vid, defaultBounds)
             })
         })

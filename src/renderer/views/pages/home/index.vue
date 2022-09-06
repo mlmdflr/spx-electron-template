@@ -125,14 +125,13 @@ function toAbout() {
 
 function toRepositories() {
   windowCreate({
-    route: '/Webview',
+    url: 'https://github.com/mlmdflr',
     viewType: 'Single',
     title: '仓库',
-    data: {
-      url: 'https://github.com/mlmdflr'
-    }
-  }, { backgroundColor: '#fff' })
-
+  },
+    {
+      backgroundColor: '#fff'
+    })
 }
 
 const snowflakeClick = () => {

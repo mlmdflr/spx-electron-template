@@ -40,6 +40,11 @@ appInstance
                                     width: true
                                 }
                         })
+                        setTimeout(() => {
+                            windowInstance.getMain()?.on('system-context-menu', (event, point) => {
+                                console.log(point);
+                            })
+                        }, 300);
                     });
                 });
             } catch (e) {
@@ -52,6 +57,9 @@ appInstance
                     width: true
                 }
         })
+
+
+
 
         TrayInstance.create(logo);
     })

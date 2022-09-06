@@ -28,7 +28,13 @@ module.exports = defineConfig({
     }
   },
   plugins: [
-    vue(),
+    vue({
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => tag.startsWith("webview"),
+        },
+      }
+    }),
     macrosPlugin(),
     createHtmlPlugin({
       minify: true,
