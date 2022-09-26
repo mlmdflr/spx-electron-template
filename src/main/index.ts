@@ -33,13 +33,13 @@ appInstance
                 import('fs').then(({ readFileSync }) => {
                     import('path').then(async ({ join }) => {
                         windowInstance.defaultLoadUrl = `http://localhost:${readFileSync(join('.port'), 'utf8')}`;
-                        viewInstance.setAutoResize({
-                            id:
-                                await viewInstance.createBindBV((await windowInstance.create(customize, opt) as number | bigint), viewCustomize, {}, defaultBounds) as number, autoResize: {
-                                    height: true,
-                                    width: true
-                                }
-                        })
+                        viewInstance.setAutoResize(
+                            await viewInstance.createBindBV((await windowInstance.create(customize, opt) as number | bigint), viewCustomize, {}, defaultBounds) as number,
+                            {
+                                height: true,
+                                width: true
+                            }
+                        )
                         setTimeout(() => {
                             windowInstance.getMain()?.on('system-context-menu', (event, point) => {
                                 console.log(point);
@@ -50,13 +50,13 @@ appInstance
             } catch (e) {
                 throw 'not found .port';
             }
-        } else viewInstance.setAutoResize({
-            id:
-                await viewInstance.createBindBV((await windowInstance.create(customize, opt) as number | bigint), viewCustomize, {}, defaultBounds) as number, autoResize: {
-                    height: true,
-                    width: true
-                }
-        })
+        } else viewInstance.setAutoResize(
+            await viewInstance.createBindBV((await windowInstance.create(customize, opt) as number | bigint), viewCustomize, {}, defaultBounds) as number,
+            {
+                height: true,
+                width: true
+            }
+        )
 
 
 
