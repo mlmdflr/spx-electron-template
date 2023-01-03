@@ -12,7 +12,6 @@ import updateCfg from '@/cfg/update.cfg';
 import { defaultBounds } from "@/cfg/view.cfg";
 import logo from '@/assets/icon/tray.png';
 import '../preload'
-
 appInstance
     .start()
     .then(async () => {

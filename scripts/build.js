@@ -27,6 +27,8 @@ const linuxOptional = ['AppImage', 'snap', 'deb', 'rpm', 'pacman'];
 const notP_optional = '-notp';
 let pushLinuxOptional = false;
 
+
+console.log(builder.Platform.WINDOWS.createTarget());
 const r = readline.createInterface({
   input: process.stdin,
   output: process.stdout,

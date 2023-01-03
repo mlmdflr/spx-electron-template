@@ -96,23 +96,22 @@ function test() {
 function toAbout() {
   windowCreate({
     route: '/aboutView',
-    viewType: 'Single',
     parentId: customize.id
   }, {
     backgroundColor: '#222',
     width: 600,
     height: 400
   }).then((wid) => {
-    windowViewIdAll().then((vid) => {
-      typeof vid === 'number' && viewUnBind(window.customize.id, vid).then(() => {
-        viewBind(wid, vid).then(() => {
-          viewSetBounds(vid, {
+    windowViewIdAll().then((vids) => {
+       viewUnBind(window.customize.id, vids[0]).then(() => {
+        viewBind(wid, vids[0]).then(() => {
+          viewSetBounds(vids[0], {
             x: 0,
             y: 32,
             width: 600,
             height: 368,
           })
-          viewSetAutoResize(vid, {
+          viewSetAutoResize(vids[0], {
             height: true,
             width: true,
             horizontal: true

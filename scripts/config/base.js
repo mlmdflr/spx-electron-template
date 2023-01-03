@@ -7,7 +7,7 @@ const json = require('@rollup/plugin-json');
 const image = require('@rollup/plugin-image');
 const obfuscator = require('rollup-plugin-obfuscator').default;
 const obfuscatorConfig = require('./obfuscator.js');
-const esbuild = require('rollup-plugin-esbuild').default;
+const { swc } = require('rollup-plugin-swc3');
 const { dependencies } = require('../../package.json');
 
 let external = [...builtinModules, 'electron'];
@@ -28,19 +28,10 @@ let plugins = [
   alias({
     entries: [{ find: '@', replacement: resolve('src') }]
   }),
-  esbuild({
+  swc({
     include: /\.[jt]s?$/,
     exclude: /node_modules/,
-    sourceMap: false,
-    minify: process.env['mainMode'] !== 'development',
-    target: 'esnext',
-    define: {
-      __VERSION__: '"x.y.z"'
-    },
-    loaders: {
-      '.json': 'json',
-      '.ts': 'ts'
-    }
+    minify: process.env['mainMode'] !== 'development'
   })
 ];
 
