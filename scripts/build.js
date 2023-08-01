@@ -9,6 +9,9 @@ const buildConfig = require('../resources/build/cfg/build.json');
 const mainOptions = require('./config/main');
 const preloadOptions = require('./config/preload');
 const rendererOptions = require('./config/renderer');
+
+const bytecode = require('./buildCode');
+
 let [, , arch, _notP] = process.argv;
 
 const optional = [
@@ -27,8 +30,6 @@ const linuxOptional = ['AppImage', 'snap', 'deb', 'rpm', 'pacman'];
 const notP_optional = '-notp';
 let pushLinuxOptional = false;
 
-
-console.log(builder.Platform.WINDOWS.createTarget());
 const r = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -127,6 +128,7 @@ async function core(arch) {
   arch = arch.trim();
   let archTag = '';
   let archPath = '';
+  let bytecodePack = true;
   switch (arch) {
     case 'web':
       await rendererBuild();
@@ -144,9 +146,12 @@ async function core(arch) {
           target: 'nsis',
           arch: null
         };
-        if (arch.length === 3) bv.arch = ['x64', 'ia32'];
-        else if (arch.indexOf('32') > -1) bv.arch = ['ia32'];
-        else if (arch.indexOf('64') > -1) bv.arch = ['x64'];
+        if (arch.length === 3)
+          bv.arch = ['x64', 'ia32'];
+        else if (arch.indexOf('32') > -1)
+          bv.arch = ['ia32'];
+        else if (arch.indexOf('64') > -1)
+          bv.arch = ['x64'];
         buildConfig.win.target = [bv];
       }
       if (arch.startsWith('winp')) {
@@ -159,6 +164,8 @@ async function core(arch) {
         else if (arch.indexOf('64') > -1) bv.arch = ['x64'];
         buildConfig.win.target = [bv];
       }
+      bv.arch.length === 2 && (bytecodePack = false)
+      bv.arch.length === 1 && bv.arch[0] !== process.arch && (bytecodePack = false)
       break;
     case 'darwin':
     case 'mac':
@@ -201,6 +208,10 @@ async function core(arch) {
   await mainBuild();
   await preloadBuild();
   await rendererBuild();
+  if (bytecodePack)  await bytecode()
+  else console.warn('[Build]', `Unable to do bytecode build in cross-compile.`);
+  //平台标识(作用是防止打包覆盖)
+  buildConfig.productName = buildConfig.productName + '-' + arch
   builder
     .build({
       targets: archTag,

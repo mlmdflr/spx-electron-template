@@ -10,7 +10,7 @@
       @keydown="handleKeydown"
     >
       <template
-        v-if="(typeof hotkey === 'string' && hotkey) || (typeof hotkey !== 'string' && (hotkey as Set<string>)?.size) > 0"
+        v-if="(typeof hotkey === 'string' && hotkey) || (typeof hotkey !== 'string' && ((hotkey as Set<string>)?.size) > 0)"
       >
         <template v-if="multiple && hotkey && typeof hotkey !== 'string'">
           <template v-for="(item, index) in hotkey.keys()" :key="index">

@@ -17,10 +17,9 @@ import Head from '@/renderer/views/components/head/index.vue';
 const customize = window.customize as Customize_Route
 let bClose = () => {
     windowViewIdAll().then(vids => {
-        let vid = vids as number
-        viewUnBind(customize.id, vid).then(() => {
-            viewBind(customize.parentId as number | bigint, vid).then(() => {
-                viewSetBounds(vid, defaultBounds)
+        viewUnBind(customize.id, vids[0]).then(() => {
+            viewBind(customize.parentId as number | bigint, vids[0]).then(() => {
+                viewSetBounds(vids[0], defaultBounds)
             })
         })
     })

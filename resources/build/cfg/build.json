@@ -65,7 +65,7 @@
       {
         "target": "nsis",
         "arch": [
-          "ia32"
+          "x64"
         ]
       }
     ]
@@ -97,6 +97,5 @@
         "**/*"
       ]
     }
-  ],
-  "afterPack": "scripts/buildAfterPack.js"
+  ]
 }

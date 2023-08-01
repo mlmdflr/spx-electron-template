@@ -84,7 +84,6 @@ function test() {
       route: '/message',
       data: { text: 'wdnmd' },
       parentId: customize.id,
-      viewType: 'None'
     },
     {
       modal: true
@@ -103,7 +102,7 @@ function toAbout() {
     height: 400
   }).then((wid) => {
     windowViewIdAll().then((vids) => {
-       viewUnBind(window.customize.id, vids[0]).then(() => {
+      viewUnBind(window.customize.id, vids[0]).then(() => {
         viewBind(wid, vids[0]).then(() => {
           viewSetBounds(vids[0], {
             x: 0,
@@ -125,7 +124,6 @@ function toAbout() {
 function toRepositories() {
   windowCreate({
     url: 'https://github.com/mlmdflr',
-    viewType: 'Single',
     title: '仓库',
   },
     {

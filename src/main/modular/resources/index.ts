@@ -1,7 +1,7 @@
 import { app, ipcMain } from 'electron';
 import { accessSync, constants } from 'fs';
 import { resolve, join, normalize } from 'path';
-import { logError } from '@mlmdflr/electron-modules/main/log';
+import { logError } from '@/main/modular/log';
 
 /**
  * 获取资源文件路径

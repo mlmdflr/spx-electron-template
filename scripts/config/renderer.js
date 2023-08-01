@@ -24,7 +24,8 @@ module.exports = defineConfig({
   },
   resolve: {
     alias: {
-      '@': resolve('src')
+      '@': resolve('src'),
+      'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js'
     }
   },
   plugins: [
