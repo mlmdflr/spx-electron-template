@@ -3,7 +3,7 @@ export const lang = {
     btn: {
         about: '关于',
         ppw: "弹个框",
-        generate: '雪花算法',
+        defaultOpen: '默认打开',
         relaunch: '重启app',
         path: ' 路径',
         home: '首页',

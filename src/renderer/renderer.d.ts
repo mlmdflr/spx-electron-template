@@ -13,9 +13,9 @@ interface HeadEvent {
   disable: boolean
 }
 
-declare module '*.vue' {
-  import { ComponentPublicInstance, defineComponent, Ref } from 'vue';
-  const component: ReturnType<typeof defineComponent>;
+declare module "*.vue" {
+  import { DefineComponent } from "vue";
+  const component: DefineComponent<{}, {}, any>;
   export default component;
 }
 

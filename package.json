@@ -1,7 +1,7 @@
 {
   "name": "spx-electron-template",
   "productName": "spx-electron-template",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "electron ts+vue3 template",
   "main": "dist/main/index.js",
   "author": {
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@babel/core": "^7.22.9",
     "@emotion/css": "^11.11.2",
-    "@mlmdflr/electron-modules": "^3.0.2",
+    "@mlmdflr/electron-modules": "^3.0.5",
     "@mlmdflr/tools": "1.0.4",
     "@rollup/plugin-alias": "^5.0.0",
     "@rollup/plugin-commonjs": "^25.0.3",

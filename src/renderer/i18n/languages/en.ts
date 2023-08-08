@@ -3,7 +3,7 @@ export const lang = {
     btn: {
         about: 'about',
         ppw: "popUpWindow",
-        generate: 'SnowflakeUuid',
+        defaultOpen: 'defaultOpen',
         relaunch: 'relaunchApp',
         path: ' path',
         home: 'home',

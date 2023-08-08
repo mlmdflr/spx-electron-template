@@ -14,8 +14,6 @@ import { viewBind, viewSetAutoResize, viewSetBounds, viewUnBind } from "@mlmdflr
 
 import { getRootPath, getInsidePath, getExternPath, getPlatformPath } from "@/renderer/common/resources";
 
-import { Snowflake } from "@mlmdflr/tools"
-
 import { NNotificationProvider, NMessageProvider, useMessage, useNotification, NSelect, NButton, NGrid, NGi, NSpace, NSwitch, NotificationApi, MessageApi } from 'naive-ui'
 
 import Head from '@/renderer/views/components/head/index.vue';
@@ -131,12 +129,8 @@ function toRepositories() {
     })
 }
 
-const snowflakeClick = () => {
-  notification.success({
-    title: i18nt('btn.generate'),
-    content: new Snowflake(1n, 2n).nextId().toString(),
-    duration: 3000
-  })
+const defaultOpenClick = () => {
+  window.ipc.invoke('defaultOpen')
 }
 const launchSwitch = (value: boolean) => {
   nmessage.success(i18nt('msg.switchMsg') + (launch(value) ? i18nt('switch.on') : i18nt('switch.off')))
@@ -210,7 +204,7 @@ onUnmounted(() => {
             <n-button strong secondary type="info" @click="toAbout">{{ $t('btn.about') }}</n-button>
             <n-button strong secondary type="info" @click="toRepositories">{{ $t('btn.doc') }}</n-button>
             <n-button strong secondary type="info" @click="test">{{ $t('btn.ppw') }}</n-button>
-            <n-button strong secondary type="info" @click="snowflakeClick">{{ $t('btn.generate') }}</n-button>
+            <n-button strong secondary type="info" @click="defaultOpenClick">{{ $t('btn.defaultOpen') }}</n-button>
             <n-button strong secondary type="warning" @click="rebootApp">{{ $t('btn.relaunch') }}</n-button>
           </n-space>
           <n-grid x-gap="12" :cols="1">

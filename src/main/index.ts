@@ -4,8 +4,10 @@ import { viewInstance } from "@mlmdflr/electron-modules/main/view";
 import { TrayInstance } from "@mlmdflr/electron-modules/main/tray";
 import { Update } from "@mlmdflr/electron-modules/main/update";
 import { Session } from "@mlmdflr/electron-modules/main/session";
-import { app } from 'electron';
+import { defaultOpen } from '@mlmdflr/electron-modules/main.win32/systemInteraction'
 import { ResourcesOn } from '@/main/modular/resources';
+import { errorWindow, warningWindow } from '@/main/modular/result';
+import { BrowserWindow, app, dialog } from 'electron';
 import { customize, opt } from '@/cfg/window.cfg';
 import { customize as viewCustomize } from '@/cfg/view.cfg';
 import updateCfg from '@/cfg/update.cfg';
@@ -21,6 +23,23 @@ ipcMain.on('preload:route', (event) => {
 //注意: 加载一些连接如果有跳转重定向操作会重置预加载 即监听两次
 ipcMain.on('preload:url', (event) => {
     // console.log('from url id:'+BrowserWindow.fromWebContents(event.sender)?.customize.id);
+})
+
+//win32系统默认打开示例
+ipcMain.handle('defaultOpen', async (e, _) => {
+    if (process.platform === 'win32') {
+        const paths = dialog.showOpenDialogSync(BrowserWindow.fromWebContents(e.sender)!, {
+            properties: ['openFile']
+        })
+        if (paths && paths.length > 0) defaultOpen(paths[0])
+    } else warningWindow(
+        {
+            size: 'medium',
+            description: `暂时只支持win32系统哦`,
+            title: '系统不支持'
+        },
+        e.sender
+    )
 })
 
 appInstance
