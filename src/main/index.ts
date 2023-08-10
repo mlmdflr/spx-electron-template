@@ -6,7 +6,7 @@ import { Update } from "@mlmdflr/electron-modules/main/update";
 import { Session } from "@mlmdflr/electron-modules/main/session";
 import { defaultOpen } from '@mlmdflr/electron-modules/main.win32/systemInteraction'
 import { ResourcesOn } from '@/main/modular/resources';
-import { errorWindow, warningWindow } from '@/main/modular/result';
+import { warningWindow } from '@/main/modular/result';
 import { BrowserWindow, app, dialog } from 'electron';
 import { customize, opt } from '@/cfg/window.cfg';
 import { customize as viewCustomize } from '@/cfg/view.cfg';
